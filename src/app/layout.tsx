@@ -8,8 +8,13 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Kh1ev Community - Coming Soon",
-  description: "Digital System Development: Websites, Apps, Bots, and IT Systems. Managed by Kh1ev Organization.",
+  title: "KH1EV. - IT Development & Community Hub",
+  description: "Kh1ev Organization is a space focused on IT development and tech projects. Beyond work and code, we are a casual community hub to connect, hang out, and play together.",
+  icons: {
+    icon: "/images/logo.png",
+    shortcut: "/images/logo.png",
+    apple: "/images/logo.png",
+  }
 };
 
 export default function RootLayout({

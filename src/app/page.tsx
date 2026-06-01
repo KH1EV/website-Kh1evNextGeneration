@@ -379,9 +379,9 @@ export default function Home() {
             <div className="flex flex-wrap justify-center md:justify-end gap-3">
               {[
                 { name: 'Discord', icon: <FaDiscord className="w-4 h-4" />, href: 'https://discord.gg/MwNE7Vfb6t' },
-                { name: 'GitHub', icon: <FaGithub className="w-4 h-4" />, href: '#' },
-                { name: 'Instagram', icon: <FaInstagram className="w-4 h-4" />, href: '#' },
-                { name: 'TikTok', icon: <FaTiktok className="w-4 h-4" />, href: '#' }
+                { name: 'GitHub', icon: <FaGithub className="w-4 h-4" />, href: 'https://github.com/KH1EV' },
+                { name: 'Instagram', icon: <FaInstagram className="w-4 h-4" />, href: 'https://instagram.com/kh1ev.community' },
+                { name: 'TikTok', icon: <FaTiktok className="w-4 h-4" />, href: 'https://tiktok.com/@kh1ev' }
               ].map((social) => (
                 <a key={social.name} href={social.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/10 bg-white/[0.02] text-neutral-400 text-sm font-semibold hover:bg-accent hover:text-white hover:border-accent transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_5px_20px_rgba(229,9,20,0.3)]">
                   {social.icon}
