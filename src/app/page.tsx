@@ -398,8 +398,8 @@ export default function Home() {
           </h1>
         </div>
 
-        <div className="absolute bottom-8 left-8 md:left-[5%] text-sm text-neutral-600 font-medium z-10">
-          &copy; {new Date().getFullYear()} Kh1ev Organization.
+        <div className="absolute bottom-8 left-0 w-full text-center text-sm text-neutral-600 font-medium z-10">
+          &copy; 2023 Kh1ev Organization.
         </div>
       </footer>
     </main>
