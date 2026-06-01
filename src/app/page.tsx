@@ -1,11 +1,23 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { FaDiscord, FaGithub, FaInstagram, FaTiktok } from "react-icons/fa";
 
 gsap.registerPlugin(useGSAP);
+
+interface DiscordMember {
+  id: string;
+  username: string;
+  status: 'online' | 'idle' | 'dnd';
+  avatar_url: string;
+}
+
+interface DiscordWidget {
+  presence_count: number;
+  members: DiscordMember[];
+}
 
 const techFields = [
   "Web Development", "App Development", "Discord Bots", "IT Infrastructure",
@@ -15,9 +27,42 @@ const techFields = [
   "Frontend Engineering", "Penetration Testing", "Game Design"
 ];
 
+const dummyDiscordUsers: DiscordMember[] = Array.from({ length: 40 }).map((_, i) => ({
+  id: String(i),
+  username: `User${i}`,
+  avatar_url: `https://i.pravatar.cc/150?u=${i + 100}`,
+  status: ['online', 'idle', 'dnd'][Math.floor(Math.random() * 3)] as 'online' | 'idle' | 'dnd'
+}));
+
 export default function Home() {
   const container = useRef<HTMLDivElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
+  const discordMarqueeRef = useRef<HTMLDivElement>(null);
+
+  const [discordData, setDiscordData] = useState<DiscordWidget | null>(null);
+  const [totalMembers] = useState(1650);
+
+  useEffect(() => {
+    const fetchDiscord = async () => {
+      try {
+        const serverId = process.env.NEXT_PUBLIC_DISCORD_SERVER_ID || "1065405418349797417";
+        const res = await fetch(`https://discord.com/api/guilds/${serverId}/widget.json`);
+        if (!res.ok) throw new Error("Failed to fetch widget");
+        const data = await res.json();
+        setDiscordData({
+          presence_count: data.presence_count,
+          members: data.members || []
+        });
+      } catch (err) {
+        console.error("Error fetching Discord widget:", err);
+      }
+    };
+    fetchDiscord();
+  }, []);
+
+  const displayMembers = discordData?.members?.length ? discordData.members : dummyDiscordUsers;
+  const onlineCount = discordData ? discordData.presence_count : 375;
+  const offlineCount = Math.max(0, totalMembers - onlineCount);
 
   useGSAP(() => {
     const tl = gsap.timeline();
@@ -84,6 +129,15 @@ export default function Home() {
       });
     }
 
+    if (discordMarqueeRef.current) {
+      gsap.to(".discord-marquee-content", {
+        xPercent: -50,
+        ease: "none",
+        duration: 35,
+        repeat: -1,
+      });
+    }
+
   }, { scope: container });
 
   return (
@@ -112,33 +166,36 @@ export default function Home() {
         </nav>
       </div>
 
-      <section className="relative min-h-screen flex flex-col justify-center px-8 md:px-[5%] pt-20">
+      <section className="relative min-h-[80vh] flex flex-col justify-center px-8 md:px-[5%] pt-32 pb-16">
         <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[120px] pointer-events-none"></div>
-        <div className="max-w-[1200px] w-full mx-auto flex flex-col gap-16 relative z-10">
+        <div className="max-w-[1440px] w-full mx-auto flex flex-col items-center text-center gap-10 md:gap-12 relative z-10">
           
           <div className="flex items-center gap-4">
-            <span className="brand-name text-2xl font-extrabold tracking-widest text-foreground">KH1EV.</span>
-            <div className="accent-line h-[2px] w-[60px] bg-accent origin-left"></div>
+            <div className="accent-line h-[2px] w-[30px] md:w-[50px] bg-accent origin-right"></div>
+            <span className="brand-name text-2xl md:text-3xl font-extrabold tracking-widest text-foreground">KH1EV.</span>
+            <div className="accent-line h-[2px] w-[30px] md:w-[50px] bg-accent origin-left"></div>
           </div>
 
-          <div className="flex flex-col gap-6">
-            <div className="overflow-hidden pb-1 -mb-1">
-              <h1 className="headline-line text-5xl md:text-[8vw] lg:text-[6.5rem] font-extrabold leading-[1.1] tracking-tight text-foreground m-0">
-                IT Development
-              </h1>
-            </div>
-            <div className="overflow-hidden pb-1 -mb-1">
-              <h1 className="headline-line text-5xl md:text-[8vw] lg:text-[6.5rem] font-extrabold leading-[1.1] tracking-tight text-foreground m-0">
-                <span className="text-accent">& Community Hub.</span>
-              </h1>
+          <div className="flex flex-col items-center gap-8">
+            <div className="flex flex-col gap-0 md:gap-2">
+              <div className="overflow-hidden pb-1 -mb-1">
+                <h1 className="headline-line text-5xl md:text-[8vw] lg:text-[7rem] font-extrabold leading-[1] md:leading-[1] tracking-tight text-foreground m-0">
+                  IT Development
+                </h1>
+              </div>
+              <div className="overflow-hidden pb-1 -mb-1">
+                <h1 className="headline-line text-5xl md:text-[8vw] lg:text-[7rem] font-extrabold leading-[1] md:leading-[1] tracking-tight text-foreground m-0">
+                  <span className="text-accent">& Community Hub.</span>
+                </h1>
+              </div>
             </div>
             
-            <p className="description text-base md:text-lg lg:text-xl text-neutral-400 max-w-[600px] leading-relaxed mt-4">
+            <p className="description text-base md:text-lg lg:text-xl text-neutral-400 max-w-[650px] leading-relaxed mt-2">
               Kh1ev Organization is a space focused on IT development and tech projects. Beyond work and code, we are a casual community hub to connect, hang out, and play together.
             </p>
 
-            <div className="cta-wrapper mt-8">
-              <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/[0.03] border border-white/10 rounded-full text-sm font-semibold tracking-wider uppercase text-foreground">
+            <div className="cta-wrapper mt-4">
+              <div className="inline-flex items-center gap-3 px-8 py-3.5 bg-white/[0.03] border border-white/10 rounded-full text-sm font-semibold tracking-wider uppercase text-foreground hover:bg-white/[0.08] transition-colors cursor-default">
                 <div className="relative w-2 h-2 bg-accent rounded-full">
                   <div className="absolute inset-0 w-full h-full bg-accent rounded-full animate-ping opacity-75"></div>
                 </div>
@@ -166,8 +223,57 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-32 px-8 md:px-[5%] relative z-10">
-        <div className="max-w-[1200px] mx-auto flex flex-col gap-20">
+      <section className="py-4 border-b border-white/5 bg-background overflow-hidden flex relative z-10" ref={discordMarqueeRef}>
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-0 w-full">
+          <div className="flex flex-wrap items-center gap-4 shrink-0 z-10 bg-background px-8 md:px-0 md:pl-[5%] md:pr-10 relative">
+            <div className="flex items-center gap-3">
+              <span className="text-red-500 font-bold tracking-widest text-sm">LIVE</span>
+              <div className="w-2 h-2 rounded-full bg-[#23a559] animate-pulse"></div>
+              <span className="text-white font-bold text-base md:text-lg">{totalMembers.toLocaleString()} <span className="text-neutral-500 font-normal">anggota</span></span>
+            </div>
+            
+            <div className="flex items-center gap-2 md:gap-3">
+              <div className="px-2.5 md:px-3 py-1 rounded-full border border-[#23a559]/30 bg-[#23a559]/10 flex items-center gap-2">
+                <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#23a559]"></div>
+                <span className="text-[#23a559] text-[10px] md:text-xs font-semibold">{onlineCount.toLocaleString()} Online</span>
+              </div>
+              <div className="px-2.5 md:px-3 py-1 rounded-full border border-neutral-500/30 bg-neutral-500/10 flex items-center gap-2">
+                <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-neutral-500"></div>
+                <span className="text-neutral-400 text-[10px] md:text-xs font-semibold">{offlineCount.toLocaleString()} Offline</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex-1 overflow-hidden relative">
+            <div className="flex w-max">
+              <div className="discord-marquee-content flex w-max items-center gap-3 pr-3">
+                {displayMembers.map((user) => (
+                  <div key={`orig-${user.id}`} className="relative w-10 h-10 md:w-11 md:h-11 shrink-0">
+                    <img src={user.avatar_url} alt={user.username} className="w-full h-full rounded-full object-cover border-[3px] border-background" />
+                    <div className={`absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-[3px] border-background ${
+                      user.status === 'online' ? 'bg-[#23a559]' : user.status === 'idle' ? 'bg-[#f0b132]' : 'bg-[#f23f42]'
+                    }`}></div>
+                  </div>
+                ))}
+                {/* Duplicated for infinite loop */}
+                {displayMembers.map((user) => (
+                  <div key={`dup-${user.id}`} className="relative w-10 h-10 md:w-11 md:h-11 shrink-0">
+                    <img src={user.avatar_url} alt={user.username} className="w-full h-full rounded-full object-cover border-[3px] border-background" />
+                    <div className={`absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-[3px] border-background ${
+                      user.status === 'online' ? 'bg-[#23a559]' : user.status === 'idle' ? 'bg-[#f0b132]' : 'bg-[#f23f42]'
+                    }`}></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent pointer-events-none"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-background to-transparent pointer-events-none"></div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-32 px-6 md:px-[5%] relative z-10">
+        <div className="max-w-[1440px] w-full mx-auto flex flex-col gap-12 md:gap-20">
           
           <div className="flex flex-col gap-6 text-center items-center">
             <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">Everything you need.</h2>
@@ -175,7 +281,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="md:col-span-2 relative group rounded-[2.5rem] border border-white/5 bg-white/[0.01] p-10 overflow-hidden hover:bg-white/[0.02] transition-colors duration-500">
+            <div className="md:col-span-2 relative group rounded-[2.5rem] border border-white/5 bg-white/[0.01] p-8 md:p-10 overflow-hidden hover:bg-white/[0.02] transition-colors duration-500">
               <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
               <div className="relative z-10 flex flex-col h-full justify-between min-h-[300px]">
                 <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center text-accent mb-6 ring-1 ring-accent/20 group-hover:scale-110 transition-transform duration-500">
@@ -188,7 +294,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="md:col-span-1 relative group rounded-[2.5rem] border border-white/5 bg-white/[0.01] p-10 overflow-hidden hover:bg-white/[0.02] transition-colors duration-500">
+            <div className="md:col-span-1 relative group rounded-[2.5rem] border border-white/5 bg-white/[0.01] p-8 md:p-10 overflow-hidden hover:bg-white/[0.02] transition-colors duration-500">
               <div className="absolute inset-0 bg-gradient-to-bl from-accent/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
               <div className="relative z-10 flex flex-col h-full justify-between min-h-[300px]">
                 <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center text-accent mb-6 ring-1 ring-accent/20 group-hover:scale-110 transition-transform duration-500">
@@ -201,7 +307,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="md:col-span-1 relative group rounded-[2.5rem] border border-white/5 bg-white/[0.01] p-10 overflow-hidden hover:bg-white/[0.02] transition-colors duration-500">
+            <div className="md:col-span-1 relative group rounded-[2.5rem] border border-white/5 bg-white/[0.01] p-8 md:p-10 overflow-hidden hover:bg-white/[0.02] transition-colors duration-500">
               <div className="absolute inset-0 bg-gradient-to-tr from-accent/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
               <div className="relative z-10 flex flex-col h-full justify-between min-h-[300px]">
                 <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center text-accent mb-6 ring-1 ring-accent/20 group-hover:scale-110 transition-transform duration-500">
@@ -214,7 +320,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="md:col-span-1 relative group rounded-[2.5rem] border border-white/5 bg-white/[0.01] p-10 overflow-hidden hover:bg-white/[0.02] transition-colors duration-500">
+            <div className="md:col-span-1 relative group rounded-[2.5rem] border border-white/5 bg-white/[0.01] p-8 md:p-10 overflow-hidden hover:bg-white/[0.02] transition-colors duration-500">
               <div className="absolute inset-0 bg-gradient-to-t from-accent/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
               <div className="relative z-10 flex flex-col h-full justify-between min-h-[300px]">
                 <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center text-accent mb-6 ring-1 ring-accent/20 group-hover:scale-110 transition-transform duration-500">
@@ -227,7 +333,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="md:col-span-1 relative group rounded-[2.5rem] border border-white/5 bg-white/[0.01] p-10 overflow-hidden hover:bg-white/[0.02] transition-colors duration-500">
+            <div className="md:col-span-1 relative group rounded-[2.5rem] border border-white/5 bg-white/[0.01] p-8 md:p-10 overflow-hidden hover:bg-white/[0.02] transition-colors duration-500">
               <div className="absolute inset-0 bg-gradient-to-tl from-accent/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
               <div className="relative z-10 flex flex-col h-full justify-between min-h-[300px]">
                 <div className="w-14 h-14 rounded-full bg-accent/10 flex items-center justify-center text-accent mb-6 ring-1 ring-accent/20 group-hover:scale-110 transition-transform duration-500">
@@ -240,14 +346,14 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="md:col-span-3 relative group rounded-[2.5rem] border border-white/5 bg-white/[0.01] p-10 overflow-hidden hover:bg-white/[0.02] transition-colors duration-500">
+            <div className="md:col-span-3 relative group rounded-[2.5rem] border border-white/5 bg-white/[0.01] p-8 md:p-10 overflow-hidden hover:bg-white/[0.02] transition-colors duration-500">
               <div className="absolute inset-0 bg-gradient-to-t from-accent/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
               <div className="relative z-10 flex flex-col md:flex-row gap-8 items-start md:items-center h-full justify-between min-h-[150px]">
                 <div className="flex-shrink-0 w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center text-accent ring-1 ring-accent/20 group-hover:scale-110 transition-transform duration-500">
                   <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-4xl font-extrabold text-white mb-4 group-hover:text-accent transition-colors duration-300">The Kh1ev Community</h3>
+                  <h3 className="text-4xl font-extrabold text-white mb-4 group-hover:text-accent transition-colors duration-300">Kh1ev Community</h3>
                   <p className="text-neutral-400 text-xl leading-relaxed max-w-3xl">Beyond the code, we are a thriving ecosystem. Join our community to network with tech enthusiasts, collaborate on open-source projects, or just chill and play games together.</p>
                 </div>
                 <div className="hidden lg:flex shrink-0 pl-8">
