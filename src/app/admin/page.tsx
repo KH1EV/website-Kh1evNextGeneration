@@ -78,7 +78,8 @@ const withTimeout = (promise: any, ms: number = 10000): Promise<any> => {
 export default function AdminDashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+  const [authError, setAuthError] = useState<string | null>(null);
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [adminUsers, setAdminUsers] = useState<AdminUser[]>([]);
@@ -170,13 +171,17 @@ export default function AdminDashboard() {
               setIsAuthorized(false);
             } else if (error) {
               console.error("Supabase checkUser error:", error);
+              setAuthError(`CheckUser DB Error: ${error.message}`);
+              setIsAuthorized(false);
             }
           } else {
              console.log("No discordId found in session.user");
           }
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error("Auth check failed or timed out:", err);
+        setAuthError(`Auth Check Failed: ${err.message}`);
+        setIsAuthorized(false);
       } finally {
         setLoading(false);
       }
@@ -201,6 +206,10 @@ export default function AdminDashboard() {
             Promise.all([fetchTeamMembers(), fetchBlogs(), fetchAdminUsers(), fetchApiKeys()]);
           } else if (error && error.code === 'PGRST116') {
             // PGRST116 means zero rows found, so definitely unauthorized
+            setIsAuthorized(false);
+          } else if (error) {
+            console.error("AuthListener DB error:", error);
+            setAuthError(`AuthListener Error: ${error.message}`);
             setIsAuthorized(false);
           }
         }
@@ -467,21 +476,41 @@ export default function AdminDashboard() {
     );
   }
 
-  if (!isAuthorized) {
+  if (loading || isAuthorized === null) {
     return (
-      <main className="min-h-screen bg-background relative overflow-x-hidden selection:bg-accent selection:text-white flex flex-col items-center justify-center p-4">
-        <Navbar />
-        <div className="max-w-md w-full bg-white/[0.02] border border-red-500/20 rounded-3xl p-8 text-center relative z-10">
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-white/10 border-t-accent rounded-full animate-spin"></div>
+          <p className="text-white/50 font-mono text-sm animate-pulse">Verifying Access...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isAuthorized === false) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-[#0a0a0a] border border-red-500/20 rounded-2xl p-8 text-center relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-red-500/50"></div>
           <div className="w-16 h-16 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
             <svg className="w-8 h-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Access Denied</h1>
+          <h2 className="text-2xl font-bold text-white mb-2">Access Denied</h2>
           <p className="text-neutral-400 mb-6">Your Discord account is not authorized to access the admin dashboard.</p>
-          <div className="text-sm text-neutral-500 bg-black/20 p-3 rounded-lg mb-8 text-left break-all">
-            Discord ID: <span className="text-white">{user.user_metadata?.provider_id}</span>
+          
+          <div className="bg-white/5 rounded-xl p-4 mb-6">
+            <p className="text-sm text-neutral-300">
+              <span className="text-neutral-500">Discord ID:</span> {user?.user_metadata?.provider_id || user?.identities?.[0]?.id || 'Unknown'}
+            </p>
           </div>
+          
+          {authError && (
+            <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 mb-6 text-left">
+              <p className="text-xs text-red-400 font-mono">{authError}</p>
+            </div>
+          )}
           <button 
             onClick={handleSignOutConfirm}
             disabled={isSigningOut}
