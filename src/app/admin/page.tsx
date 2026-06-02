@@ -1154,6 +1154,26 @@ export default function AdminDashboard() {
                         placeholder="e.g. Lead Developer"
                       />
                     </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-semibold text-neutral-400 flex items-center justify-between">
+                        Discord ID (Opsional)
+                        <span className="text-xs text-accent">Auto Profile Picture!</span>
+                      </label>
+                      <input 
+                        type="text" 
+                        className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-accent transition-colors font-mono"
+                        onChange={(e) => {
+                          const id = e.target.value.trim();
+                          if (id) {
+                            setEditingTeamMember({...editingTeamMember, image_url: `/api/discord-avatar/${id}`});
+                          }
+                        }}
+                        placeholder="Masukkan Discord ID (misal: 1065405418349797417)"
+                      />
+                    </div>
 
                     <div className="flex flex-col gap-2">
                       <label className="text-sm font-semibold text-neutral-400">Image URL</label>

@@ -4,16 +4,12 @@ export default function Footer() {
   return (
     <footer className="relative pt-24 pb-12 px-6 md:px-[5%] flex flex-col items-center justify-center overflow-hidden bg-background">
       <div className="w-full max-w-[1200px] flex flex-col md:flex-row justify-between items-center md:items-end gap-16 md:gap-8 mb-16 md:mb-8 z-10">
-        
-        {/* Left Side: Got an Idea */}
         <div className="flex flex-col gap-4 text-center md:text-left items-center md:items-start w-full md:w-1/2">
           <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Got an Idea?</h3>
           <p className="text-neutral-400 max-w-sm md:max-w-md text-sm md:text-base leading-relaxed">
             Let&apos;s build something amazing together. Whether you want to collaborate on a project or join our growing network of developers, we&apos;d love to hear from you.
           </p>
         </div>
-        
-        {/* Right Side: Socials */}
         <div className="flex flex-col gap-6 text-center md:text-right items-center md:items-end w-full md:w-1/2">
           <h3 className="text-lg md:text-xl font-bold text-white">Connect with us</h3>
           <div className="flex flex-wrap justify-center md:justify-end gap-3 w-full max-w-[320px] md:max-w-none">
@@ -31,15 +27,11 @@ export default function Footer() {
           </div>
         </div>
       </div>
-
-      {/* Large Background Text */}
       <div className="w-full relative flex justify-center items-center pointer-events-none select-none mt-8 md:mt-0">
         <h1 className="text-[25vw] md:text-[20vw] leading-[0.75] font-extrabold text-white/[0.02] tracking-tighter m-0 w-full text-center">
           KH1EV.
         </h1>
       </div>
-
-      {/* Copyright */}
       <div className="absolute bottom-6 md:bottom-8 left-0 w-full text-center text-xs md:text-sm text-neutral-500 font-medium z-10 px-4">
         &copy; 2023 Kh1ev Organization.
       </div>

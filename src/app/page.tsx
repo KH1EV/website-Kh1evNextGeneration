@@ -41,19 +41,29 @@ export default function Home() {
   const discordMarqueeRef = useRef<HTMLDivElement>(null);
 
   const [discordData, setDiscordData] = useState<DiscordWidget | null>(null);
-  const [totalMembers] = useState(1650);
+  const [totalMembers, setTotalMembers] = useState(1650);
 
   useEffect(() => {
     const fetchDiscord = async () => {
       try {
         const serverId = process.env.NEXT_PUBLIC_DISCORD_SERVER_ID || "1065405418349797417";
-        const res = await fetch(`https://discord.com/api/guilds/${serverId}/widget.json`);
-        if (!res.ok) throw new Error("Failed to fetch widget");
-        const data = await res.json();
-        setDiscordData({
-          presence_count: data.presence_count,
-          members: data.members || []
-        });
+        const [widgetRes, statsRes] = await Promise.all([
+          fetch(`https://discord.com/api/guilds/${serverId}/widget.json`).catch(() => null),
+          fetch('/api/discord-stats').catch(() => null)
+        ]);
+        
+        if (widgetRes && widgetRes.ok) {
+          const data = await widgetRes.json();
+          setDiscordData({
+            presence_count: data.presence_count,
+            members: data.members || []
+          });
+        }
+        
+        if (statsRes && statsRes.ok) {
+          const stats = await statsRes.json();
+          if (stats.total) setTotalMembers(stats.total);
+        }
       } catch (err) {
         console.error("Error fetching Discord widget:", err);
       }
