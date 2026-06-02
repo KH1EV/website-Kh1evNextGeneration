@@ -66,7 +66,7 @@ interface ApiKey {
   created_at: string;
 }
 
-const withTimeout = (promise: any, ms: number = 30000): Promise<any> => {
+const withTimeout = (promise: any, ms: number = 10000): Promise<any> => {
   let timeoutId: NodeJS.Timeout;
   const timeoutPromise = new Promise<never>((_, reject) => {
     timeoutId = setTimeout(() => reject(new Error("Request timeout: Please check your connection.")), ms);
@@ -101,30 +101,46 @@ export default function AdminDashboard() {
   };
 
   const fetchTeamMembers = async () => {
-    const { data } = await supabase.from('team_members').select('*');
-    if (data) {
-      const sortedData = [...data].sort((a, b) => {
-        const rankA = ROLE_HIERARCHY[a.system_role] || 99;
-        const rankB = ROLE_HIERARCHY[b.system_role] || 99;
-        return rankA - rankB;
-      });
-      setTeamMembers(sortedData);
+    try {
+      const { data } = await withTimeout(supabase.from('team_members').select('*'), 10000);
+      if (data) {
+        const sortedData = [...data].sort((a, b) => {
+          const rankA = ROLE_HIERARCHY[a.system_role] || 99;
+          const rankB = ROLE_HIERARCHY[b.system_role] || 99;
+          return rankA - rankB;
+        });
+        setTeamMembers(sortedData);
+      }
+    } catch (err) {
+      console.error("fetchTeamMembers timeout/error", err);
     }
   };
 
   const fetchBlogs = async () => {
-    const { data } = await supabase.from('blogs').select('id, title, slug, published, created_at').order('created_at', { ascending: false });
-    if (data) setBlogs(data);
+    try {
+      const { data } = await withTimeout(supabase.from('blogs').select('id, title, slug, published, created_at').order('created_at', { ascending: false }), 10000);
+      if (data) setBlogs(data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const fetchAdminUsers = async () => {
-    const { data } = await supabase.from('admin_users').select('*').order('created_at', { ascending: false });
-    if (data) setAdminUsers(data);
+    try {
+      const { data } = await withTimeout(supabase.from('admin_users').select('*').order('created_at', { ascending: false }), 10000);
+      if (data) setAdminUsers(data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const fetchApiKeys = async () => {
-    const { data } = await supabase.from('api_keys').select('*').order('created_at', { ascending: false });
-    if (data) setApiKeys(data);
+    try {
+      const { data } = await withTimeout(supabase.from('api_keys').select('*').order('created_at', { ascending: false }), 10000);
+      if (data) setApiKeys(data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
