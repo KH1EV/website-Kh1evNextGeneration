@@ -3,7 +3,8 @@
 import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { FaDiscord, FaGithub, FaInstagram, FaTiktok } from "react-icons/fa";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 gsap.registerPlugin(useGSAP);
 
@@ -21,7 +22,7 @@ interface DiscordWidget {
 
 const techFields = [
   "Web Development", "App Development", "Discord Bots", "IT Infrastructure",
-  "UI/UX Design", "Cloud Computing", "Cybersecurity", "Data Science",
+  "UI/UX Design", "Cloud Computing", "Cybersecurity", "Data Science","IOT Engineering",
   "Artificial Intelligence", "Machine Learning", "Game Development",
   "DevOps", "System Administration", "Blockchain", "Backend Architecture",
   "Frontend Engineering", "Penetration Testing", "Game Design"
@@ -150,21 +151,7 @@ export default function Home() {
           <div className="preloader-line h-[2px] w-0 bg-accent"></div>
         </div>
       </div>
-      <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-3xl px-4">
-        <nav className="nav-element flex items-center justify-between backdrop-blur-xl bg-white/[0.03] border border-white/10 rounded-full px-6 py-3 shadow-2xl">
-          <div className="font-extrabold tracking-widest text-lg text-white">KH1EV.</div>
-          
-          <a href="https://discord.gg/MwNE7Vfb6t" target="_blank" rel="noopener noreferrer" className="group relative px-6 py-2.5 bg-white text-black font-bold rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(229,9,20,0.4)] block">
-            <div className="absolute inset-0 w-0 bg-accent transition-all duration-300 ease-out group-hover:w-full"></div>
-            <span className="relative flex items-center gap-2 group-hover:text-white transition-colors duration-300 text-sm">
-              Join Community
-              <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </span>
-          </a>
-        </nav>
-      </div>
+      <Navbar />
 
       <section className="relative min-h-[80vh] flex flex-col justify-center px-8 md:px-[5%] pt-32 pb-16">
         <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[120px] pointer-events-none"></div>
@@ -225,8 +212,8 @@ export default function Home() {
 
       <section className="py-4 border-b border-white/5 bg-background overflow-hidden flex relative z-10" ref={discordMarqueeRef}>
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-0 w-full">
-          <div className="flex flex-wrap items-center gap-4 shrink-0 z-10 bg-background px-8 md:px-0 md:pl-[5%] md:pr-10 relative">
-            <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3 md:gap-4 shrink-0 z-10 bg-background px-4 md:px-0 md:pl-[5%] md:pr-10 relative w-full md:w-auto">
+            <div className="flex items-center gap-2 md:gap-3">
               <span className="text-red-500 font-bold tracking-widest text-sm">LIVE</span>
               <div className="w-2 h-2 rounded-full bg-[#23a559] animate-pulse"></div>
               <span className="text-white font-bold text-base md:text-lg">{totalMembers.toLocaleString()} <span className="text-neutral-500 font-normal">anggota</span></span>
@@ -367,41 +354,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="relative pt-24 pb-8 px-8 md:px-[5%] flex flex-col items-center justify-end overflow-hidden">
-        <div className="w-full max-w-[1200px] flex flex-col md:flex-row justify-between items-end gap-12 mb-8 z-10">
-          <div className="flex flex-col gap-4 text-center md:text-left items-center md:items-start">
-            <h3 className="text-3xl font-extrabold text-white tracking-tight">Got an Idea?</h3>
-            <p className="text-neutral-400 max-w-sm">Let's build something amazing together. Whether you want to collaborate on a project or join our growing network of developers, we'd love to hear from you.</p>
-          </div>
-          
-          <div className="flex flex-col gap-6 text-center md:text-right items-center md:items-end">
-            <h3 className="text-xl font-bold text-white">Connect with us</h3>
-            <div className="flex flex-wrap justify-center md:justify-end gap-3">
-              {[
-                { name: 'Discord', icon: <FaDiscord className="w-4 h-4" />, href: 'https://discord.gg/MwNE7Vfb6t' },
-                { name: 'GitHub', icon: <FaGithub className="w-4 h-4" />, href: 'https://github.com/KH1EV' },
-                { name: 'Instagram', icon: <FaInstagram className="w-4 h-4" />, href: 'https://instagram.com/kh1ev.community' },
-                { name: 'TikTok', icon: <FaTiktok className="w-4 h-4" />, href: 'https://tiktok.com/@kh1ev' }
-              ].map((social) => (
-                <a key={social.name} href={social.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/10 bg-white/[0.02] text-neutral-400 text-sm font-semibold hover:bg-accent hover:text-white hover:border-accent transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_5px_20px_rgba(229,9,20,0.3)]">
-                  {social.icon}
-                  {social.name}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="w-full relative flex justify-center items-center pointer-events-none select-none -mt-4">
-          <h1 className="text-[15vw] md:text-[20vw] leading-[0.8] font-extrabold text-white/[0.03] tracking-tighter m-0 w-full text-center">
-            KH1EV.
-          </h1>
-        </div>
-
-        <div className="absolute bottom-8 left-0 w-full text-center text-sm text-neutral-600 font-medium z-10">
-          &copy; 2023 Kh1ev Organization.
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }
