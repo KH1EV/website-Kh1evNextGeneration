@@ -30,6 +30,8 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const [showSignOutModal, setShowSignOutModal] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -63,9 +65,25 @@ export default function Navbar() {
 
   const closeMenu = () => setIsMobileMenuOpen(false);
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
+  const handleSignOut = () => {
     setIsUserDropdownOpen(false);
+    setIsMobileMenuOpen(false);
+    setShowSignOutModal(true);
+  };
+
+  const handleSignOutConfirm = async () => {
+    setIsSigningOut(true);
+    try {
+      await supabase.auth.signOut({ scope: 'local' });
+      if (typeof window !== 'undefined') {
+        localStorage.clear();
+        sessionStorage.clear();
+      }
+      window.location.replace('/');
+    } catch {
+      setIsSigningOut(false);
+      setShowSignOutModal(false);
+    }
   };
 
   const userName =
@@ -81,6 +99,54 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Sign Out Confirmation Modal */}
+      {showSignOutModal && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
+          <div
+            onClick={() => !isSigningOut && setShowSignOutModal(false)}
+            style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(10px)' }}
+          />
+          <div style={{ position: 'relative', background: '#111', border: '1px solid rgba(239,68,68,0.15)', borderRadius: '20px', padding: '36px 32px', maxWidth: '380px', width: '100%', boxShadow: '0 25px 60px rgba(0,0,0,0.9), 0 0 0 1px rgba(239,68,68,0.05)' }}>
+            {/* Icon */}
+            <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+              <FaSignOutAlt style={{ width: '22px', height: '22px', color: '#ef4444' }} />
+            </div>
+            <h3 style={{ color: 'white', fontWeight: 700, fontSize: '1.15rem', textAlign: 'center', marginBottom: '10px' }}>
+              Sign Out?
+            </h3>
+            <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.85rem', textAlign: 'center', marginBottom: '28px', lineHeight: 1.6 }}>
+              Kamu yakin ingin keluar? Kamu perlu login Discord lagi untuk masuk kembali.
+            </p>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button
+                onClick={() => setShowSignOutModal(false)}
+                disabled={isSigningOut}
+                style={{ flex: 1, padding: '12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: 'white', fontWeight: 600, fontSize: '0.9rem', cursor: isSigningOut ? 'not-allowed' : 'pointer', opacity: isSigningOut ? 0.5 : 1, transition: 'background 0.2s' }}
+              >
+                Batal
+              </button>
+              <button
+                onClick={handleSignOutConfirm}
+                disabled={isSigningOut}
+                style={{ flex: 1, padding: '12px', background: isSigningOut ? 'rgba(239,68,68,0.4)' : '#ef4444', border: 'none', borderRadius: '12px', color: 'white', fontWeight: 700, fontSize: '0.9rem', cursor: isSigningOut ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'background 0.2s' }}
+              >
+                {isSigningOut ? (
+                  <>
+                    <div style={{ width: '15px', height: '15px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+                    Signing out...
+                  </>
+                ) : (
+                  <>
+                    <FaSignOutAlt style={{ width: '14px', height: '14px' }} />
+                    Ya, Sign Out
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-full max-w-5xl px-4 pointer-events-none">
         <nav className="nav-element flex items-center justify-between backdrop-blur-xl bg-white/[0.03] border border-white/10 rounded-full px-8 py-3 shadow-2xl pointer-events-auto">
           <Link
