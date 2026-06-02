@@ -25,7 +25,7 @@ export default function About() {
         <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[120px] pointer-events-none"></div>
         <div className="max-w-[1440px] w-full mx-auto flex flex-col items-center text-center gap-6 md:gap-8 relative z-10">
 
-          <h1 className="text-5xl md:text-7xl font-extrabold leading-[1.1] tracking-tight text-white max-w-4xl hero-text opacity-0">
+          <h1 className="text-4xl md:text-6xl font-extrabold leading-[1.1] tracking-tight text-white max-w-4xl hero-text opacity-0">
             We are <span className="text-accent">Kh1ev.</span><br />
             More than just code.
           </h1>

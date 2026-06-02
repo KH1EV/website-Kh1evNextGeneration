@@ -66,7 +66,7 @@ export default function Rules() {
         
         <div className="max-w-[1000px] mx-auto relative z-10">
           <div className="flex flex-col items-center text-center mb-16">
-            <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 hero-text opacity-0">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 hero-text opacity-0">
               Community <span className="text-accent">Rules</span>
             </h1>
             <p className="text-lg md:text-xl text-neutral-400 max-w-2xl hero-text opacity-0">

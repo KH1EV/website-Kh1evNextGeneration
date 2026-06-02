@@ -45,11 +45,11 @@ export default function AboutCommunity() {
 
       <div className="flex-1 pt-32 px-4 md:px-8 w-full max-w-6xl mx-auto relative z-10 flex flex-col">
         <div className="text-center mb-16 mt-8">
-          <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-8 hero-text leading-tight opacity-0">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-8 hero-text leading-tight opacity-0">
             Welcome to <br />
             <span className="text-accent">Kh1ev Community.</span>
           </h1>
-          <p className="text-neutral-400 text-lg md:text-xl max-w-2xl mx-auto hero-text leading-relaxed opacity-0">
+          <p className="text-neutral-400 text-base md:text-lg max-w-2xl mx-auto hero-text leading-relaxed opacity-0">
             While Kh1ev Organization focuses on building top-tier IT projects, 
             <strong className="text-white"> Kh1ev Community</strong> is our living room. 
             It's a vibrant, casual hub where developers, gamers, and friends hang out, 
@@ -61,7 +61,7 @@ export default function AboutCommunity() {
             <div className="w-14 h-14 bg-[#5865F2]/10 rounded-2xl flex items-center justify-center mb-6 text-[#5865F2] group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
               <FaComments className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-3">Active Chat</h3>
+            <h3 className="text-lg md:text-xl font-bold text-white mb-3">Active Chat</h3>
             <p className="text-neutral-400 text-sm leading-relaxed">
               24/7 active voice and text channels. Whether you want to talk about tech, anime, or just how your day went, there's always someone to listen.
             </p>
@@ -71,7 +71,7 @@ export default function AboutCommunity() {
             <div className="w-14 h-14 bg-red-500/10 rounded-2xl flex items-center justify-center mb-6 text-red-500 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300">
               <FaGamepad className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-3">Gaming Nights</h3>
+            <h3 className="text-lg md:text-xl font-bold text-white mb-3">Gaming Nights</h3>
             <p className="text-neutral-400 text-sm leading-relaxed">
               We host regular community game nights. Valorant, Minecraft, Party Animals, you name it. It's all about having fun and creating memories.
             </p>
@@ -81,7 +81,7 @@ export default function AboutCommunity() {
             <div className="w-14 h-14 bg-green-500/10 rounded-2xl flex items-center justify-center mb-6 text-green-500 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
               <FaMusic className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-3">Music & Chill</h3>
+            <h3 className="text-lg md:text-xl font-bold text-white mb-3">Music & Chill</h3>
             <p className="text-neutral-400 text-sm leading-relaxed">
               Hop into our Lo-Fi lounges. Share your Spotify playlists or use our custom bots to blast your favorite tunes while working or chilling.
             </p>
@@ -91,7 +91,7 @@ export default function AboutCommunity() {
             <div className="w-14 h-14 bg-pink-500/10 rounded-2xl flex items-center justify-center mb-6 text-pink-500 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300">
               <FaHeart className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-3">Safe Space</h3>
+            <h3 className="text-lg md:text-xl font-bold text-white mb-3">Safe Space</h3>
             <p className="text-neutral-400 text-sm leading-relaxed">
               A heavily moderated, toxic-free environment. We respect everyone regardless of background. Toxicity is left at the door.
             </p>

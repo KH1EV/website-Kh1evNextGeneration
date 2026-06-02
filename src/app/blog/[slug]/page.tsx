@@ -142,7 +142,7 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
             <span>•</span>
             <span className="text-accent">{blog.admin_users?.username || 'Kh1ev Admin'}</span>
           </div>
-          <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight mb-6">
+          <h1 className="text-2xl md:text-4xl font-extrabold text-white tracking-tight leading-tight mb-6">
             {blog.title}
           </h1>
         </div>

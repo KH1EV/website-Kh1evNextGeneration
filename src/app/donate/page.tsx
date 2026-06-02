@@ -33,7 +33,7 @@ export default function DonatePage() {
 
       <div className="flex-1 pt-32 px-4 md:px-8 w-full max-w-7xl mx-auto relative z-10 flex flex-col mb-32">
         <div className="text-center mb-16 mt-8">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 hero-text leading-tight opacity-0">
+          <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-6 hero-text leading-tight opacity-0">
             Help Keep The <br />
             <span className="text-accent">Community Alive.</span>
           </h1>

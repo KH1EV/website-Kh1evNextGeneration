@@ -145,7 +145,7 @@ export default function Home() {
     <main className="min-h-screen bg-background relative overflow-x-hidden selection:bg-accent selection:text-white" ref={container}>
       <div className="preloader fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center">
         <div className="flex flex-col items-center gap-4 overflow-hidden py-10">
-          <div className="preloader-text text-3xl md:text-5xl font-extrabold tracking-[0.2em] text-white">
+          <div className="preloader-text text-2xl md:text-4xl font-extrabold tracking-[0.2em] text-white">
             KH1EV.
           </div>
           <div className="preloader-line h-[2px] w-0 bg-accent"></div>
@@ -159,19 +159,19 @@ export default function Home() {
           
           <div className="flex items-center gap-4">
             <div className="accent-line h-[2px] w-[30px] md:w-[50px] bg-accent origin-right"></div>
-            <span className="brand-name text-2xl md:text-3xl font-extrabold tracking-widest text-foreground">KH1EV.</span>
+            <span className="brand-name text-xl md:text-2xl font-extrabold tracking-widest text-foreground">KH1EV.</span>
             <div className="accent-line h-[2px] w-[30px] md:w-[50px] bg-accent origin-left"></div>
           </div>
 
           <div className="flex flex-col items-center gap-8">
             <div className="flex flex-col gap-0 md:gap-2">
               <div className="overflow-hidden pb-1 -mb-1">
-                <h1 className="headline-line text-5xl md:text-[8vw] lg:text-[7rem] font-extrabold leading-[1] md:leading-[1] tracking-tight text-foreground m-0">
+                <h1 className="headline-line text-4xl sm:text-5xl md:text-[7vw] lg:text-[6rem] font-extrabold leading-[1.1] md:leading-[1] tracking-tight text-foreground m-0">
                   IT Development
                 </h1>
               </div>
               <div className="overflow-hidden pb-1 -mb-1">
-                <h1 className="headline-line text-5xl md:text-[8vw] lg:text-[7rem] font-extrabold leading-[1] md:leading-[1] tracking-tight text-foreground m-0">
+                <h1 className="headline-line text-4xl sm:text-5xl md:text-[7vw] lg:text-[6rem] font-extrabold leading-[1.1] md:leading-[1] tracking-tight text-foreground m-0">
                   <span className="text-accent">& Community Hub.</span>
                 </h1>
               </div>
@@ -196,7 +196,7 @@ export default function Home() {
 
       <section className="py-8 overflow-hidden border-y border-white/5 bg-white/[0.01]" ref={marqueeRef}>
         <div className="flex w-max">
-          <div className="marquee-content flex w-max justify-around items-center text-2xl md:text-4xl font-extrabold text-white/10 tracking-widest uppercase whitespace-nowrap gap-8 px-4">
+          <div className="marquee-content flex w-max justify-around items-center text-xl md:text-3xl font-extrabold text-white/10 tracking-widest uppercase whitespace-nowrap gap-8 px-4">
             {techFields.map((field, idx) => [
               <span key={`text-orig-${idx}`}>{field}</span>,
               <span key={`dot-orig-${idx}`} className="text-accent/50">•</span>
@@ -263,8 +263,8 @@ export default function Home() {
         <div className="max-w-[1440px] w-full mx-auto flex flex-col gap-12 md:gap-20">
           
           <div className="flex flex-col gap-6 text-center items-center">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight">Everything you need.</h2>
-            <p className="text-neutral-400 max-w-2xl text-lg md:text-xl">From building high-performance digital systems to just chilling in our community lounge, Kh1ev is built for modern creators.</p>
+            <h2 className="text-2xl md:text-4xl font-extrabold text-white tracking-tight">Everything you need.</h2>
+            <p className="text-neutral-400 max-w-2xl text-base md:text-lg">From building high-performance digital systems to just chilling in our community lounge, Kh1ev is built for modern creators.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -275,8 +275,8 @@ export default function Home() {
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
                 </div>
                 <div>
-                  <h3 className="text-3xl font-bold text-white mb-4 group-hover:text-accent transition-colors duration-300">Software Engineering</h3>
-                  <p className="text-neutral-400 text-lg leading-relaxed max-w-md">End-to-end development of scalable web applications, powerful mobile apps, and robust enterprise systems.</p>
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-4 group-hover:text-accent transition-colors duration-300">Software Engineering</h3>
+                  <p className="text-neutral-400 text-base leading-relaxed max-w-md">End-to-end development of scalable web applications, powerful mobile apps, and robust enterprise systems.</p>
                 </div>
               </div>
             </div>
@@ -288,8 +288,8 @@ export default function Home() {
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                 </div>
                 <div>
-                  <h3 className="text-3xl font-bold text-white mb-4 group-hover:text-accent transition-colors duration-300">Cyber Security</h3>
-                  <p className="text-neutral-400 text-lg leading-relaxed">Protecting your digital assets with advanced penetration testing and threat mitigation.</p>
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-4 group-hover:text-accent transition-colors duration-300">Cyber Security</h3>
+                  <p className="text-neutral-400 text-base leading-relaxed">Protecting your digital assets with advanced penetration testing and threat mitigation.</p>
                 </div>
               </div>
             </div>
@@ -301,8 +301,8 @@ export default function Home() {
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" /></svg>
                 </div>
                 <div>
-                  <h3 className="text-3xl font-bold text-white mb-4 group-hover:text-accent transition-colors duration-300">Cloud & Infra</h3>
-                  <p className="text-neutral-400 text-lg leading-relaxed">Secure server management and high-availability cloud deployments.</p>
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-4 group-hover:text-accent transition-colors duration-300">Cloud & Infra</h3>
+                  <p className="text-neutral-400 text-base leading-relaxed">Secure server management and high-availability cloud deployments.</p>
                 </div>
               </div>
             </div>
@@ -314,8 +314,8 @@ export default function Home() {
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                 </div>
                 <div>
-                  <h3 className="text-3xl font-bold text-white mb-4 group-hover:text-accent transition-colors duration-300">Bot Automation</h3>
-                  <p className="text-neutral-400 text-lg leading-relaxed">Custom Discord bots to streamline moderation and supercharge your community.</p>
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-4 group-hover:text-accent transition-colors duration-300">Bot Automation</h3>
+                  <p className="text-neutral-400 text-base leading-relaxed">Custom Discord bots to streamline moderation and supercharge your community.</p>
                 </div>
               </div>
             </div>
@@ -327,8 +327,8 @@ export default function Home() {
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
                 </div>
                 <div>
-                  <h3 className="text-3xl font-bold text-white mb-4 group-hover:text-accent transition-colors duration-300">UI/UX Design</h3>
-                  <p className="text-neutral-400 text-lg leading-relaxed">Crafting pixel-perfect, intuitive interfaces that elevate digital experiences.</p>
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-4 group-hover:text-accent transition-colors duration-300">UI/UX Design</h3>
+                  <p className="text-neutral-400 text-base leading-relaxed">Crafting pixel-perfect, intuitive interfaces that elevate digital experiences.</p>
                 </div>
               </div>
             </div>
@@ -340,8 +340,8 @@ export default function Home() {
                   <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-4xl font-extrabold text-white mb-4 group-hover:text-accent transition-colors duration-300">Kh1ev Community</h3>
-                  <p className="text-neutral-400 text-xl leading-relaxed max-w-3xl">Beyond the code, we are a thriving ecosystem. Join our community to network with tech enthusiasts, collaborate on open-source projects, or just chill and play games together.</p>
+                  <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-4 group-hover:text-accent transition-colors duration-300">Kh1ev Community</h3>
+                  <p className="text-neutral-400 text-lg leading-relaxed max-w-3xl">Beyond the code, we are a thriving ecosystem. Join our community to network with tech enthusiasts, collaborate on open-source projects, or just chill and play games together.</p>
                 </div>
                 <div className="hidden lg:flex shrink-0 pl-8">
                   <a href="https://discord.gg/MwNE7Vfb6t" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-white text-black font-bold rounded-full transition-transform hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(229,9,20,0.6)]">

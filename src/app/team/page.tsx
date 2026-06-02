@@ -84,6 +84,18 @@ export default function Team() {
     );
   }, { scope: containerRef });
 
+  useGSAP(() => {
+    if (!loading && teamMembers.length > 0) {
+      gsap.to(".team-card", {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "power3.out"
+      });
+    }
+  }, { dependencies: [loading, teamMembers], scope: containerRef });
+
   useEffect(() => {
     async function fetchTeam() {
       const { data, error } = await supabase
@@ -113,10 +125,10 @@ export default function Team() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-accent/5 rounded-full blur-[120px] pointer-events-none"></div>
         
         <div className="max-w-[1440px] mx-auto relative z-10 flex flex-col items-center text-center mb-20">
-          <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 hero-text opacity-0">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 hero-text opacity-0">
             Meet Our <span className="text-accent">Team</span>
           </h1>
-          <p className="text-lg md:text-xl text-neutral-400 max-w-2xl hero-text opacity-0">
+          <p className="text-base md:text-lg text-neutral-400 max-w-2xl hero-text opacity-0">
             A collective of passionate developers, designers, and tech enthusiasts working together to build amazing digital experiences.
           </p>
         </div>
@@ -137,32 +149,30 @@ export default function Team() {
 
                 return (
                   <div key={roleName} className="flex flex-col gap-8 w-full">
-                    <div className="flex items-end justify-between border-b border-white/5 pb-4">
-                      <div>
-                        <h2 className="text-3xl font-extrabold text-white flex items-center gap-3">
-                          <div className={`w-3 h-3 rounded-full ${ROLE_COLORS[roleName] || 'bg-neutral-500'}`}></div>
-                          {roleName}
+                    <div className="flex flex-row items-center md:items-end justify-between border-b border-white/5 pb-4 gap-4">
+                      <div className="flex-1 min-w-0">
+                        <h2 className="text-xl md:text-2xl font-extrabold text-white flex items-center gap-3 truncate">
+                          <div className={`w-3 h-3 rounded-full shrink-0 ${ROLE_COLORS[roleName] || 'bg-neutral-500'}`}></div>
+                          <span className="truncate">{roleName}</span>
                         </h2>
-                        <p className="text-neutral-500 text-sm mt-2">{roleName} team of Kh1ev Community.</p>
+                        <p className="text-neutral-500 text-xs md:text-sm mt-2 line-clamp-2 md:line-clamp-none">{roleName} team of Kh1ev Community.</p>
                       </div>
-                      <div className="px-4 py-1.5 bg-white/[0.03] border border-white/10 rounded-full text-sm font-semibold text-neutral-400 flex items-center gap-2">
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                        {membersInRole.length} People
+                      <div className="shrink-0 whitespace-nowrap px-3 py-1 md:px-4 md:py-1.5 bg-white/[0.03] border border-white/10 rounded-full text-xs md:text-sm font-semibold text-neutral-400 flex items-center gap-1.5 md:gap-2">
+                        <svg className="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        <span>{membersInRole.length} People</span>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                       {membersInRole.map((member) => (
-                        <div key={member.id} className="group relative rounded-3xl border border-white/10 bg-white/[0.02] overflow-hidden hover:bg-white/[0.04] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(229,9,20,0.1)] flex flex-col">
-                          <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                        <div key={member.id} className="team-card opacity-0 translate-y-10 relative rounded-3xl border border-white/10 bg-white/[0.02] overflow-hidden flex flex-col">
                           
                           <div className="p-8 relative z-10 flex flex-col items-center text-center h-full">
-                            <div className="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-background shadow-xl mb-6 relative group-hover:scale-110 transition-transform duration-500 shrink-0">
-                              <div className="absolute inset-0 bg-accent/20 z-10 group-hover:opacity-0 transition-opacity duration-300"></div>
+                            <div className="w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-background shadow-xl mb-6 relative shrink-0">
                               <img src={member.image_url || `https://ui-avatars.com/api/?name=${member.name}&background=random`} alt={member.name} className="w-full h-full object-cover" />
                             </div>
                             
-                            <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-accent transition-colors">{member.name}</h3>
+                            <h3 className="text-2xl font-bold text-white mb-1">{member.name}</h3>
                             <p className="text-accent font-medium mb-4 text-sm uppercase tracking-wider">{member.role}</p>
                             
                             <p className="text-neutral-400 text-sm leading-relaxed mb-6 flex-grow">
