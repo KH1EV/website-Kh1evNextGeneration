@@ -182,7 +182,7 @@ export default function Home() {
               </div>
               <div className="overflow-hidden pb-1 -mb-1">
                 <h1 className="headline-line text-4xl sm:text-5xl md:text-[7vw] lg:text-[6rem] font-extrabold leading-[1.1] md:leading-[1] tracking-tight text-foreground m-0">
-                  <span className="text-accent">& Community Hub.</span>
+                  <span className="bg-accent text-white px-3 md:px-6 inline-block">& Community Hub.</span>
                 </h1>
               </div>
             </div>
