@@ -52,14 +52,14 @@ export default function About() {
                     <div>
                       <h3 className="text-2xl font-bold text-accent mb-2">2023</h3>
                       <h4 className="text-xl font-bold text-white mb-2">The Beginning</h4>
-                      <p className="text-neutral-400 text-sm leading-relaxed">Started as a small Discord community where passion for technology brought us together.</p>
+                      <p className="text-neutral-400 text-sm leading-relaxed">Started as a regular community.</p>
                     </div>
                   </div>
                   <div className="absolute left-[22px] md:left-1/2 w-4 h-4 rounded-full bg-[#111] border-[3px] border-accent md:-translate-x-1/2 mt-[6px] md:mt-0 group-hover:scale-150 group-hover:bg-accent transition-all duration-300 z-10"></div>
                   <div className="md:hidden pl-16 w-full text-left">
                     <h3 className="text-xl font-bold text-accent mb-1">2023</h3>
                     <h4 className="text-lg font-bold text-white mb-2">The Beginning</h4>
-                    <p className="text-neutral-400 text-sm leading-relaxed">Started as a small Discord community where passion for technology brought us together.</p>
+                    <p className="text-neutral-400 text-sm leading-relaxed">Started as a regular community.</p>
                   </div>
                   <div className="hidden md:block flex-1 pl-16"></div>
                 </div>
@@ -69,14 +69,14 @@ export default function About() {
                   <div className="absolute left-[22px] md:left-1/2 w-4 h-4 rounded-full bg-[#111] border-[3px] border-accent md:-translate-x-1/2 mt-[6px] md:mt-0 group-hover:scale-150 group-hover:bg-accent transition-all duration-300 z-10"></div>
                   <div className="md:hidden pl-16 w-full text-left">
                     <h3 className="text-xl font-bold text-accent mb-1">2024</h3>
-                    <h4 className="text-lg font-bold text-white mb-2">Expanding Horizons</h4>
-                    <p className="text-neutral-400 text-sm leading-relaxed">Began building out custom bots and exploring web development. Our member base started to rapidly grow.</p>
+                    <h4 className="text-lg font-bold text-white mb-2">Technological Steps</h4>
+                    <p className="text-neutral-400 text-sm leading-relaxed">Remained a regular community, but began seeing technological developments like bots and websites.</p>
                   </div>
                   <div className="hidden md:flex flex-1 pl-16 text-left">
                     <div>
                       <h3 className="text-2xl font-bold text-accent mb-2">2024</h3>
-                      <h4 className="text-xl font-bold text-white mb-2">Expanding Horizons</h4>
-                      <p className="text-neutral-400 text-sm leading-relaxed">Began building out custom bots and exploring web development. Our member base started to rapidly grow.</p>
+                      <h4 className="text-xl font-bold text-white mb-2">Technological Steps</h4>
+                      <p className="text-neutral-400 text-sm leading-relaxed">Remained a regular community, but began seeing technological developments like bots and websites.</p>
                     </div>
                   </div>
                 </div>
@@ -85,15 +85,15 @@ export default function About() {
                   <div className="hidden md:flex flex-1 justify-end pr-16 text-right">
                     <div>
                       <h3 className="text-2xl font-bold text-accent mb-2">2025</h3>
-                      <h4 className="text-xl font-bold text-white mb-2">Kh1ev Studio Formed</h4>
-                      <p className="text-neutral-400 text-sm leading-relaxed">Transitioned from just a community into an organized development entity capable of handling complex projects.</p>
+                      <h4 className="text-xl font-bold text-white mb-2">Community Progress</h4>
+                      <p className="text-neutral-400 text-sm leading-relaxed">Maintained our community roots, but started showing more significant progress and growth.</p>
                     </div>
                   </div>
                   <div className="absolute left-[22px] md:left-1/2 w-4 h-4 rounded-full bg-[#111] border-[3px] border-accent md:-translate-x-1/2 mt-[6px] md:mt-0 group-hover:scale-150 group-hover:bg-accent transition-all duration-300 z-10"></div>
                   <div className="md:hidden pl-16 w-full text-left">
                     <h3 className="text-xl font-bold text-accent mb-1">2025</h3>
-                    <h4 className="text-lg font-bold text-white mb-2">Kh1ev Studio Formed</h4>
-                    <p className="text-neutral-400 text-sm leading-relaxed">Transitioned from just a community into an organized development entity capable of handling complex projects.</p>
+                    <h4 className="text-lg font-bold text-white mb-2">Community Progress</h4>
+                    <p className="text-neutral-400 text-sm leading-relaxed">Maintained our community roots, but started showing more significant progress and growth.</p>
                   </div>
                   <div className="hidden md:block flex-1 pl-16"></div>
                 </div>
@@ -103,14 +103,14 @@ export default function About() {
                   <div className="absolute left-[22px] md:left-1/2 w-4 h-4 rounded-full bg-accent border-[3px] border-accent md:-translate-x-1/2 mt-[6px] md:mt-0 group-hover:scale-150 transition-all duration-300 z-10 shadow-[0_0_15px_rgba(229,9,20,0.8)]"></div>
                   <div className="md:hidden pl-16 w-full text-left">
                     <h3 className="text-xl font-bold text-accent mb-1">2026</h3>
-                    <h4 className="text-lg font-bold text-white mb-2">Digital Tech Pioneers</h4>
-                    <p className="text-neutral-400 text-sm leading-relaxed">Officially established as a digital technology organization, powering sophisticated web apps and a massive tech ecosystem.</p>
+                    <h4 className="text-lg font-bold text-white mb-2">Digital Tech Expansion</h4>
+                    <p className="text-neutral-400 text-sm leading-relaxed">Just beginning our shift towards digital technology development.</p>
                   </div>
                   <div className="hidden md:flex flex-1 pl-16 text-left">
                     <div>
                       <h3 className="text-2xl font-bold text-accent mb-2">2026</h3>
-                      <h4 className="text-xl font-bold text-white mb-2">Digital Tech Pioneers</h4>
-                      <p className="text-neutral-400 text-sm leading-relaxed">Officially established as a digital technology organization, powering sophisticated web apps and a massive tech ecosystem.</p>
+                      <h4 className="text-xl font-bold text-white mb-2">Digital Tech Expansion</h4>
+                      <p className="text-neutral-400 text-sm leading-relaxed">Just beginning our shift towards digital technology development.</p>
                     </div>
                   </div>
                 </div>
