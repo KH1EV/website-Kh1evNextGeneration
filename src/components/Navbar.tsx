@@ -20,7 +20,7 @@ const navSections = [
       { href: "/community/about", text: "About Community" },
       { href: "/rules", text: "Community Rules" },
       { href: "/blog", text: "Community Blog" },
-      { href: "/donate", text: "Donate" },
+      { href: "/donate", text: "Donation Space" },
     ],
   },
 ];
@@ -180,7 +180,7 @@ export default function Navbar() {
                 <Link href="/community/about" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">About Community</Link>
                 <Link href="/rules" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Community Rules</Link>
                 <Link href="/blog" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Community Blog</Link>
-                <Link href="/donate" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Donate</Link>
+                <Link href="/donate" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Donation Space</Link>
               </div>
             </div>
 

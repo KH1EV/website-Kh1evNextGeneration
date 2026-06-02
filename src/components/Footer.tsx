@@ -1,4 +1,4 @@
-import { FaDiscord, FaGithub, FaInstagram, FaTiktok } from "react-icons/fa";
+import { FaDiscord, FaGithub, FaInstagram, FaTiktok, FaEnvelope } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -9,6 +9,12 @@ export default function Footer() {
           <p className="text-neutral-400 max-w-sm md:max-w-md text-sm md:text-base leading-relaxed">
             Let&apos;s build something amazing together. Whether you want to collaborate on a project or join our growing network of developers, we&apos;d love to hear from you.
           </p>
+          <a 
+            href="mailto:team@kh1ev.my.id" 
+            className="mt-4 inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white text-black font-bold text-sm md:text-base hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all duration-300">
+            <FaEnvelope className="w-5 h-5" />
+            team@kh1ev.my.id
+          </a>
         </div>
         <div className="flex flex-col gap-6 text-center md:text-right items-center md:items-end w-full md:w-1/2">
           <h3 className="text-lg md:text-xl font-bold text-white">Connect with us</h3>
