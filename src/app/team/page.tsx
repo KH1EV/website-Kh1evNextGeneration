@@ -29,7 +29,7 @@ const ROLE_HIERARCHY: Record<string, number> = {
   'Head Staff': 4,
   'Staff': 5,
   'Trainee': 6,
-  'KH1EV.org Teams': 7
+  'KH1EV.org': 7
 };
 
 const ROLE_COLORS: Record<string, string> = {
