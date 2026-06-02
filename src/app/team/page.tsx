@@ -29,7 +29,7 @@ const ROLE_HIERARCHY: Record<string, number> = {
   'Head Staff': 4,
   'Staff': 5,
   'Trainee': 6,
-  'KH1EV.org': 7
+  'KH1EV.org Teams': 7
 };
 
 const ROLE_COLORS: Record<string, string> = {
@@ -155,7 +155,7 @@ export default function Team() {
                           <div className={`w-3 h-3 rounded-full shrink-0 ${ROLE_COLORS[roleName] || 'bg-neutral-500'}`}></div>
                           <span className="truncate">{roleName}</span>
                         </h2>
-                        <p className="text-neutral-500 text-xs md:text-sm mt-2 line-clamp-2 md:line-clamp-none">{roleName} team of Kh1ev Community.</p>
+                        <p className="text-neutral-500 text-xs md:text-sm mt-2 line-clamp-2 md:line-clamp-none">{roleName} of Kh1ev Community.</p>
                       </div>
                       <div className="shrink-0 whitespace-nowrap px-3 py-1 md:px-4 md:py-1.5 bg-white/[0.03] border border-white/10 rounded-full text-xs md:text-sm font-semibold text-neutral-400 flex items-center gap-1.5 md:gap-2">
                         <svg className="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
