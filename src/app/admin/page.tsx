@@ -411,9 +411,15 @@ export default function AdminDashboard() {
             Discord ID: <span className="text-white">{user.user_metadata?.provider_id}</span>
           </div>
           <button 
-            onClick={handleLogout}
-            className="w-full py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-colors">
-            Sign Out
+            onClick={handleSignOutConfirm}
+            disabled={isSigningOut}
+            className={`w-full py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2 ${isSigningOut ? 'opacity-50 cursor-not-allowed' : ''}`}>
+            {isSigningOut ? (
+              <>
+                <div style={{ width: '16px', height: '16px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+                Signing Out...
+              </>
+            ) : 'Sign Out'}
           </button>
         </div>
       </main>
