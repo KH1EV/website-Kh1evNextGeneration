@@ -94,7 +94,7 @@ export default function Rules() {
           <div className="mt-16 p-8 rounded-2xl border border-accent/20 bg-accent/5 text-center">
             <h3 className="text-2xl font-bold text-white mb-4">Note from the Admins</h3>
             <p className="text-neutral-300">
-              Administrators and moderators reserve the right to enforce these rules, including muting, kicking, or banning members who violate them. If you see someone breaking the rules, please notify the staff immediately.
+              Administrators and moderators reserve the right to enforce these rules, including muting, kicking, or banning members who violate them. If you see someone breaking the rules, please notify staff immediately.
             </p>
           </div>
 
