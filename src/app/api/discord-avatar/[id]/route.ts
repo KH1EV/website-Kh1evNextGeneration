@@ -13,7 +13,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     const token = process.env.DISORD_TOKEN || process.env.DISCORD_TOKEN;
     if (!token) {
       console.error('DISORD_TOKEN is missing in environment variables');
-      return new NextResponse('Bot token not configured', { status: 500 });
+      return NextResponse.redirect(`https://cdn.discordapp.com/embed/avatars/0.png`);
     }
 
     const res = await fetch(`https://discord.com/api/v10/users/${id}`, {
@@ -24,7 +24,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
     if (!res.ok) {
       console.error(`Failed to fetch Discord user ${id}: ${res.status} ${res.statusText}`);
-      const defaultIndex = (BigInt(id) >> BigInt(22)) % BigInt(6);
+      let defaultIndex = 0;
+      try { defaultIndex = Number((BigInt(id) >> BigInt(22)) % BigInt(6)); } catch(e){}
       return NextResponse.redirect(`https://cdn.discordapp.com/embed/avatars/${defaultIndex}.png`);
     }
 
@@ -36,7 +37,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
       avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${ext}?size=256`;
     } else {
       if (user.discriminator === "0" || user.discriminator === "0000") {
-         const defaultIndex = (BigInt(user.id) >> BigInt(22)) % BigInt(6);
+         let defaultIndex = 0;
+         try { defaultIndex = Number((BigInt(user.id) >> BigInt(22)) % BigInt(6)); } catch(e){}
          avatarUrl = `https://cdn.discordapp.com/embed/avatars/${defaultIndex}.png`;
       } else {
          const defaultIndex = parseInt(user.discriminator) % 5;
@@ -47,6 +49,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     return NextResponse.redirect(avatarUrl);
   } catch (error) {
     console.error(`Error in discord-avatar route for ${id}:`, error);
-    return new NextResponse('Internal Server Error', { status: 500 });
+    let defaultIndex = 0;
+    try { defaultIndex = Number((BigInt(id) >> BigInt(22)) % BigInt(6)); } catch(e){}
+    return NextResponse.redirect(`https://cdn.discordapp.com/embed/avatars/${defaultIndex}.png`);
   }
 }
