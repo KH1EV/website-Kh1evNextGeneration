@@ -23,13 +23,13 @@ interface TeamMember {
 }
 
 const ROLE_HIERARCHY: Record<string, number> = {
-  'Founder':1,
+  'Founder': 1,
   'Chief': 2,
   'Manager': 3,
   'Head Staff': 4,
   'Staff': 5,
-  'Trainee Barista': 6,
-  'KH1EV.org member': 7
+  'Trainee': 6,
+  'KH1EV.org Teams': 7
 };
 
 const ROLE_COLORS: Record<string, string> = {
@@ -38,12 +38,12 @@ const ROLE_COLORS: Record<string, string> = {
   'Manager': 'bg-purple-500',
   'Head Staff': 'bg-yellow-500',
   'Staff': 'bg-orange-500',
-  'Trainee Barista': 'bg-teal-400',
-  'KH1EV.org member': 'bg-cyan-500'
+  'Trainee': 'bg-teal-400',
+  'KH1EV.org Teams': 'bg-cyan-500'
 };
 
 const TAG_STYLES: Record<string, string> = {
-  'KH1EV.org members': 'bg-pink-500/10 text-pink-500 border-pink-500/20',
+  'KH1EV.org Teams': 'bg-pink-500/10 text-pink-500 border-pink-500/20',
   'Executive': 'bg-neutral-500/10 text-neutral-300 border-neutral-500/20',
   'HRD': 'bg-blue-500/10 text-blue-400 border-blue-500/20',
   'Developer': 'bg-green-500/10 text-green-400 border-green-500/20',
@@ -51,7 +51,24 @@ const TAG_STYLES: Record<string, string> = {
   'Event Organizer': 'bg-orange-500/10 text-orange-400 border-orange-500/20',
   'Brand Ambassador': 'bg-teal-500/10 text-teal-400 border-teal-500/20',
   'Partner Manager': 'bg-red-500/10 text-red-400 border-red-500/20',
-  'Creative': 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'
+  'Creative': 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20',
+  'Project Manager': 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
+  'Full Stack Developer': 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+  'Frontend Developer': 'bg-sky-500/10 text-sky-400 border-sky-500/20',
+  'Backend Developer': 'bg-stone-500/10 text-stone-400 border-stone-500/20',
+  'IOT Engineer': 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+  'Mobile Developer': 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
+  'Game Developer': 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+  'DevOps Engineer': 'bg-violet-500/10 text-violet-400 border-violet-500/20',
+  'Cloud Engineer': 'bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20',
+  'System Administrator': 'bg-slate-500/10 text-slate-400 border-slate-500/20',
+  'Network Engineer': 'bg-zinc-500/10 text-zinc-400 border-zinc-500/20',
+  'Cybersecurity': 'bg-red-600/10 text-red-500 border-red-600/20',
+  'Data Analyst': 'bg-blue-600/10 text-blue-500 border-blue-600/20',
+  'Data Scientist': 'bg-teal-600/10 text-teal-500 border-teal-600/20',
+  'Data Engineer': 'bg-orange-600/10 text-orange-500 border-orange-600/20',
+  'UI/UX Designer': 'bg-pink-600/10 text-pink-500 border-pink-600/20',
+  'Graphic Designer': 'bg-purple-600/10 text-purple-500 border-purple-600/20'
 };
 
 export default function Team() {
@@ -130,7 +147,7 @@ export default function Team() {
                       </div>
                       <div className="px-4 py-1.5 bg-white/[0.03] border border-white/10 rounded-full text-sm font-semibold text-neutral-400 flex items-center gap-2">
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-                        {membersInRole.length} staff
+                        {membersInRole.length} People
                       </div>
                     </div>
 

@@ -22,9 +22,15 @@ interface TeamMember {
 }
 
 const TEAM_TAGS = [
-  'KH1EV.org members', 'Executive', 'HRD', 'Developer', 
+  'KH1EV.org Teams', 'Executive', 'HRD', 'Developer', 
   'Host', 'Event Organizer', 'Brand Ambassador', 
-  'Partner Manager', 'Creative'
+  'Partner Manager', 'Creative',
+  'Project Manager', 'Full Stack Developer', 'Frontend Developer',
+  'Backend Developer', 'IOT Engineer', 'Mobile Developer',
+  'Game Developer', 'DevOps Engineer', 'Cloud Engineer',
+  'System Administrator', 'Network Engineer', 'Cybersecurity',
+  'Data Analyst', 'Data Scientist', 'Data Engineer',
+  'UI/UX Designer', 'Graphic Designer'
 ];
 
 const ROLE_HIERARCHY: Record<string, number> = {
@@ -33,8 +39,8 @@ const ROLE_HIERARCHY: Record<string, number> = {
   'Manager': 3,
   'Head Staff': 4,
   'Staff': 5,
-  'Trainee Barista': 6,
-  'KH1EV.org member': 7
+  'Trainee': 6,
+  'KH1EV.org Teams': 7
 };
 
 interface Blog {
@@ -950,8 +956,8 @@ export default function AdminDashboard() {
                         <option value="Manager" className="bg-[#0a0a0a]">Manager</option>
                         <option value="Head Staff" className="bg-[#0a0a0a]">Head Staff</option>
                         <option value="Staff" className="bg-[#0a0a0a]">Staff</option>
-                        <option value="Trainee Barista" className="bg-[#0a0a0a]">Trainee Barista</option>
-                        <option value="KH1EV.org member" className="bg-[#0a0a0a]">KH1EV.org member</option>
+                        <option value="Trainee" className="bg-[#0a0a0a]">Trainee</option>
+                        <option value="KH1EV.org Teams" className="bg-[#0a0a0a]">KH1EV.org Teams</option>
                       </select>
                     </div>
                   </div>
@@ -993,28 +999,33 @@ export default function AdminDashboard() {
 
                   <div className="flex flex-col gap-2">
                     <label className="text-sm font-semibold text-neutral-400">Roles / Tags</label>
-                    <div className="flex flex-wrap gap-3 p-4 bg-white/5 border border-white/10 rounded-xl">
-                      {TEAM_TAGS.map(tag => {
-                        const currentTags = editingTeamMember.tags ? editingTeamMember.tags.split(',').map(t => t.trim()).filter(Boolean) : [];
-                        const isChecked = currentTags.includes(tag);
-                        return (
-                          <label key={tag} className="flex items-center gap-2 cursor-pointer bg-white/[0.02] hover:bg-white/[0.05] border border-white/5 px-3 py-1.5 rounded-lg transition-colors">
-                            <input 
-                              type="checkbox" 
-                              className="accent-accent"
-                              checked={isChecked}
-                              onChange={(e) => {
-                                if (e.target.checked) {
-                                  setEditingTeamMember({...editingTeamMember, tags: [...currentTags, tag].join(',')});
-                                } else {
-                                  setEditingTeamMember({...editingTeamMember, tags: currentTags.filter(t => t !== tag).join(',')});
-                                }
-                              }}
-                            />
-                            <span className="text-sm text-neutral-300 font-medium">{tag}</span>
-                          </label>
-                        );
-                      })}
+                    <div className="flex flex-col gap-2 p-4 bg-white/5 border border-white/10 rounded-xl h-[280px] overflow-y-auto overflow-x-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/10 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/20">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6">
+                        {TEAM_TAGS.map(tag => {
+                          const currentTags = editingTeamMember.tags ? editingTeamMember.tags.split(',').map(t => t.trim()).filter(Boolean) : [];
+                          const isChecked = currentTags.includes(tag);
+                          return (
+                            <label key={tag} className="flex items-center gap-3 cursor-pointer group">
+                              <input 
+                                type="checkbox" 
+                                className="hidden"
+                                checked={isChecked}
+                                onChange={(e) => {
+                                  if (e.target.checked) {
+                                    setEditingTeamMember({...editingTeamMember, tags: [...currentTags, tag].join(',')});
+                                  } else {
+                                    setEditingTeamMember({...editingTeamMember, tags: currentTags.filter(t => t !== tag).join(',')});
+                                  }
+                                }}
+                              />
+                              <div className={`w-4 h-4 rounded-full border flex-shrink-0 transition-all duration-300 flex items-center justify-center ${isChecked ? 'bg-cyan-500 border-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]' : 'border-neutral-500 bg-neutral-600/30 group-hover:border-neutral-400'}`}>
+                                {isChecked && <div className="w-2 h-2 rounded-full bg-white"></div>}
+                              </div>
+                              <span className={`text-sm font-semibold transition-colors duration-300 ${isChecked ? 'text-cyan-400' : 'text-neutral-300 group-hover:text-white'}`}>{tag}</span>
+                            </label>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
 
