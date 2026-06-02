@@ -169,7 +169,7 @@ export default function Home() {
           
           <div className="flex items-center gap-4">
             <div className="accent-line h-[2px] w-[30px] md:w-[50px] bg-accent origin-right"></div>
-            <span className="brand-name text-xl md:text-2xl font-extrabold tracking-widest text-foreground">KH1EV.</span>
+            <span className="brand-name text-xl md:text-2xl font-extrabold tracking-widest text-foreground">KH1EV</span>
             <div className="accent-line h-[2px] w-[30px] md:w-[50px] bg-accent origin-left"></div>
           </div>
 

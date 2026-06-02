@@ -28,11 +28,11 @@ export default function Footer() {
         </div>
       </div>
       <div className="w-full relative flex justify-center items-center pointer-events-none select-none mt-8 md:mt-0">
-        <h1 className="text-[25vw] md:text-[20vw] leading-[0.75] font-extrabold text-white/[0.02] tracking-tighter m-0 w-full text-center">
-          KH1EV.
+        <h1 className="text-[25vw] md:text-[20vw] leading-[0.75] font-extrabold text-white tracking-tighter m-0 w-full text-center">
+          KH1EV
         </h1>
       </div>
-      <div className="absolute bottom-6 md:bottom-8 left-0 w-full text-center text-xs md:text-sm text-neutral-500 font-medium z-10 px-4">
+      <div className="w-full text-center text-xs md:text-sm text-neutral-500 font-medium z-10 px-4 mt-8 md:mt-12">
         &copy; 2023 Kh1ev Organization.
       </div>
     </footer>
