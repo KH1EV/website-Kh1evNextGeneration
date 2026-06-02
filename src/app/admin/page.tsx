@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Navbar from "@/components/Navbar";
-import { FaDiscord, FaSignOutAlt, FaUsers, FaPlus, FaTrash, FaEdit } from "react-icons/fa";
+import { FaDiscord, FaSignOutAlt, FaUsers, FaPlus, FaTrash, FaEdit, FaArrowLeft } from "react-icons/fa";
 
 import { User } from "@supabase/supabase-js";
 
@@ -19,12 +19,13 @@ interface TeamMember {
   linkedin_url: string;
   tiktok_url: string;
   tags?: string;
+  organization?: string;
 }
 
 const TEAM_TAGS = [
-  'KH1EV.org Teams', 'Executive', 'HRD', 'Developer', 
-  'Host', 'Event Organizer', 'Brand Ambassador', 
-  'Partner Manager', 'Creative',
+  'Executive', 'HRD', 'Developer', 'Creative', 
+  'Moderator', 'Host', 'Event Organizer',  
+  'Partner Manager', 'Brand Ambassador',
   'Project Manager', 'Full Stack Developer', 'Frontend Developer',
   'Backend Developer', 'IOT Engineer', 'Mobile Developer',
   'Game Developer', 'DevOps Engineer', 'Cloud Engineer',
@@ -39,8 +40,7 @@ const ROLE_HIERARCHY: Record<string, number> = {
   'Manager': 3,
   'Head Staff': 4,
   'Staff': 5,
-  'Trainee': 6,
-  'KH1EV.org Teams': 7
+  'Trainee': 6
 };
 
 interface Blog {
@@ -323,6 +323,7 @@ export default function AdminDashboard() {
     
     const teamData = {
       name: editingTeamMember.name,
+      organization: editingTeamMember.organization || 'Kh1ev Community',
       role: editingTeamMember.role,
       system_role: editingTeamMember.system_role || 'Staff',
       image_url: editingTeamMember.image_url,
@@ -703,50 +704,64 @@ export default function AdminDashboard() {
                   </button>
                 </div>
 
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
-                    <thead>
-                      <tr className="border-b border-white/10 text-neutral-400 text-sm">
-                        <th className="pb-4 font-semibold">Name</th>
-                        <th className="pb-4 font-semibold">Display Role</th>
-                        <th className="pb-4 font-semibold">System Rank</th>
-                        <th className="pb-4 font-semibold text-right">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {teamMembers.map((member) => (
-                        <tr key={member.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                          <td className="py-4">
-                            <div className="flex items-center gap-3">
-                              <img src={member.image_url || `https://ui-avatars.com/api/?name=${member.name}`} alt={member.name} className="w-10 h-10 rounded-full object-cover bg-neutral-800" />
-                              <span className="font-semibold text-white">{member.name}</span>
-                            </div>
-                          </td>
-                          <td className="py-4 text-neutral-300">{member.role}</td>
-                          <td className="py-4 text-neutral-400">
-                            <span className="px-2 py-1 bg-white/5 rounded-full text-xs font-bold text-neutral-300">
-                              {member.system_role || 'Staff'}
-                            </span>
-                          </td>
-                          <td className="py-4">
-                            <div className="flex items-center justify-end gap-3">
-                              <button onClick={() => handleEditTeamMember(member.id)} className="p-2 text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors" title="Edit">
-                                <FaEdit />
-                              </button>
-                              <button onClick={() => handleDeleteTeamMember(member.id, member.name)} className="p-2 text-red-500 hover:text-white bg-red-500/10 hover:bg-red-500 rounded-lg transition-colors" title="Delete">
-                                <FaTrash />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                      {teamMembers.length === 0 && (
-                        <tr>
-                          <td colSpan={4} className="py-8 text-center text-neutral-500">No team members found.</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
+                <div className="flex flex-col gap-12">
+                  {['Kh1ev Organization', 'Kh1ev Community', 'Kh1ev Studio'].map(orgName => {
+                    const orgMembers = teamMembers.filter(m => (m.organization || 'Kh1ev Community') === orgName);
+                    return (
+                      <div key={orgName} className="flex flex-col gap-4">
+                        <h3 className="text-xl font-bold text-white border-b border-white/10 pb-2">{orgName}</h3>
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-left border-collapse">
+                            <thead>
+                              <tr className="border-b border-white/10 text-neutral-400 text-sm">
+                                <th className="pb-4 font-semibold">Name</th>
+                                <th className="pb-4 font-semibold">Display Role</th>
+                                <th className="pb-4 font-semibold">{orgName === 'Kh1ev Community' ? 'System Rank' : 'Tags'}</th>
+                                <th className="pb-4 font-semibold text-right">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {orgMembers.map((member) => (
+                                <tr key={member.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                                  <td className="py-4">
+                                    <div className="flex items-center gap-3">
+                                      <img src={member.image_url || `https://ui-avatars.com/api/?name=${member.name}`} alt={member.name} className="w-10 h-10 rounded-full object-cover bg-neutral-800" />
+                                      <span className="font-semibold text-white">{member.name}</span>
+                                    </div>
+                                  </td>
+                                  <td className="py-4 text-neutral-300">{member.role}</td>
+                                  <td className="py-4 text-neutral-400">
+                                    {orgName === 'Kh1ev Community' ? (
+                                      <span className="px-2 py-1 bg-white/5 rounded-full text-xs font-bold text-neutral-300">
+                                        {member.system_role || 'Staff'}
+                                      </span>
+                                    ) : (
+                                      <span className="text-xs text-neutral-400 line-clamp-1 max-w-[200px]" title={member.tags}>{member.tags || '-'}</span>
+                                    )}
+                                  </td>
+                                  <td className="py-4">
+                                    <div className="flex items-center justify-end gap-3">
+                                      <button onClick={() => handleEditTeamMember(member.id)} className="p-2 text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors" title="Edit">
+                                        <FaEdit />
+                                      </button>
+                                      <button onClick={() => handleDeleteTeamMember(member.id, member.name)} className="p-2 text-red-500 hover:text-white bg-red-500/10 hover:bg-red-500 rounded-lg transition-colors" title="Delete">
+                                        <FaTrash />
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                              {orgMembers.length === 0 && (
+                                <tr>
+                                  <td colSpan={4} className="py-8 text-center text-neutral-500">No members in {orgName}.</td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </>
             )}
@@ -842,7 +857,7 @@ export default function AdminDashboard() {
               <>
                 <div className="flex items-center justify-between mb-8">
                   <div>
-                    <button onClick={() => setActiveTab('settings')} className="text-neutral-400 hover:text-white transition-colors text-sm mb-2 font-semibold">← Back to Settings</button>
+                    <button onClick={() => setActiveTab('settings')} className="text-neutral-400 hover:text-white transition-colors text-sm mb-2 font-semibold flex items-center gap-2"><FaArrowLeft className="w-3.5 h-3.5" /> Back to Settings</button>
                     <h2 className="text-2xl font-bold text-white">Discord Whitelist</h2>
                   </div>
                   <button className="px-4 py-2 bg-accent text-white font-bold rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 text-sm" onClick={() => { setEditingAdminUser({ username: '', discord_id: '', role: 'Admin' }); setActiveTab('whitelist-editor'); }}>
@@ -901,7 +916,7 @@ export default function AdminDashboard() {
               <>
                 <div className="flex items-center justify-between mb-8">
                   <div>
-                    <button onClick={() => setActiveTab('settings')} className="text-neutral-400 hover:text-white transition-colors text-sm mb-2 font-semibold">← Back to Settings</button>
+                    <button onClick={() => setActiveTab('settings')} className="text-neutral-400 hover:text-white transition-colors text-sm mb-2 font-semibold flex items-center gap-2"><FaArrowLeft className="w-3.5 h-3.5" /> Back to Settings</button>
                     <h2 className="text-2xl font-bold text-white">Application Keys</h2>
                   </div>
                   <button className="px-4 py-2 bg-accent text-white font-bold rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 text-sm" onClick={() => showNotify('Feature to generate new API Key coming soon!', 'error')}>
@@ -953,7 +968,7 @@ export default function AdminDashboard() {
             {activeTab === 'blog-editor' && (
               <div className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl">
                 <div className="flex items-center justify-between mb-8">
-                  <button onClick={() => setActiveTab('blogs')} className="text-neutral-400 hover:text-white transition-colors text-sm font-semibold">← Back to Blogs</button>
+                  <button onClick={() => setActiveTab('blogs')} className="text-neutral-400 hover:text-white transition-colors text-sm font-semibold flex items-center gap-2"><FaArrowLeft className="w-3.5 h-3.5" /> Back to Blogs</button>
                   <h2 className="text-2xl font-bold text-white">{editingBlog.id ? 'Edit Blog Post' : 'Create New Post'}</h2>
                 </div>
 
@@ -1046,7 +1061,7 @@ export default function AdminDashboard() {
             {activeTab === 'whitelist-editor' && (
               <div className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl">
                 <div className="flex items-center justify-between mb-8">
-                  <button onClick={() => setActiveTab('whitelist')} className="text-neutral-400 hover:text-white transition-colors text-sm font-semibold">← Back to Whitelist</button>
+                  <button onClick={() => setActiveTab('whitelist')} className="text-neutral-400 hover:text-white transition-colors text-sm font-semibold flex items-center gap-2"><FaArrowLeft className="w-3.5 h-3.5" /> Back to Whitelist</button>
                   <h2 className="text-2xl font-bold text-white">{editingAdminUser.id ? 'Edit Whitelist User' : 'Add Whitelist User'}</h2>
                 </div>
 
@@ -1108,7 +1123,7 @@ export default function AdminDashboard() {
             {activeTab === 'team-editor' && (
               <div className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl">
                 <div className="flex items-center justify-between mb-8">
-                  <button onClick={() => setActiveTab('team')} className="text-neutral-400 hover:text-white transition-colors text-sm font-semibold">← Back to Team</button>
+                  <button onClick={() => setActiveTab('team')} className="text-neutral-400 hover:text-white transition-colors text-sm font-semibold flex items-center gap-2"><FaArrowLeft className="w-3.5 h-3.5" /> Back to Team</button>
                   <h2 className="text-2xl font-bold text-white">{editingTeamMember.id ? 'Edit Team Member' : 'Add New Member'}</h2>
                 </div>
 
@@ -1126,24 +1141,37 @@ export default function AdminDashboard() {
                       />
                     </div>
                     
-                    <div className="flex flex-col gap-2">
-                      <label className="text-sm font-semibold text-neutral-400">System Role (Hierarchy)</label>
-                      <select
-                        className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-accent transition-colors"
-                        value={editingTeamMember.system_role || 'Staff'}
-                        onChange={(e) => setEditingTeamMember({...editingTeamMember, system_role: e.target.value})}>
-                        <option value="Founder" className="bg-[#0a0a0a]">Founder</option>
-                        <option value="Chief" className="bg-[#0a0a0a]">Chief</option>
-                        <option value="Manager" className="bg-[#0a0a0a]">Manager</option>
-                        <option value="Head Staff" className="bg-[#0a0a0a]">Head Staff</option>
-                        <option value="Staff" className="bg-[#0a0a0a]">Staff</option>
-                        <option value="Trainee" className="bg-[#0a0a0a]">Trainee</option>
-                        <option value="KH1EV.org Teams" className="bg-[#0a0a0a]">KH1EV.org Teams</option>
-                      </select>
-                    </div>
+                    {(!editingTeamMember.organization || editingTeamMember.organization === 'Kh1ev Community') && (
+                      <div className="flex flex-col gap-2">
+                        <label className="text-sm font-semibold text-neutral-400">System Role (Hierarchy)</label>
+                        <select
+                          className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-accent transition-colors"
+                          value={editingTeamMember.system_role || 'Staff'}
+                          onChange={(e) => setEditingTeamMember({...editingTeamMember, system_role: e.target.value})}>
+                          <option value="Founder" className="bg-[#0a0a0a]">Founder</option>
+                          <option value="Chief" className="bg-[#0a0a0a]">Chief</option>
+                          <option value="Manager" className="bg-[#0a0a0a]">Manager</option>
+                          <option value="Head Staff" className="bg-[#0a0a0a]">Head Staff</option>
+                          <option value="Staff" className="bg-[#0a0a0a]">Staff</option>
+                          <option value="Trainee" className="bg-[#0a0a0a]">Trainee</option>
+                        </select>
+                      </div>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-semibold text-neutral-400">Organization</label>
+                      <select
+                        className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-accent transition-colors"
+                        value={editingTeamMember.organization || 'Kh1ev Community'}
+                        onChange={(e) => setEditingTeamMember({...editingTeamMember, organization: e.target.value})}>
+                        <option value="Kh1ev Organization" className="bg-[#0a0a0a]">Kh1ev Organization</option>
+                        <option value="Kh1ev Community" className="bg-[#0a0a0a]">Kh1ev Community</option>
+                        <option value="Kh1ev Studio" className="bg-[#0a0a0a]">Kh1ev Studio</option>
+                      </select>
+                    </div>
+
                     <div className="flex flex-col gap-2">
                       <label className="text-sm font-semibold text-neutral-400">Display Role</label>
                       <input 
