@@ -33,11 +33,11 @@ export default function DonatePage() {
 
       <div className="flex-1 pt-32 px-4 md:px-8 w-full max-w-7xl mx-auto relative z-10 flex flex-col mb-32">
         <div className="text-center mb-16 mt-8">
-          <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-6 hero-text leading-tight opacity-0">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-6 hero-text opacity-0">
             Help Keep The <br />
-            <span className="bg-accent text-white px-3 md:px-6 inline-block mt-2">Community Alive.</span>
+            <span className="bg-accent text-white px-3 md:px-6 inline-block mt-2 italic">Community Alive.</span>
           </h1>
-          <p className="text-neutral-400 text-lg max-w-2xl mx-auto hero-text opacity-0">
+          <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed hero-text opacity-0">
             Server hosting, bot maintenance, and community events require resources. 
             Choose a tier below to support our infrastructure and get exclusive perks in return!
           </p>

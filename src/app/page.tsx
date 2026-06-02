@@ -32,7 +32,7 @@ const dummyDiscordUsers: DiscordMember[] = Array.from({ length: 40 }).map((_, i)
   id: String(i),
   username: `User${i}`,
   avatar_url: `https://i.pravatar.cc/150?u=${i + 100}`,
-  status: ['online', 'idle', 'dnd'][Math.floor(Math.random() * 3)] as 'online' | 'idle' | 'dnd'
+  status: ['online', 'idle', 'dnd'][i % 3] as 'online' | 'idle' | 'dnd'
 }));
 
 export default function Home() {
@@ -41,7 +41,7 @@ export default function Home() {
   const discordMarqueeRef = useRef<HTMLDivElement>(null);
 
   const [discordData, setDiscordData] = useState<DiscordWidget | null>(null);
-  const [totalMembers, setTotalMembers] = useState(1650);
+  const [totalMembers, setTotalMembers] = useState(1550);
 
   useEffect(() => {
     const fetchDiscord = async () => {
@@ -156,7 +156,7 @@ export default function Home() {
       <div className="preloader fixed inset-0 z-[9999] bg-background flex flex-col items-center justify-center">
         <div className="flex flex-col items-center gap-4 overflow-hidden py-10">
           <div className="preloader-text text-2xl md:text-4xl font-extrabold tracking-[0.2em] text-white">
-            KH1EV.
+            KH1EV
           </div>
           <div className="preloader-line h-[2px] w-0 bg-accent"></div>
         </div>
@@ -182,7 +182,7 @@ export default function Home() {
               </div>
               <div className="overflow-hidden pb-1 -mb-1">
                 <h1 className="headline-line text-4xl sm:text-5xl md:text-[7vw] lg:text-[6rem] font-extrabold leading-[1.1] md:leading-[1] tracking-tight text-foreground m-0">
-                  <span className="bg-accent text-white px-3 md:px-6 inline-block">& Community Hub.</span>
+                  <span className="bg-accent text-white px-3 md:px-6 inline-block italic">& Community Hub.</span>
                 </h1>
               </div>
             </div>
@@ -226,17 +226,17 @@ export default function Home() {
             <div className="flex items-center gap-2 md:gap-3">
               <span className="text-red-500 font-bold tracking-widest text-sm">LIVE</span>
               <div className="w-2 h-2 rounded-full bg-[#23a559] animate-pulse"></div>
-              <span className="text-white font-bold text-base md:text-lg">{totalMembers.toLocaleString()} <span className="text-neutral-500 font-normal">anggota</span></span>
+              <span className="text-white font-bold text-base md:text-lg">{totalMembers.toLocaleString('id-ID')} <span className="text-neutral-500 font-normal">anggota</span></span>
             </div>
             
             <div className="flex items-center gap-2 md:gap-3">
               <div className="px-2.5 md:px-3 py-1 rounded-full border border-[#23a559]/30 bg-[#23a559]/10 flex items-center gap-2">
                 <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#23a559]"></div>
-                <span className="text-[#23a559] text-[10px] md:text-xs font-semibold">{onlineCount.toLocaleString()} Online</span>
+                <span className="text-[#23a559] text-[10px] md:text-xs font-semibold">{onlineCount.toLocaleString('id-ID')} Online</span>
               </div>
               <div className="px-2.5 md:px-3 py-1 rounded-full border border-neutral-500/30 bg-neutral-500/10 flex items-center gap-2">
                 <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-neutral-500"></div>
-                <span className="text-neutral-400 text-[10px] md:text-xs font-semibold">{offlineCount.toLocaleString()} Offline</span>
+                <span className="text-neutral-400 text-[10px] md:text-xs font-semibold">{offlineCount.toLocaleString('id-ID')} Offline</span>
               </div>
             </div>
           </div>

@@ -181,10 +181,10 @@ export default function Team() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-accent/5 rounded-full blur-[120px] pointer-events-none"></div>
         
         <div className="max-w-[1440px] mx-auto relative z-10 flex flex-col items-center text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 hero-text opacity-0">
-            Meet Our <span className="bg-accent text-white px-3 md:px-6 inline-block mt-2 md:mt-0">Team</span>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-6 hero-text opacity-0">
+            Meet Our <span className="bg-accent text-white px-3 md:px-6 inline-block mt-2 md:mt-0 italic">Team</span>
           </h1>
-          <p className="text-base md:text-lg text-neutral-400 max-w-2xl hero-text opacity-0">
+          <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto hero-text leading-relaxed opacity-0">
             A collective of passionate developers, designers, and tech enthusiasts working together to build amazing digital experiences.
           </p>
         </div>

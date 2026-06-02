@@ -50,10 +50,10 @@ export default function JoinUsPage() {
       <div className="flex-1 pt-40 pb-32 px-4 md:px-8 w-full max-w-7xl mx-auto relative z-10 flex flex-col">
         
         <div className="text-center mb-24 md:mb-32 max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight text-white hero-text opacity-0 translate-y-10">
-            Join the <span className="bg-accent text-white px-4 md:px-6 py-1 md:py-2 inline-block mt-2 md:mt-4">Kh1ev Ecosystem.</span>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight text-white mb-8 hero-text opacity-0 translate-y-10">
+            Join the <span className="bg-accent text-white px-4 md:px-6 py-1 md:py-2 inline-block mt-2 md:mt-4 italic">Kh1ev Ecosystem.</span>
           </h1>
-          <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed mt-8 hero-text opacity-0 translate-y-10">
+          <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed hero-text opacity-0 translate-y-10">
             We are a collective of driven individuals. We frequently open our doors for passionate people to join our organization, community divisions, or studio.
           </p>
         </div>

@@ -30,6 +30,12 @@ const navSections = [
       { href: "/studio/projects", text: "Our Projects" },
     ],
   },
+  {
+    label: "RECRUITMENT",
+    links: [
+      { href: "/join", text: "Join Us" },
+    ],
+  },
 ];
 
 export default function Navbar() {

@@ -88,9 +88,9 @@ export default function AboutCommunity() {
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight mb-8 hero-text leading-[1.1] opacity-0">
             Welcome to <br />
-            <span className="bg-accent text-white px-4 md:px-6 py-1 md:py-2 inline-block mt-2 md:mt-4">Kh1ev Community.</span>
+            <span className="bg-accent text-white px-4 md:px-6 py-1 md:py-2 inline-block mt-2 md:mt-4 italic">Kh1ev Community.</span>
           </h1>
-          <p className="text-neutral-400 text-base md:text-xl max-w-2xl mx-auto hero-text leading-relaxed opacity-0">
+          <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto hero-text leading-relaxed opacity-0">
             While Kh1ev Organization focuses on building top-tier IT projects, 
             <strong className="text-white"> Kh1ev Community</strong> is our living room. 
             A vibrant, casual hub where developers, gamers, and friends hang out without the stress of deadlines.

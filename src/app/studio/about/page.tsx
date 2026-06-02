@@ -168,10 +168,10 @@ export default function StudioAbout() {
         <div className="text-center mb-24 md:mb-32">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight mb-8 hero-text leading-[1.1] opacity-0">
             Welcome to <br />
-            <span className="bg-accent text-white px-4 md:px-6 py-1 md:py-2 inline-block mt-2 md:mt-4">Kh1ev Studio.</span>
+            <span className="bg-accent text-white px-4 md:px-6 py-1 md:py-2 inline-block mt-2 md:mt-4 italic">Kh1ev Studio.</span>
           </h1>
           
-          <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed mt-8 hero-text opacity-0">
+          <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed hero-text opacity-0">
             The digital development wing of Kh1ev Organization. We engineer robust web applications, immersive digital experiences, and innovative IT solutions.
           </p>
         </div>
@@ -279,7 +279,7 @@ export default function StudioAbout() {
           <div className="absolute z-20 w-40 h-40 md:w-56 md:h-56 rounded-full bg-[#111] border border-white/10 flex flex-col items-center justify-center text-center p-4 md:p-6">
             <h2 className="text-lg md:text-2xl font-black text-white leading-tight">
               Powered by<br/>
-              <span className="bg-accent text-white px-2 py-1 md:px-3 md:py-1 inline-block mt-2">Modern Tech</span>
+              <span className="bg-accent text-white px-2 py-1 md:px-3 md:py-1 inline-block mt-2 italic">Modern Tech</span>
             </h2>
           </div>
 
