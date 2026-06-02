@@ -23,21 +23,23 @@ interface TeamMember {
 }
 
 const ROLE_HIERARCHY: Record<string, number> = {
-  'Chief': 1,
-  'Manager': 2,
-  'Head Staff': 3,
-  'Staff': 4,
-  'Trainee Barista': 5,
-  'KH1EV.org member': 6
+  'Founder':1,
+  'Chief': 2,
+  'Manager': 3,
+  'Head Staff': 4,
+  'Staff': 5,
+  'Trainee Barista': 6,
+  'KH1EV.org member': 7
 };
 
 const ROLE_COLORS: Record<string, string> = {
+  'Founder': 'bg-pink-500',
   'Chief': 'bg-red-500',
   'Manager': 'bg-purple-500',
   'Head Staff': 'bg-yellow-500',
   'Staff': 'bg-orange-500',
   'Trainee Barista': 'bg-teal-400',
-  'KH1EV.org member': 'bg-pink-500'
+  'KH1EV.org member': 'bg-cyan-500'
 };
 
 const TAG_STYLES: Record<string, string> = {
