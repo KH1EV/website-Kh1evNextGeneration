@@ -71,7 +71,8 @@ const withTimeout = (promise: any, ms: number = 15000): Promise<any> => {
   const timeoutPromise = new Promise<never>((_, reject) => {
     timeoutId = setTimeout(() => reject(new Error("Request timeout: Please check your connection.")), ms);
   });
-  return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timeoutId));
+  const executePromise = async () => await promise;
+  return Promise.race([executePromise(), timeoutPromise]).finally(() => clearTimeout(timeoutId));
 };
 
 export default function AdminDashboard() {
@@ -149,9 +150,13 @@ export default function AdminDashboard() {
               setCurrentUserRole(data.role || 'Admin');
               Promise.all([fetchTeamMembers(), fetchBlogs(), fetchAdminUsers(), fetchApiKeys()]);
               return;
-            } else {
+            } else if (error && error.code === 'PGRST116') {
               setIsAuthorized(false);
+            } else if (error) {
+              console.error("Supabase checkUser error:", error);
             }
+          } else {
+             console.log("No discordId found in session.user");
           }
         }
       } catch (err) {
