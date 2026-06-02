@@ -74,6 +74,8 @@ export default function AdminDashboard() {
   const [isSaving, setIsSaving] = useState(false);
   const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string; type: 'blog' | 'team' | 'admin' | 'apikey'; label: string } | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showSignOutModal, setShowSignOutModal] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   const showNotify = (message: string, type: 'success' | 'error') => {
     setNotify({ message, type });
@@ -186,8 +188,19 @@ export default function AdminDashboard() {
     });
   };
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
+  const handleSignOutConfirm = async () => {
+    setIsSigningOut(true);
+    try {
+      await supabase.auth.signOut({ scope: 'local' });
+      if (typeof window !== 'undefined') {
+        localStorage.clear();
+        sessionStorage.clear();
+      }
+      window.location.replace('/');
+    } catch {
+      setIsSigningOut(false);
+      setShowSignOutModal(false);
+    }
   };
 
   const handleDeleteTeamMember = (id: string, name: string) => {
@@ -471,6 +484,52 @@ export default function AdminDashboard() {
           </div>
         </div>
       )}
+
+      {/* Sign Out Confirmation Modal */}
+      {showSignOutModal && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
+          <div
+            onClick={() => !isSigningOut && setShowSignOutModal(false)}
+            style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)' }}
+          />
+          <div style={{ position: 'relative', background: '#111', border: '1px solid rgba(239,68,68,0.15)', borderRadius: '20px', padding: '36px 32px', maxWidth: '400px', width: '100%', boxShadow: '0 25px 60px rgba(0,0,0,0.8)' }}>
+            <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+              <FaSignOutAlt style={{ width: '22px', height: '22px', color: '#ef4444' }} />
+            </div>
+            <h3 style={{ color: 'white', fontWeight: 700, fontSize: '1.2rem', textAlign: 'center', marginBottom: '10px' }}>Sign Out?</h3>
+            <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.875rem', textAlign: 'center', marginBottom: '28px', lineHeight: 1.6 }}>
+              Kamu akan keluar dari Dashboard Admin KH1EV. Pastikan semua perubahan sudah tersimpan.
+            </p>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button
+                onClick={() => setShowSignOutModal(false)}
+                disabled={isSigningOut}
+                style={{ flex: 1, padding: '12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: 'white', fontWeight: 600, fontSize: '0.9rem', cursor: isSigningOut ? 'not-allowed' : 'pointer', opacity: isSigningOut ? 0.5 : 1, transition: 'background 0.2s' }}
+              >
+                Batal
+              </button>
+              <button
+                onClick={handleSignOutConfirm}
+                disabled={isSigningOut}
+                style={{ flex: 1, padding: '12px', background: isSigningOut ? 'rgba(239,68,68,0.4)' : '#ef4444', border: 'none', borderRadius: '12px', color: 'white', fontWeight: 700, fontSize: '0.9rem', cursor: isSigningOut ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'background 0.2s' }}
+              >
+                {isSigningOut ? (
+                  <>
+                    <div style={{ width: '15px', height: '15px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+                    Signing out...
+                  </>
+                ) : (
+                  <>
+                    <FaSignOutAlt style={{ width: '14px', height: '14px' }} />
+                    Ya, Sign Out
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="pt-12 px-8 w-full relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12 bg-white/[0.02] border border-white/5 p-6 rounded-3xl">
           <div className="flex items-center gap-4">
@@ -481,7 +540,7 @@ export default function AdminDashboard() {
             </div>
           </div>
           <button 
-            onClick={handleLogout}
+            onClick={() => setShowSignOutModal(true)}
             className="px-6 py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 rounded-full font-semibold transition-colors flex items-center gap-2">
             <FaSignOutAlt />
             Sign Out
