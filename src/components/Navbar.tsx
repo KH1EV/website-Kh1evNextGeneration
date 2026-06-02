@@ -179,7 +179,7 @@ export default function Navbar() {
               <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 py-2 bg-[#0a0a0a] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                 <Link href="/community/about" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">About Community</Link>
                 <Link href="/rules" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Community Rules</Link>
-                <Link href="/blog" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Blog</Link>
+                <Link href="/blog" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Community Blog</Link>
                 <Link href="/donate" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Donate</Link>
               </div>
             </div>
