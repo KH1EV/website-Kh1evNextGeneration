@@ -24,7 +24,7 @@ interface TeamMember {
 
 const ROLE_HIERARCHY: Record<string, number> = {
   'Founder': 1,
-  'Chief': 2,
+  'Chief Executive': 2,
   'Manager': 3,
   'Head Staff': 4,
   'Staff': 5,
@@ -34,7 +34,7 @@ const ROLE_HIERARCHY: Record<string, number> = {
 
 const ROLE_COLORS: Record<string, string> = {
   'Founder': 'bg-pink-500',
-  'Chief': 'bg-red-500',
+  'Chief Executive': 'bg-red-500',
   'Manager': 'bg-purple-500',
   'Head Staff': 'bg-yellow-500',
   'Staff': 'bg-orange-500',

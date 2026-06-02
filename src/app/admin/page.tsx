@@ -66,7 +66,7 @@ interface ApiKey {
   created_at: string;
 }
 
-const withTimeout = (promise: any, ms: number = 15000): Promise<any> => {
+const withTimeout = (promise: any, ms: number = 30000): Promise<any> => {
   let timeoutId: NodeJS.Timeout;
   const timeoutPromise = new Promise<never>((_, reject) => {
     timeoutId = setTimeout(() => reject(new Error("Request timeout: Please check your connection.")), ms);
