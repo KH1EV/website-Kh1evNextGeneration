@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Navbar from "@/components/Navbar";
-import { FaDiscord, FaSignOutAlt, FaUsers, FaPlus, FaTrash, FaEdit, FaArrowLeft } from "react-icons/fa";
+import { FaDiscord, FaSignOutAlt, FaUsers, FaPlus, FaTrash, FaEdit, FaArrowLeft, FaHome, FaBriefcase, FaArrowUp, FaArrowDown } from "react-icons/fa";
+import Link from "next/link";
 
 import { User } from "@supabase/supabase-js";
 
@@ -20,6 +21,7 @@ interface TeamMember {
   tiktok_url: string;
   tags?: string;
   organization?: string;
+  sort_order?: number;
 }
 
 const TEAM_TAGS = [
@@ -49,6 +51,7 @@ interface Blog {
   slug: string;
   published: boolean;
   created_at: string;
+  sort_order?: number;
 }
 
 interface AdminUser {
@@ -57,6 +60,7 @@ interface AdminUser {
   username: string;
   created_at: string;
   role?: string;
+  sort_order?: number;
 }
 
 interface ApiKey {
@@ -64,6 +68,19 @@ interface ApiKey {
   name: string;
   key_value: string;
   created_at: string;
+  sort_order?: number;
+}
+
+interface StudioProject {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  image: string | null;
+  tags: string[];
+  link: string;
+  is_active: boolean;
+  sort_order?: number;
 }
 
 const withTimeout = (promise: any, ms: number = 10000): Promise<any> => {
@@ -84,14 +101,16 @@ export default function AdminDashboard() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [adminUsers, setAdminUsers] = useState<AdminUser[]>([]);
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([]);
-  const [activeTab, setActiveTab] = useState<'team' | 'blogs' | 'settings' | 'whitelist' | 'keys' | 'blog-editor' | 'team-editor' | 'whitelist-editor'>('team');
+  const [projects, setProjects] = useState<StudioProject[]>([]);
+  const [activeTab, setActiveTab] = useState<'team' | 'blogs' | 'projects' | 'settings' | 'whitelist' | 'keys' | 'blog-editor' | 'project-editor' | 'team-editor' | 'whitelist-editor'>('team');
   const [currentUserRole, setCurrentUserRole] = useState<string>('Admin');
   const [editingAdminUser, setEditingAdminUser] = useState<Partial<AdminUser>>({});
   const [editingBlog, setEditingBlog] = useState<Partial<Blog> & { excerpt?: string; content?: string; image_url?: string }>({});
+  const [editingProject, setEditingProject] = useState<Partial<StudioProject>>({});
   const [editingTeamMember, setEditingTeamMember] = useState<Partial<TeamMember>>({});
   const [notify, setNotify] = useState<{ message: string, type: 'success' | 'error' } | null>(null);
   const [isSaving, setIsSaving] = useState(false);
-  const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string; type: 'blog' | 'team' | 'admin' | 'apikey'; label: string } | null>(null);
+  const [deleteModal, setDeleteModal] = useState<{ open: boolean; id: string; type: 'blog' | 'project' | 'team' | 'admin' | 'apikey'; label: string } | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showSignOutModal, setShowSignOutModal] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
@@ -106,6 +125,7 @@ export default function AdminDashboard() {
       const { data } = await withTimeout(supabase.from('team_members').select('*'), 10000);
       if (data) {
         const sortedData = [...data].sort((a, b) => {
+          if (a.sort_order !== b.sort_order) return (a.sort_order || 0) - (b.sort_order || 0);
           const rankA = ROLE_HIERARCHY[a.system_role] || 99;
           const rankB = ROLE_HIERARCHY[b.system_role] || 99;
           return rankA - rankB;
@@ -119,7 +139,7 @@ export default function AdminDashboard() {
 
   const fetchBlogs = async () => {
     try {
-      const { data } = await withTimeout(supabase.from('blogs').select('id, title, slug, published, created_at').order('created_at', { ascending: false }), 10000);
+      const { data } = await withTimeout(supabase.from('blogs').select('id, title, slug, published, created_at, sort_order').order('sort_order', { ascending: true }), 10000);
       if (data) setBlogs(data);
     } catch (err) {
       console.error(err);
@@ -128,7 +148,7 @@ export default function AdminDashboard() {
 
   const fetchAdminUsers = async () => {
     try {
-      const { data } = await withTimeout(supabase.from('admin_users').select('*').order('created_at', { ascending: false }), 10000);
+      const { data } = await withTimeout(supabase.from('admin_users').select('*').order('sort_order', { ascending: true }), 10000);
       if (data) setAdminUsers(data);
     } catch (err) {
       console.error(err);
@@ -137,8 +157,17 @@ export default function AdminDashboard() {
 
   const fetchApiKeys = async () => {
     try {
-      const { data } = await withTimeout(supabase.from('api_keys').select('*').order('created_at', { ascending: false }), 10000);
+      const { data } = await withTimeout(supabase.from('api_keys').select('*').order('sort_order', { ascending: true }), 10000);
       if (data) setApiKeys(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchProjects = async () => {
+    try {
+      const { data } = await withTimeout(supabase.from('studio_projects').select('*').order('sort_order', { ascending: true }), 10000);
+      if (data) setProjects(data);
     } catch (err) {
       console.error(err);
     }
@@ -169,7 +198,7 @@ export default function AdminDashboard() {
                 success = true;
                 setIsAuthorized(true);
                 setCurrentUserRole(data.role || 'Admin');
-                Promise.all([fetchTeamMembers(), fetchBlogs(), fetchAdminUsers(), fetchApiKeys()]);
+                Promise.all([fetchTeamMembers(), fetchBlogs(), fetchAdminUsers(), fetchApiKeys(), fetchProjects()]);
                 return;
               } else if (error && error.code === 'PGRST116') {
                 // Definitely unauthorized
@@ -216,7 +245,7 @@ export default function AdminDashboard() {
           if (data && !error) {
             setIsAuthorized(true);
             setCurrentUserRole(data.role || 'Admin');
-            Promise.all([fetchTeamMembers(), fetchBlogs(), fetchAdminUsers(), fetchApiKeys()]);
+            Promise.all([fetchTeamMembers(), fetchBlogs(), fetchAdminUsers(), fetchApiKeys(), fetchProjects()]);
           } else if (error && error.code === 'PGRST116') {
             // PGRST116 means zero rows found, so definitely unauthorized
             setIsAuthorized(false);
@@ -410,8 +439,57 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleEditProject = async (id: string) => {
+    const { data, error } = await supabase.from('studio_projects').select('*').eq('id', id).single();
+    if (error) {
+      showNotify(`Failed to fetch project details: ${error.message}`, 'error');
+    } else if (data) {
+      setEditingProject(data);
+      setActiveTab('project-editor');
+    }
+  };
+
+  const handleSaveProject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSaving(true);
+
+    const projectData = {
+      title: editingProject.title,
+      category: editingProject.category,
+      description: editingProject.description,
+      image: editingProject.image,
+      tags: typeof editingProject.tags === 'string' ? (editingProject.tags as string).split(',').map(t => t.trim()) : (editingProject.tags || []),
+      link: editingProject.link || '#',
+      is_active: editingProject.is_active ?? true
+    };
+
+    try {
+      if (editingProject.id) {
+        const { data, error } = await withTimeout(supabase.from('studio_projects').update(projectData).eq('id', editingProject.id).select());
+        if (error) throw error;
+        showNotify("Project updated successfully!", 'success');
+      } else {
+        const { data, error } = await withTimeout(supabase.from('studio_projects').insert([projectData]).select());
+        if (error) throw error;
+        showNotify("Project created successfully!", 'success');
+      }
+      
+      await fetchProjects();
+      setActiveTab('projects');
+      setEditingProject({});
+    } catch (error: any) {
+      showNotify(`Failed to save project: ${error.message}`, 'error');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const handleDeleteBlog = (id: string, title: string) => {
     setDeleteModal({ open: true, id, type: 'blog', label: title });
+  };
+
+  const handleDeleteProject = (id: string, title: string) => {
+    setDeleteModal({ open: true, id, type: 'project', label: title });
   };
 
   const handleConfirmDelete = async () => {
@@ -424,6 +502,11 @@ export default function AdminDashboard() {
         if (!data || data.length === 0) throw new Error("Gagal hapus: periksa RLS permission di Supabase.");
         showNotify("Blog post deleted successfully!", 'success');
         fetchBlogs();
+      } else if (deleteModal.type === 'project') {
+        const { error } = await withTimeout(supabase.from('studio_projects').delete().eq('id', deleteModal.id));
+        if (error) throw new Error(error.message);
+        showNotify("Project deleted successfully!", 'success');
+        fetchProjects();
       } else if (deleteModal.type === 'team') {
         const { data, error } = await withTimeout(supabase.from('team_members').delete().eq('id', deleteModal.id).select());
         if (error) throw new Error(error.message);
@@ -455,6 +538,63 @@ export default function AdminDashboard() {
 
   const handleDeleteApiKey = (id: string, name: string) => {
     setDeleteModal({ open: true, id, type: 'apikey', label: name });
+  };
+
+  const handleMoveGeneric = async (
+    tableName: string,
+    list: any[],
+    setList: (val: any[]) => void,
+    index: number,
+    direction: 'up' | 'down'
+  ) => {
+    if (direction === 'up' && index === 0) return;
+    if (direction === 'down' && index === list.length - 1) return;
+
+    const newList = [...list];
+    const swapIndex = direction === 'up' ? index - 1 : index + 1;
+    
+    const temp = newList[index];
+    newList[index] = newList[swapIndex];
+    newList[swapIndex] = temp;
+
+    newList.forEach((item, i) => item.sort_order = i);
+    setList(newList);
+
+    newList.forEach(async (u) => {
+      await supabase.from(tableName).update({ sort_order: u.sort_order }).eq('id', u.id);
+    });
+  };
+
+  const handleMoveTeamMember = async (orgName: string, indexInGroup: number, direction: 'up' | 'down') => {
+    const orgMembers = teamMembers.filter(m => (m.organization || 'Kh1ev Community') === orgName);
+    if (direction === 'up' && indexInGroup === 0) return;
+    if (direction === 'down' && indexInGroup === orgMembers.length - 1) return;
+
+    const newGroup = [...orgMembers];
+    const swapIndex = direction === 'up' ? indexInGroup - 1 : indexInGroup + 1;
+    
+    const temp = newGroup[indexInGroup];
+    newGroup[indexInGroup] = newGroup[swapIndex];
+    newGroup[swapIndex] = temp;
+
+    newGroup.forEach((item, i) => item.sort_order = i);
+
+    const newTeamMembers = teamMembers.map(tm => {
+      const updated = newGroup.find(g => g.id === tm.id);
+      return updated ? updated : tm;
+    });
+    
+    newTeamMembers.sort((a, b) => {
+      if (a.sort_order !== b.sort_order) return (a.sort_order || 0) - (b.sort_order || 0);
+      const rankA = ROLE_HIERARCHY[a.system_role || ''] || 99;
+      const rankB = ROLE_HIERARCHY[b.system_role || ''] || 99;
+      return rankA - rankB;
+    });
+    setTeamMembers(newTeamMembers);
+
+    newGroup.forEach(async (u) => {
+      await supabase.from('team_members').update({ sort_order: u.sort_order }).eq('id', u.id);
+    });
   };
 
   if (loading) {
@@ -568,7 +708,7 @@ export default function AdminDashboard() {
               </svg>
             </div>
             <h3 style={{ color: 'white', fontWeight: 700, fontSize: '1.2rem', textAlign: 'center', marginBottom: '10px' }}>
-              Hapus {deleteModal.type === 'blog' ? 'Blog Post' : deleteModal.type === 'team' ? 'Team Member' : deleteModal.type === 'admin' ? 'Admin User' : 'API Key'}?
+              Hapus {deleteModal.type === 'blog' ? 'Blog Post' : deleteModal.type === 'project' ? 'Project' : deleteModal.type === 'team' ? 'Team Member' : deleteModal.type === 'admin' ? 'Admin User' : 'API Key'}?
             </h3>
             <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.875rem', textAlign: 'center', marginBottom: '8px' }}>
               Aksi ini tidak bisa dibatalkan. Data berikut akan dihapus permanen:
@@ -660,12 +800,20 @@ export default function AdminDashboard() {
               <p className="text-neutral-400 text-sm">Dashboard Administrator</p>
             </div>
           </div>
-          <button 
-            onClick={() => setShowSignOutModal(true)}
-            className="px-6 py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 rounded-full font-semibold transition-colors flex items-center gap-2">
-            <FaSignOutAlt />
-            Sign Out
-          </button>
+          <div className="flex items-center gap-3">
+            <Link 
+              href="/"
+              className="px-6 py-2.5 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-full font-semibold transition-colors flex items-center gap-2">
+              <FaHome />
+              Main Page
+            </Link>
+            <button 
+              onClick={() => setShowSignOutModal(true)}
+              className="px-6 py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 rounded-full font-semibold transition-colors flex items-center gap-2">
+              <FaSignOutAlt />
+              Sign Out
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
@@ -681,6 +829,12 @@ export default function AdminDashboard() {
               className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-left transition-colors ${activeTab === 'blogs' ? 'bg-accent/10 text-accent' : 'bg-white/[0.02] text-neutral-400 hover:text-white hover:bg-white/[0.05]'}`}>
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
               Blogs
+            </button>
+            <button 
+              onClick={() => setActiveTab('projects')}
+              className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-left transition-colors ${activeTab === 'projects' ? 'bg-accent/10 text-accent' : 'bg-white/[0.02] text-neutral-400 hover:text-white hover:bg-white/[0.05]'}`}>
+              <FaBriefcase className="w-5 h-5" />
+              Projects
             </button>
             {currentUserRole !== 'Admin' && (
               <button 
@@ -741,6 +895,14 @@ export default function AdminDashboard() {
                                   </td>
                                   <td className="py-4">
                                     <div className="flex items-center justify-end gap-3">
+                                      <div className="flex flex-col gap-1 mr-2">
+                                        <button onClick={() => handleMoveTeamMember(orgName, orgMembers.indexOf(member), 'up')} className="p-1 text-neutral-500 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed" disabled={orgMembers.indexOf(member) === 0} title="Move Up">
+                                          <FaArrowUp className="w-3 h-3" />
+                                        </button>
+                                        <button onClick={() => handleMoveTeamMember(orgName, orgMembers.indexOf(member), 'down')} className="p-1 text-neutral-500 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed" disabled={orgMembers.indexOf(member) === orgMembers.length - 1} title="Move Down">
+                                          <FaArrowDown className="w-3 h-3" />
+                                        </button>
+                                      </div>
                                       <button onClick={() => handleEditTeamMember(member.id)} className="p-2 text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors" title="Edit">
                                         <FaEdit />
                                       </button>
@@ -804,6 +966,14 @@ export default function AdminDashboard() {
                           <td className="py-4 text-neutral-400 text-sm">{new Date(blog.created_at).toLocaleDateString()}</td>
                           <td className="py-4">
                             <div className="flex items-center justify-end gap-3">
+                              <div className="flex flex-col gap-1 mr-2">
+                                <button onClick={() => handleMoveGeneric('blogs', blogs, setBlogs, blogs.indexOf(blog), 'up')} className="p-1 text-neutral-500 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed" disabled={blogs.indexOf(blog) === 0} title="Move Up">
+                                  <FaArrowUp className="w-3 h-3" />
+                                </button>
+                                <button onClick={() => handleMoveGeneric('blogs', blogs, setBlogs, blogs.indexOf(blog), 'down')} className="p-1 text-neutral-500 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed" disabled={blogs.indexOf(blog) === blogs.length - 1} title="Move Down">
+                                  <FaArrowDown className="w-3 h-3" />
+                                </button>
+                              </div>
                               <button onClick={() => handleEditBlog(blog.id)} className="p-2 text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors" title="Edit">
                                 <FaEdit />
                               </button>
@@ -817,6 +987,74 @@ export default function AdminDashboard() {
                       {blogs.length === 0 && (
                         <tr>
                           <td colSpan={4} className="py-8 text-center text-neutral-500">No blog posts found.</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
+
+            {activeTab === 'projects' && (
+              <>
+                <div className="flex items-center justify-between mb-8">
+                  <h2 className="text-2xl font-bold text-white">Manage Projects</h2>
+                  <button 
+                    className="px-4 py-2 bg-accent text-white font-bold rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 text-sm" 
+                    onClick={() => { setEditingProject({ title: '', category: '', description: '', image: '', tags: [], link: '#', is_active: true }); setActiveTab('project-editor'); }}>
+                    <FaPlus /> New Project
+                  </button>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-white/10 text-neutral-400 text-sm">
+                        <th className="pb-4 font-semibold">Title</th>
+                        <th className="pb-4 font-semibold">Category</th>
+                        <th className="pb-4 font-semibold">Status</th>
+                        <th className="pb-4 font-semibold text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {projects.map((project) => (
+                        <tr key={project.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                          <td className="py-4">
+                            <span className="font-semibold text-white">{project.title}</span>
+                          </td>
+                          <td className="py-4">
+                            <span className="px-2 py-1 bg-white/5 rounded text-xs font-semibold text-neutral-300">{project.category}</span>
+                          </td>
+                          <td className="py-4">
+                            {project.is_active ? (
+                              <span className="px-2 py-1 bg-green-500/10 text-green-500 text-xs font-bold rounded-full">Active</span>
+                            ) : (
+                              <span className="px-2 py-1 bg-neutral-500/10 text-neutral-400 text-xs font-bold rounded-full">Hidden</span>
+                            )}
+                          </td>
+                          <td className="py-4">
+                            <div className="flex items-center justify-end gap-3">
+                              <div className="flex flex-col gap-1 mr-2">
+                                <button onClick={() => handleMoveGeneric('studio_projects', projects, setProjects, projects.indexOf(project), 'up')} className="p-1 text-neutral-500 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed" disabled={projects.indexOf(project) === 0} title="Move Up">
+                                  <FaArrowUp className="w-3 h-3" />
+                                </button>
+                                <button onClick={() => handleMoveGeneric('studio_projects', projects, setProjects, projects.indexOf(project), 'down')} className="p-1 text-neutral-500 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed" disabled={projects.indexOf(project) === projects.length - 1} title="Move Down">
+                                  <FaArrowDown className="w-3 h-3" />
+                                </button>
+                              </div>
+                              <button onClick={() => handleEditProject(project.id)} className="p-2 text-neutral-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors" title="Edit">
+                                <FaEdit />
+                              </button>
+                              <button onClick={() => handleDeleteProject(project.id, project.title)} className="p-2 text-red-500 hover:text-white bg-red-500/10 hover:bg-red-500 rounded-lg transition-colors" title="Delete">
+                                <FaTrash />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                      {projects.length === 0 && (
+                        <tr>
+                          <td colSpan={4} className="py-8 text-center text-neutral-500">No projects found.</td>
                         </tr>
                       )}
                     </tbody>
@@ -891,6 +1129,14 @@ export default function AdminDashboard() {
                           <td className="py-4 text-neutral-400 text-sm">{new Date(adminUser.created_at).toLocaleDateString()}</td>
                           <td className="py-4">
                             <div className="flex items-center justify-end gap-3">
+                              <div className="flex flex-col gap-1 mr-2">
+                                <button onClick={() => handleMoveGeneric('admin_users', adminUsers, setAdminUsers, adminUsers.indexOf(adminUser), 'up')} className="p-1 text-neutral-500 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed" disabled={adminUsers.indexOf(adminUser) === 0} title="Move Up">
+                                  <FaArrowUp className="w-3 h-3" />
+                                </button>
+                                <button onClick={() => handleMoveGeneric('admin_users', adminUsers, setAdminUsers, adminUsers.indexOf(adminUser), 'down')} className="p-1 text-neutral-500 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed" disabled={adminUsers.indexOf(adminUser) === adminUsers.length - 1} title="Move Down">
+                                  <FaArrowDown className="w-3 h-3" />
+                                </button>
+                              </div>
                               <button onClick={() => handleEditAdminUser(adminUser.id)} className="p-2 text-blue-400 hover:text-white bg-blue-500/10 hover:bg-blue-500 rounded-lg transition-colors" title="Edit">
                                 <FaEdit />
                               </button>
@@ -947,6 +1193,14 @@ export default function AdminDashboard() {
                           </td>
                           <td className="py-4">
                             <div className="flex items-center justify-end gap-3">
+                              <div className="flex flex-col gap-1 mr-2">
+                                <button onClick={() => handleMoveGeneric('api_keys', apiKeys, setApiKeys, apiKeys.indexOf(apiKey), 'up')} className="p-1 text-neutral-500 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed" disabled={apiKeys.indexOf(apiKey) === 0} title="Move Up">
+                                  <FaArrowUp className="w-3 h-3" />
+                                </button>
+                                <button onClick={() => handleMoveGeneric('api_keys', apiKeys, setApiKeys, apiKeys.indexOf(apiKey), 'down')} className="p-1 text-neutral-500 hover:text-white bg-white/5 hover:bg-white/10 rounded transition-colors disabled:opacity-30 disabled:cursor-not-allowed" disabled={apiKeys.indexOf(apiKey) === apiKeys.length - 1} title="Move Down">
+                                  <FaArrowDown className="w-3 h-3" />
+                                </button>
+                              </div>
                               <button onClick={() => handleDeleteApiKey(apiKey.id, apiKey.name)} className="p-2 text-red-500 hover:text-white bg-red-500/10 hover:bg-red-500 rounded-lg transition-colors" title="Delete">
                                 <FaTrash />
                               </button>
@@ -1052,6 +1306,111 @@ export default function AdminDashboard() {
                     <button type="submit" disabled={isSaving} className="px-6 py-3 bg-accent hover:bg-red-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-accent/20 flex items-center gap-2 disabled:opacity-50">
                       {isSaving && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
                       {isSaving ? 'Saving...' : 'Save Post'}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            {activeTab === 'project-editor' && (
+              <div className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl">
+                <div className="flex items-center justify-between mb-8">
+                  <button onClick={() => setActiveTab('projects')} className="text-neutral-400 hover:text-white transition-colors text-sm font-semibold flex items-center gap-2"><FaArrowLeft className="w-3.5 h-3.5" /> Back to Projects</button>
+                  <h2 className="text-2xl font-bold text-white">{editingProject.id ? 'Edit Project' : 'Create New Project'}</h2>
+                </div>
+
+                <form onSubmit={handleSaveProject} className="flex flex-col gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-semibold text-neutral-400">Title</label>
+                      <input 
+                        type="text" 
+                        required
+                        className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-accent transition-colors"
+                        value={editingProject.title || ''}
+                        onChange={(e) => setEditingProject({...editingProject, title: e.target.value})}
+                        placeholder="e.g. Kh1ev Dashboard"
+                      />
+                    </div>
+                    
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-semibold text-neutral-400">Category</label>
+                      <input 
+                        type="text" 
+                        required
+                        className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-accent transition-colors"
+                        value={editingProject.category || ''}
+                        onChange={(e) => setEditingProject({...editingProject, category: e.target.value})}
+                        placeholder="e.g. Web Application"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-semibold text-neutral-400">Image URL <span className="text-neutral-500 font-normal italic">(Opsional)</span></label>
+                      <input 
+                        type="text" 
+                        className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-accent transition-colors"
+                        value={editingProject.image || ''}
+                        onChange={(e) => setEditingProject({...editingProject, image: e.target.value})}
+                        placeholder="https://..."
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-semibold text-neutral-400">Link URL <span className="text-neutral-500 font-normal italic">(Opsional)</span></label>
+                      <input 
+                        type="text" 
+                        className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-accent transition-colors"
+                        value={editingProject.link || ''}
+                        onChange={(e) => setEditingProject({...editingProject, link: e.target.value})}
+                        placeholder="https://... or # for disabled"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-semibold text-neutral-400">Description</label>
+                    <textarea 
+                      required
+                      rows={3}
+                      className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-accent transition-colors resize-none"
+                      value={editingProject.description || ''}
+                      onChange={(e) => setEditingProject({...editingProject, description: e.target.value})}
+                      placeholder="Detailed project description..."
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <label className="text-sm font-semibold text-neutral-400">Tags (Comma separated)</label>
+                    <input 
+                      type="text" 
+                      className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-accent transition-colors"
+                      value={typeof editingProject.tags === 'string' ? editingProject.tags : (editingProject.tags?.join(', ') || '')}
+                      onChange={(e) => setEditingProject({...editingProject, tags: e.target.value as any})}
+                      placeholder="e.g. Next.js, TailwindCSS, Supabase"
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <input 
+                      type="checkbox" 
+                      id="project_active"
+                      className="w-5 h-5 accent-accent"
+                      checked={editingProject.is_active ?? true}
+                      onChange={(e) => setEditingProject({...editingProject, is_active: e.target.checked})}
+                    />
+                    <label htmlFor="project_active" className="text-white font-semibold cursor-pointer">Active / Visible in Portfolio</label>
+                  </div>
+
+                  <div className="flex justify-end gap-4 mt-4">
+                    <button type="button" onClick={() => setActiveTab('projects')} className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-colors disabled:opacity-50" disabled={isSaving}>
+                      Cancel
+                    </button>
+                    <button type="submit" disabled={isSaving} className="px-6 py-3 bg-accent hover:bg-red-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-accent/20 flex items-center gap-2 disabled:opacity-50">
+                      {isSaving && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
+                      {isSaving ? 'Saving...' : 'Save Project'}
                     </button>
                   </div>
                 </form>

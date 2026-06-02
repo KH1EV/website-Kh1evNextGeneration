@@ -8,19 +8,26 @@ import { User } from "@supabase/supabase-js";
 
 const navSections = [
   {
-    label: "ABOUT US",
+    label: "ORGANIZATION",
     links: [
-      { href: "/about", text: "About Us" },
-      { href: "/team", text: "Our Team" },
+      { href: "/about", text: "About Kh1ev" },
+      { href: "/team", text: "Meet The Team" },
     ],
   },
   {
     label: "COMMUNITY",
     links: [
       { href: "/community/about", text: "About Community" },
-      { href: "/rules", text: "Community Rules" },
-      { href: "/blog", text: "Community Blog" },
-      { href: "/donate", text: "Donation Space" },
+      { href: "/rules", text: "Rules & Guidelines" },
+      { href: "/blog", text: "Blog & Articles" },
+      { href: "/donate", text: "Support Us" },
+    ],
+  },
+  {
+    label: "STUDIO",
+    links: [
+      { href: "/studio/about", text: "About Studio" },
+      { href: "/studio/projects", text: "Our Projects" },
     ],
   },
 ];
@@ -99,7 +106,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Sign Out Confirmation Modal */}
       {showSignOutModal && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
           <div
@@ -107,7 +113,6 @@ export default function Navbar() {
             style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(10px)' }}
           />
           <div style={{ position: 'relative', background: '#111', border: '1px solid rgba(239,68,68,0.15)', borderRadius: '20px', padding: '36px 32px', maxWidth: '380px', width: '100%', boxShadow: '0 25px 60px rgba(0,0,0,0.9), 0 0 0 1px rgba(239,68,68,0.05)' }}>
-            {/* Icon */}
             <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
               <FaSignOutAlt style={{ width: '22px', height: '22px', color: '#ef4444' }} />
             </div>
@@ -121,15 +126,13 @@ export default function Navbar() {
               <button
                 onClick={() => setShowSignOutModal(false)}
                 disabled={isSigningOut}
-                style={{ flex: 1, padding: '12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: 'white', fontWeight: 600, fontSize: '0.9rem', cursor: isSigningOut ? 'not-allowed' : 'pointer', opacity: isSigningOut ? 0.5 : 1, transition: 'background 0.2s' }}
-              >
+                style={{ flex: 1, padding: '12px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: 'white', fontWeight: 600, fontSize: '0.9rem', cursor: isSigningOut ? 'not-allowed' : 'pointer', opacity: isSigningOut ? 0.5 : 1, transition: 'background 0.2s' }}>
                 Batal
               </button>
               <button
                 onClick={handleSignOutConfirm}
                 disabled={isSigningOut}
-                style={{ flex: 1, padding: '12px', background: isSigningOut ? 'rgba(239,68,68,0.4)' : '#ef4444', border: 'none', borderRadius: '12px', color: 'white', fontWeight: 700, fontSize: '0.9rem', cursor: isSigningOut ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'background 0.2s' }}
-              >
+                style={{ flex: 1, padding: '12px', background: isSigningOut ? 'rgba(239,68,68,0.4)' : '#ef4444', border: 'none', borderRadius: '12px', color: 'white', fontWeight: 700, fontSize: '0.9rem', cursor: isSigningOut ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', transition: 'background 0.2s' }}>
                 {isSigningOut ? (
                   <>
                     <div style={{ width: '15px', height: '15px', border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
@@ -147,8 +150,10 @@ export default function Navbar() {
         </div>
       )}
 
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-32 bg-accent/20 blur-[100px] pointer-events-none z-[90] rounded-full opacity-60" />
+
       <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-full max-w-5xl px-4 pointer-events-none">
-        <nav className="nav-element flex items-center justify-between backdrop-blur-xl bg-white/[0.03] border border-white/10 rounded-full px-8 py-3 shadow-2xl pointer-events-auto">
+        <nav className="nav-element flex items-center justify-between bg-[#0a0a0a] border border-white/10 rounded-full px-8 py-3 shadow-2xl pointer-events-auto">
           <Link
             href="/"
             className="font-extrabold tracking-widest text-lg text-white hover:text-accent transition-colors">
@@ -158,14 +163,14 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             <div className="relative group">
               <button className="text-white text-sm font-semibold hover:text-accent transition-colors flex items-center gap-1 py-2">
-                About Us
+                Organization
                 <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 py-2 bg-[#0a0a0a] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                <Link href="/about" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">About Us</Link>
-                <Link href="/team" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Our Team</Link>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 py-2 bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                <Link href="/about" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">About Kh1ev</Link>
+                <Link href="/team" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Meet The Team</Link>
               </div>
             </div>
 
@@ -176,13 +181,32 @@ export default function Navbar() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 py-2 bg-[#0a0a0a] border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 py-2 bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                 <Link href="/community/about" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">About Community</Link>
-                <Link href="/rules" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Community Rules</Link>
-                <Link href="/blog" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Community Blog</Link>
-                <Link href="/donate" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Donation Space</Link>
+                <Link href="/rules" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Rules & Guidelines</Link>
+                <Link href="/blog" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Blog & Articles</Link>
+                <Link href="/donate" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Support Us</Link>
               </div>
             </div>
+
+            <div className="relative group">
+              <button className="text-white text-sm font-semibold hover:text-accent transition-colors flex items-center gap-1 py-2">
+                Studio
+                <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 py-2 bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                <Link href="/studio/about" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">About Studio</Link>
+                <Link href="/studio/projects" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Our Projects</Link>
+              </div>
+            </div>
+            
+            <Link
+              href="/join"
+              className="py-1.5 text-white rounded-full text-sm hover:text-accent transition-colors font-bold ml-2">
+              Join Us
+            </Link>
 
             {user ? (
               <div className="relative" ref={dropdownRef}>
@@ -211,7 +235,7 @@ export default function Navbar() {
                 </button>
 
                 <div
-                  className={`absolute top-full right-0 mt-3 w-64 bg-[#0d0d0d] border border-white/10 rounded-2xl shadow-2xl overflow-hidden transition-all duration-200 ${
+                  className={`absolute top-full right-0 mt-3 w-64 bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-2xl overflow-hidden transition-all duration-200 ${
                     isUserDropdownOpen
                       ? "opacity-100 visible translate-y-0"
                       : "opacity-0 invisible -translate-y-2"

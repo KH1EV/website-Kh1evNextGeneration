@@ -153,7 +153,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-background relative overflow-x-hidden selection:bg-accent selection:text-white" ref={container}>
-      <div className="preloader fixed inset-0 z-[100] bg-background flex flex-col items-center justify-center">
+      <div className="preloader fixed inset-0 z-[9999] bg-background flex flex-col items-center justify-center">
         <div className="flex flex-col items-center gap-4 overflow-hidden py-10">
           <div className="preloader-text text-2xl md:text-4xl font-extrabold tracking-[0.2em] text-white">
             KH1EV.
@@ -269,7 +269,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 md:py-32 px-6 md:px-[5%] relative z-10">
+  {/* <section className="py-20 md:py-32 px-6 md:px-[5%] relative z-10">
         <div className="max-w-[1440px] w-full mx-auto flex flex-col gap-12 md:gap-20">
           
           <div className="flex flex-col gap-6 text-center items-center">
@@ -362,9 +362,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }

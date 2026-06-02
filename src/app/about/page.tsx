@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { FaEye, FaBullseye, FaRocket, FaHandshake, FaStar, FaDiscord, FaCode } from "react-icons/fa";
 
 export default function About() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -120,20 +121,26 @@ export default function About() {
 
           <div className="w-full mt-24 md:mt-32 relative z-10 hero-text opacity-0">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl mx-auto">
-              <div className="bg-[#111] border border-white/10 rounded-3xl p-8 md:p-10 hover:border-accent/50 transition-colors duration-300 group">
-                <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mb-6 text-accent group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+              <div className="bg-gradient-to-br from-cyan-500/10 to-transparent border border-cyan-500/20 rounded-[2rem] p-8 md:p-10 hover:border-cyan-500/40 transition-all duration-500 group relative overflow-hidden">
+                <div className="absolute -right-6 -bottom-6 text-cyan-500 opacity-5 group-hover:scale-110 transition-transform duration-700 pointer-events-none">
+                  <FaEye className="w-48 h-48" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">Our Vision</h3>
-                <p className="text-neutral-400 leading-relaxed text-sm md:text-base">To become a leading digital tech community and development studio that empowers individuals to innovate, collaborate, and build the future of technology together.</p>
+                <div className="w-14 h-14 bg-cyan-500/20 rounded-2xl flex items-center justify-center mb-6 text-cyan-500 group-hover:scale-110 transition-transform duration-300 relative z-10">
+                  <FaEye className="w-7 h-7" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4 relative z-10">Our Vision</h3>
+                <p className="text-neutral-400 leading-relaxed text-sm md:text-base relative z-10">To become a leading digital tech community and development studio that empowers individuals to innovate, collaborate, and build the future of technology together.</p>
               </div>
               
-              <div className="bg-[#111] border border-white/10 rounded-3xl p-8 md:p-10 hover:border-accent/50 transition-colors duration-300 group">
-                <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mb-6 text-accent group-hover:scale-110 transition-transform duration-300">
-                  <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+              <div className="bg-gradient-to-br from-red-500/10 to-transparent border border-red-500/20 rounded-[2rem] p-8 md:p-10 hover:border-red-500/40 transition-all duration-500 group relative overflow-hidden">
+                <div className="absolute -right-6 -bottom-6 text-red-500 opacity-5 group-hover:scale-110 transition-transform duration-700 pointer-events-none">
+                  <FaBullseye className="w-48 h-48" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">Our Mission</h3>
-                <p className="text-neutral-400 leading-relaxed text-sm md:text-base">Providing a solid ecosystem for IT enthusiasts to grow, while consistently delivering high-quality digital solutions and fostering a strong, supportive network of tech professionals.</p>
+                <div className="w-14 h-14 bg-red-500/20 rounded-2xl flex items-center justify-center mb-6 text-red-500 group-hover:scale-110 transition-transform duration-300 relative z-10">
+                  <FaBullseye className="w-7 h-7" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4 relative z-10">Our Mission</h3>
+                <p className="text-neutral-400 leading-relaxed text-sm md:text-base relative z-10">Providing a solid ecosystem for IT enthusiasts to grow, while consistently delivering high-quality digital solutions and fostering a strong, supportive network of tech professionals.</p>
               </div>
             </div>
           </div>
@@ -145,15 +152,24 @@ export default function About() {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto px-4 md:px-0">
-              <div className="bg-[#111] border border-white/5 rounded-3xl p-8 hover:border-accent/50 transition-colors duration-300">
+              <div className="bg-gradient-to-br from-purple-500/10 to-transparent border border-purple-500/20 rounded-3xl p-8 hover:border-purple-500/40 transition-all duration-300 group">
+                <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-5 text-purple-500 group-hover:scale-110 transition-transform duration-300">
+                  <FaRocket className="w-6 h-6" />
+                </div>
                 <h3 className="text-xl font-bold text-white mb-3">Innovation</h3>
                 <p className="text-sm text-neutral-400 leading-relaxed">Always exploring new technologies and pushing boundaries to build better digital experiences.</p>
               </div>
-              <div className="bg-[#111] border border-white/5 rounded-3xl p-8 hover:border-accent/50 transition-colors duration-300">
+              <div className="bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-500/20 rounded-3xl p-8 hover:border-blue-500/40 transition-all duration-300 group">
+                <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-5 text-blue-500 group-hover:scale-110 transition-transform duration-300">
+                  <FaHandshake className="w-6 h-6" />
+                </div>
                 <h3 className="text-xl font-bold text-white mb-3">Collaboration</h3>
                 <p className="text-sm text-neutral-400 leading-relaxed">Working together as a unified ecosystem where every member's contribution is valued.</p>
               </div>
-              <div className="bg-[#111] border border-white/5 rounded-3xl p-8 hover:border-accent/50 transition-colors duration-300">
+              <div className="bg-gradient-to-br from-yellow-500/10 to-transparent border border-yellow-500/20 rounded-3xl p-8 hover:border-yellow-500/40 transition-all duration-300 group">
+                <div className="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center mb-5 text-yellow-500 group-hover:scale-110 transition-transform duration-300">
+                  <FaStar className="w-6 h-6" />
+                </div>
                 <h3 className="text-xl font-bold text-white mb-3">Excellence</h3>
                 <p className="text-sm text-neutral-400 leading-relaxed">Delivering high-quality, robust, and scalable solutions that stand the test of time.</p>
               </div>
@@ -183,19 +199,17 @@ export default function About() {
               </div>
 
               <div className="flex gap-20 relative z-10">
-                <div className="block relative bg-[#111] border border-white/10 rounded-2xl p-6 md:p-8 w-[350px] text-center group hover:border-accent/50 transition-all duration-300 hover:-translate-y-1">
-                  <div className="absolute inset-0 bg-white/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="w-14 h-14 mx-auto bg-accent/10 rounded-full flex items-center justify-center mb-5 text-accent ring-1 ring-accent/20 group-hover:scale-110 transition-transform duration-300">
-                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                <div className="block relative bg-gradient-to-br from-[#5865F2]/10 to-transparent border border-[#5865F2]/20 rounded-2xl p-6 md:p-8 w-[350px] text-center group hover:border-[#5865F2]/50 transition-all duration-300 hover:-translate-y-1">
+                  <div className="w-14 h-14 mx-auto bg-[#5865F2]/20 rounded-2xl flex items-center justify-center mb-5 text-[#5865F2] group-hover:scale-110 transition-transform duration-300">
+                    <FaDiscord className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3 relative z-10">Kh1ev Community</h3>
                   <p className="text-sm text-neutral-400 relative z-10">Our vibrant Discord server community. A space for networking, tech discussions, collaboration, and gaming.</p>
                 </div>
 
-                <div className="block relative bg-[#111] border border-white/10 rounded-2xl p-6 md:p-8 w-[350px] text-center group hover:border-accent/50 transition-all duration-300 hover:-translate-y-1">
-                  <div className="absolute inset-0 bg-white/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="w-14 h-14 mx-auto bg-accent/10 rounded-full flex items-center justify-center mb-5 text-accent ring-1 ring-accent/20 group-hover:scale-110 transition-transform duration-300">
-                    <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                <div className="block relative bg-gradient-to-br from-pink-500/10 to-transparent border border-pink-500/20 rounded-2xl p-6 md:p-8 w-[350px] text-center group hover:border-pink-500/50 transition-all duration-300 hover:-translate-y-1">
+                  <div className="w-14 h-14 mx-auto bg-pink-500/20 rounded-2xl flex items-center justify-center mb-5 text-pink-500 group-hover:scale-110 transition-transform duration-300">
+                    <FaCode className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3 relative z-10">Kh1ev Studio</h3>
                   <p className="text-sm text-neutral-400 relative z-10">Our digital development wing. Focused on engineering web applications, mobile app, and innovative IT solutions.</p>
@@ -223,17 +237,17 @@ export default function About() {
               </div>
 
               <div className="flex flex-col gap-6 w-full max-w-[320px]">
-                <div className="block bg-[#111] border border-white/10 rounded-2xl p-6 w-full text-center relative z-10 transition-transform hover:-translate-y-1 hover:border-accent/50">
-                  <div className="w-12 h-12 mx-auto bg-accent/10 rounded-full flex items-center justify-center mb-4 text-accent ring-1 ring-accent/20">
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                <div className="block bg-gradient-to-br from-[#5865F2]/10 to-transparent border border-[#5865F2]/20 rounded-2xl p-6 w-full text-center relative z-10 transition-transform hover:-translate-y-1 hover:border-[#5865F2]/50">
+                  <div className="w-12 h-12 mx-auto bg-[#5865F2]/20 rounded-2xl flex items-center justify-center mb-4 text-[#5865F2]">
+                    <FaDiscord className="w-6 h-6" />
                   </div>
                   <h3 className="text-lg font-bold text-white mb-2">Kh1ev Community</h3>
                   <p className="text-xs text-neutral-400">Discord server community for networking, tech discussion, and gaming.</p>
                 </div>
 
-                <div className="block bg-[#111] border border-white/10 rounded-2xl p-6 w-full text-center relative z-10 transition-transform hover:-translate-y-1 hover:border-accent/50">
-                  <div className="w-12 h-12 mx-auto bg-accent/10 rounded-full flex items-center justify-center mb-4 text-accent ring-1 ring-accent/20">
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                <div className="block bg-gradient-to-br from-pink-500/10 to-transparent border border-pink-500/20 rounded-2xl p-6 w-full text-center relative z-10 transition-transform hover:-translate-y-1 hover:border-pink-500/50">
+                  <div className="w-12 h-12 mx-auto bg-pink-500/20 rounded-2xl flex items-center justify-center mb-4 text-pink-500">
+                    <FaCode className="w-6 h-6" />
                   </div>
                   <h3 className="text-lg font-bold text-white mb-2">Kh1ev Studio</h3>
                   <p className="text-xs text-neutral-400">Digital system development wing focused on web apps and IT solutions.</p>
