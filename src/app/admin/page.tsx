@@ -156,23 +156,36 @@ export default function AdminDashboard() {
           const discordId = session.user.user_metadata?.provider_id || session.user.identities?.[0]?.id;
 
           if (discordId) {
-            const { data, error } = await supabase
-              .from('admin_users')
-              .select('*')
-              .eq('discord_id', discordId)
-              .single();
+            let retryCount = 0;
+            let success = false;
+            
+            while (retryCount < 3 && !success) {
+              const { data, error } = await withTimeout(
+                supabase.from('admin_users').select('*').eq('discord_id', discordId).single(),
+                10000
+              );
 
-            if (data && !error) {
-              setIsAuthorized(true);
-              setCurrentUserRole(data.role || 'Admin');
-              Promise.all([fetchTeamMembers(), fetchBlogs(), fetchAdminUsers(), fetchApiKeys()]);
-              return;
-            } else if (error && error.code === 'PGRST116') {
-              setIsAuthorized(false);
-            } else if (error) {
-              console.error("Supabase checkUser error:", error);
-              setAuthError(`CheckUser DB Error: ${error.message}`);
-              setIsAuthorized(false);
+              if (data && !error) {
+                success = true;
+                setIsAuthorized(true);
+                setCurrentUserRole(data.role || 'Admin');
+                Promise.all([fetchTeamMembers(), fetchBlogs(), fetchAdminUsers(), fetchApiKeys()]);
+                return;
+              } else if (error && error.code === 'PGRST116') {
+                // Definitely unauthorized
+                success = true; // Break loop
+                setIsAuthorized(false);
+              } else {
+                retryCount++;
+                if (retryCount >= 3) {
+                  console.error("Supabase checkUser error after 3 retries:", error);
+                  setAuthError(`CheckUser DB Error: ${error?.message || 'Timeout'}`);
+                  setIsAuthorized(false);
+                } else {
+                  // Wait 1 second before retrying
+                  await new Promise(res => setTimeout(res, 1000));
+                }
+              }
             }
           } else {
              console.log("No discordId found in session.user");
@@ -270,11 +283,11 @@ export default function AdminDashboard() {
 
     try {
       if (editingAdminUser.id) {
-        const { error } = await withTimeout(supabase.from('admin_users').update(adminData).eq('id', editingAdminUser.id));
+        const { error } = await withTimeout(supabase.from('admin_users').update(adminData).eq('id', editingAdminUser.id).select());
         if (error) throw error;
         showNotify("Admin user updated successfully!", 'success');
       } else {
-        const { error } = await withTimeout(supabase.from('admin_users').insert([adminData]));
+        const { error } = await withTimeout(supabase.from('admin_users').insert([adminData]).select());
         if (error) throw error;
         showNotify("New admin user added successfully!", 'success');
       }
@@ -523,7 +536,7 @@ export default function AdminDashboard() {
             ) : 'Sign Out'}
           </button>
         </div>
-      </main>
+      </div>
     );
   }
 
