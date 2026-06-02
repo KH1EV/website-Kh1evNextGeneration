@@ -168,11 +168,11 @@ export default function About() {
             </div>
             
             <div className="relative flex flex-col items-center">
-              <a href="/team#Kh1ev-Organization" className="block relative z-10 bg-[#111] border border-accent/50 rounded-2xl p-6 md:p-8 w-[400px] text-center shadow-[0_0_40px_rgba(229,9,20,0.15)] group hover:border-accent transition-all duration-300 hover:-translate-y-1">
+              <div className="block relative z-10 bg-[#111] border border-accent/50 rounded-2xl p-6 md:p-8 w-[400px] text-center shadow-[0_0_40px_rgba(229,9,20,0.15)] group hover:border-accent transition-all duration-300 hover:-translate-y-1">
                 <div className="absolute inset-0 bg-gradient-to-b from-accent/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <h3 className="text-2xl font-bold text-white mb-2 relative z-10">Kh1ev Organization</h3>
                 <p className="text-sm text-neutral-400 relative z-10">The founding parent organization overseeing all operations and digital divisions.</p>
-              </a>
+              </div>
 
               <div className="flex flex-col items-center">
                 <div className="w-[2px] h-12 bg-gradient-to-b from-accent/50 to-white/20"></div>
@@ -184,23 +184,23 @@ export default function About() {
               </div>
 
               <div className="flex gap-20 relative z-10">
-                <a href="/team#Kh1ev-Community" className="block relative bg-[#111] border border-white/10 rounded-2xl p-6 md:p-8 w-[350px] text-center group hover:border-accent/50 transition-all duration-300 hover:-translate-y-1">
+                <div className="block relative bg-[#111] border border-white/10 rounded-2xl p-6 md:p-8 w-[350px] text-center group hover:border-accent/50 transition-all duration-300 hover:-translate-y-1">
                   <div className="absolute inset-0 bg-white/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="w-14 h-14 mx-auto bg-accent/10 rounded-full flex items-center justify-center mb-5 text-accent ring-1 ring-accent/20 group-hover:scale-110 transition-transform duration-300">
                     <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3 relative z-10">Kh1ev Community</h3>
                   <p className="text-sm text-neutral-400 relative z-10">Our vibrant Discord server community. A space for networking, tech discussions, collaboration, and gaming.</p>
-                </a>
+                </div>
 
-                <a href="/team#Kh1ev-Studio" className="block relative bg-[#111] border border-white/10 rounded-2xl p-6 md:p-8 w-[350px] text-center group hover:border-accent/50 transition-all duration-300 hover:-translate-y-1">
+                <div className="block relative bg-[#111] border border-white/10 rounded-2xl p-6 md:p-8 w-[350px] text-center group hover:border-accent/50 transition-all duration-300 hover:-translate-y-1">
                   <div className="absolute inset-0 bg-white/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="w-14 h-14 mx-auto bg-accent/10 rounded-full flex items-center justify-center mb-5 text-accent ring-1 ring-accent/20 group-hover:scale-110 transition-transform duration-300">
                     <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3 relative z-10">Kh1ev Studio</h3>
                   <p className="text-sm text-neutral-400 relative z-10">Our digital development wing. Focused on engineering web applications, mobile app, and innovative IT solutions.</p>
-                </a>
+                </div>
               </div>
             </div>
           </div>
@@ -212,10 +212,10 @@ export default function About() {
             </div>
             
             <div className="flex flex-col items-center w-full px-2">
-              <a href="/team#Kh1ev-Organization" className="block bg-[#111] border border-accent/50 rounded-2xl p-6 w-full max-w-[320px] text-center shadow-[0_0_30px_rgba(229,9,20,0.15)] relative z-10 transition-transform hover:-translate-y-1">
+              <div className="block bg-[#111] border border-accent/50 rounded-2xl p-6 w-full max-w-[320px] text-center shadow-[0_0_30px_rgba(229,9,20,0.15)] relative z-10 transition-transform hover:-translate-y-1">
                 <h3 className="text-xl font-bold text-white mb-2">Kh1ev Organization</h3>
                 <p className="text-xs text-neutral-400">The founding parent organization overseeing all operations.</p>
-              </a>
+              </div>
 
               <div className="flex flex-col items-center w-full my-4">
                 <div className="w-[2px] h-6 bg-accent/50"></div>
@@ -224,21 +224,21 @@ export default function About() {
               </div>
 
               <div className="flex flex-col gap-6 w-full max-w-[320px]">
-                <a href="/team#Kh1ev-Community" className="block bg-[#111] border border-white/10 rounded-2xl p-6 w-full text-center relative z-10 transition-transform hover:-translate-y-1 hover:border-accent/50">
+                <div className="block bg-[#111] border border-white/10 rounded-2xl p-6 w-full text-center relative z-10 transition-transform hover:-translate-y-1 hover:border-accent/50">
                   <div className="w-12 h-12 mx-auto bg-accent/10 rounded-full flex items-center justify-center mb-4 text-accent ring-1 ring-accent/20">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                   </div>
                   <h3 className="text-lg font-bold text-white mb-2">Kh1ev Community</h3>
                   <p className="text-xs text-neutral-400">Discord server community for networking, tech discussion, and gaming.</p>
-                </a>
+                </div>
 
-                <a href="/team#Kh1ev-Studio" className="block bg-[#111] border border-white/10 rounded-2xl p-6 w-full text-center relative z-10 transition-transform hover:-translate-y-1 hover:border-accent/50">
+                <div className="block bg-[#111] border border-white/10 rounded-2xl p-6 w-full text-center relative z-10 transition-transform hover:-translate-y-1 hover:border-accent/50">
                   <div className="w-12 h-12 mx-auto bg-accent/10 rounded-full flex items-center justify-center mb-4 text-accent ring-1 ring-accent/20">
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
                   </div>
                   <h3 className="text-lg font-bold text-white mb-2">Kh1ev Studio</h3>
                   <p className="text-xs text-neutral-400">Digital system development wing focused on web apps and IT solutions.</p>
-                </a>
+                </div>
               </div>
             </div>
           </div>
