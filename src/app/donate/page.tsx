@@ -67,9 +67,9 @@ export default function DonatePage() {
                   <span>Access to secret VIP chat channels</span>
                 </li>
               </ul>
-              <button className="w-full py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-colors">
+              <a href="https://sociabuzz.com/phionne" target="_blank" rel="noopener noreferrer" className="w-full py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-colors block text-center">
                 Donate Now
-              </button>
+              </a>
             </div>
           </div>
           <div className="tier-card bg-accent/5 border border-accent/20 rounded-3xl p-8 flex flex-col relative transform md:-translate-y-4 shadow-[0_0_40px_rgba(229,9,20,0.1)]">
@@ -102,9 +102,9 @@ export default function DonatePage() {
                   <span>Priority access to new bot features</span>
                 </li>
               </ul>
-              <button className="w-full py-3 bg-accent hover:bg-red-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-accent/20">
+              <a href="https://sociabuzz.com/phionne" target="_blank" rel="noopener noreferrer" className="w-full py-3 bg-accent hover:bg-red-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-accent/20 block text-center">
                 Become Contributor
-              </button>
+              </a>
             </div>
           </div>
           <div className="tier-card bg-[#5865F2]/5 border border-[#5865F2]/20 rounded-3xl p-8 flex flex-col hover:border-[#5865F2]/40 transition-colors duration-300 relative group">

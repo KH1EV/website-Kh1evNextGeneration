@@ -56,6 +56,7 @@ interface AdminUser {
   discord_id: string;
   username: string;
   created_at: string;
+  role?: string;
 }
 
 interface ApiKey {
@@ -65,6 +66,14 @@ interface ApiKey {
   created_at: string;
 }
 
+const withTimeout = (promise: any, ms: number = 15000): Promise<any> => {
+  let timeoutId: NodeJS.Timeout;
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error("Request timeout: Please check your connection.")), ms);
+  });
+  return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timeoutId));
+};
+
 export default function AdminDashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -73,7 +82,9 @@ export default function AdminDashboard() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [adminUsers, setAdminUsers] = useState<AdminUser[]>([]);
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([]);
-  const [activeTab, setActiveTab] = useState<'team' | 'blogs' | 'settings' | 'whitelist' | 'keys' | 'blog-editor' | 'team-editor'>('team');
+  const [activeTab, setActiveTab] = useState<'team' | 'blogs' | 'settings' | 'whitelist' | 'keys' | 'blog-editor' | 'team-editor' | 'whitelist-editor'>('team');
+  const [currentUserRole, setCurrentUserRole] = useState<string>('Admin');
+  const [editingAdminUser, setEditingAdminUser] = useState<Partial<AdminUser>>({});
   const [editingBlog, setEditingBlog] = useState<Partial<Blog> & { excerpt?: string; content?: string; image_url?: string }>({});
   const [editingTeamMember, setEditingTeamMember] = useState<Partial<TeamMember>>({});
   const [notify, setNotify] = useState<{ message: string, type: 'success' | 'error' } | null>(null);
@@ -117,21 +128,14 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     const checkUser = async () => {
-      const authTimeout = new Promise<null>((resolve) =>
-        setTimeout(() => resolve(null), 10000)
-      );
-
       try {
-        const sessionResult = await Promise.race([
-          supabase.auth.getSession(),
-          authTimeout.then(() => { throw new Error("Auth timeout"); })
-        ]) as Awaited<ReturnType<typeof supabase.auth.getSession>>;
+        const sessionResult = await withTimeout(supabase.auth.getSession(), 10000);
 
         const session = sessionResult?.data?.session;
 
         if (session?.user) {
           setUser(session.user as User);
-          const discordId = session.user.user_metadata?.provider_id;
+          const discordId = session.user.user_metadata?.provider_id || session.user.identities?.[0]?.id;
 
           if (discordId) {
             const { data, error } = await supabase
@@ -142,7 +146,7 @@ export default function AdminDashboard() {
 
             if (data && !error) {
               setIsAuthorized(true);
-              setLoading(false);
+              setCurrentUserRole(data.role || 'Admin');
               Promise.all([fetchTeamMembers(), fetchBlogs(), fetchAdminUsers(), fetchApiKeys()]);
               return;
             } else {
@@ -162,16 +166,21 @@ export default function AdminDashboard() {
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (session?.user) {
         setUser(session.user as User);
-        const discordId = session.user.user_metadata?.provider_id;
+        const discordId = session.user.user_metadata?.provider_id || session.user.identities?.[0]?.id;
         if (discordId) {
-          const { data } = await supabase
+          const { data, error } = await supabase
             .from('admin_users')
             .select('*')
             .eq('discord_id', discordId)
             .single();
-          setIsAuthorized(!!data);
-          if (data) {
+            
+          if (data && !error) {
+            setIsAuthorized(true);
+            setCurrentUserRole(data.role || 'Admin');
             Promise.all([fetchTeamMembers(), fetchBlogs(), fetchAdminUsers(), fetchApiKeys()]);
+          } else if (error && error.code === 'PGRST116') {
+            // PGRST116 means zero rows found, so definitely unauthorized
+            setIsAuthorized(false);
           }
         }
       } else {
@@ -209,6 +218,48 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleEditAdminUser = async (id: string) => {
+    const { data, error } = await supabase.from('admin_users').select('*').eq('id', id).single();
+    if (error) {
+      showNotify(`Failed to fetch admin details: ${error.message}`, 'error');
+    } else if (data) {
+      setEditingAdminUser(data);
+      setActiveTab('whitelist-editor');
+    }
+  };
+
+  const handleSaveAdminUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSaving(true);
+    
+    const adminData = {
+      username: editingAdminUser.username,
+      discord_id: editingAdminUser.discord_id,
+      role: editingAdminUser.role || 'Admin'
+    };
+
+    try {
+      if (editingAdminUser.id) {
+        const { error } = await withTimeout(supabase.from('admin_users').update(adminData).eq('id', editingAdminUser.id));
+        if (error) throw error;
+        showNotify("Admin user updated successfully!", 'success');
+      } else {
+        const { error } = await withTimeout(supabase.from('admin_users').insert([adminData]));
+        if (error) throw error;
+        showNotify("New admin user added successfully!", 'success');
+      }
+      
+      await fetchAdminUsers();
+      setActiveTab('whitelist');
+      setEditingAdminUser({});
+    } catch (error: any) {
+      console.error("handleSaveAdminUser error:", error);
+      showNotify(`Failed to save: ${error.message}`, 'error');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const handleDeleteTeamMember = (id: string, name: string) => {
     setDeleteModal({ open: true, id, type: 'team', label: name });
   };
@@ -239,14 +290,9 @@ export default function AdminDashboard() {
       tiktok_url: editingTeamMember.tiktok_url,
       tags: editingTeamMember.tags || ''
     };
-    const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error("Request timeout: Server tidak merespons setelah 15 detik. Cek koneksi atau RLS Policy di Supabase.")), 15000)
-    );
-
     try {
       if (editingTeamMember.id) {
-        const savePromise = supabase.from('team_members').update(teamData).eq('id', editingTeamMember.id).select();
-        const { data, error } = await Promise.race([savePromise, timeoutPromise]) as any;
+        const { data, error } = await withTimeout(supabase.from('team_members').update(teamData).eq('id', editingTeamMember.id).select());
         if (error) {
           console.error("Supabase update error:", error);
           throw error;
@@ -254,8 +300,7 @@ export default function AdminDashboard() {
         if (!data || data.length === 0) throw new Error("Update gagal: kemungkinan RLS Policy tidak mengizinkan operasi ini. Pastikan policy UPDATE & SELECT sudah diaktifkan di Supabase untuk tabel team_members.");
         showNotify("Member updated successfully!", 'success');
       } else {
-        const insertPromise = supabase.from('team_members').insert([teamData]).select();
-        const { data, error } = await Promise.race([insertPromise, timeoutPromise]) as any;
+        const { data, error } = await withTimeout(supabase.from('team_members').insert([teamData]).select());
         if (error) {
           console.error("Supabase insert error:", error);
           throw error;
@@ -300,12 +345,12 @@ export default function AdminDashboard() {
 
     try {
       if (editingBlog.id) {
-        const { data, error } = await supabase.from('blogs').update(blogData).eq('id', editingBlog.id).select();
+        const { data, error } = await withTimeout(supabase.from('blogs').update(blogData).eq('id', editingBlog.id).select());
         if (error) throw error;
         if (!data || data.length === 0) throw new Error("Akses ditolak (RLS) atau data tidak ditemukan.");
         showNotify("Blog post updated successfully!", 'success');
       } else {
-        const { data, error } = await supabase.from('blogs').insert([blogData]).select();
+        const { data, error } = await withTimeout(supabase.from('blogs').insert([blogData]).select());
         if (error) throw error;
         if (!data || data.length === 0) throw new Error("Akses ditolak (RLS). Gagal menambah data.");
         showNotify("Blog post created successfully!", 'success');
@@ -330,24 +375,24 @@ export default function AdminDashboard() {
     setIsDeleting(true);
     try {
       if (deleteModal.type === 'blog') {
-        const { data, error } = await supabase.from('blogs').delete().eq('id', deleteModal.id).select();
+        const { data, error } = await withTimeout(supabase.from('blogs').delete().eq('id', deleteModal.id).select());
         if (error) throw new Error(error.message);
         if (!data || data.length === 0) throw new Error("Gagal hapus: periksa RLS permission di Supabase.");
         showNotify("Blog post deleted successfully!", 'success');
         fetchBlogs();
       } else if (deleteModal.type === 'team') {
-        const { data, error } = await supabase.from('team_members').delete().eq('id', deleteModal.id).select();
+        const { data, error } = await withTimeout(supabase.from('team_members').delete().eq('id', deleteModal.id).select());
         if (error) throw new Error(error.message);
         if (!data || data.length === 0) throw new Error("Gagal hapus: periksa RLS permission di Supabase.");
         showNotify("Member deleted successfully!", 'success');
         fetchTeamMembers();
       } else if (deleteModal.type === 'admin') {
-        const { error } = await supabase.from('admin_users').delete().eq('id', deleteModal.id);
+        const { error } = await withTimeout(supabase.from('admin_users').delete().eq('id', deleteModal.id));
         if (error) throw new Error(error.message);
         showNotify("Admin user removed successfully!", 'success');
         fetchAdminUsers();
       } else if (deleteModal.type === 'apikey') {
-        const { error } = await supabase.from('api_keys').delete().eq('id', deleteModal.id);
+        const { error } = await withTimeout(supabase.from('api_keys').delete().eq('id', deleteModal.id));
         if (error) throw new Error(error.message);
         showNotify("API Key deleted successfully!", 'success');
         fetchApiKeys();
@@ -573,12 +618,14 @@ export default function AdminDashboard() {
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" /></svg>
               Blogs
             </button>
-            <button 
-              onClick={() => setActiveTab('settings')}
-              className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-left transition-colors ${activeTab === 'settings' ? 'bg-accent/10 text-accent' : 'bg-white/[0.02] text-neutral-400 hover:text-white hover:bg-white/[0.05]'}`}>
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-              Settings
-            </button>
+            {currentUserRole !== 'Admin' && (
+              <button 
+                onClick={() => setActiveTab('settings')}
+                className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-left transition-colors ${activeTab === 'settings' ? 'bg-accent/10 text-accent' : 'bg-white/[0.02] text-neutral-400 hover:text-white hover:bg-white/[0.05]'}`}>
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                Settings
+              </button>
+            )}
           </div>
 
           <div className="lg:col-span-4 bg-white/[0.02] border border-white/5 rounded-3xl p-6 md:p-8">
@@ -735,7 +782,7 @@ export default function AdminDashboard() {
                     <button onClick={() => setActiveTab('settings')} className="text-neutral-400 hover:text-white transition-colors text-sm mb-2 font-semibold">← Back to Settings</button>
                     <h2 className="text-2xl font-bold text-white">Discord Whitelist</h2>
                   </div>
-                  <button className="px-4 py-2 bg-accent text-white font-bold rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 text-sm" onClick={() => showNotify('Feature to add Discord ID coming soon!', 'error')}>
+                  <button className="px-4 py-2 bg-accent text-white font-bold rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 text-sm" onClick={() => { setEditingAdminUser({ username: '', discord_id: '', role: 'Admin' }); setActiveTab('whitelist-editor'); }}>
                     <FaPlus /> Add User
                   </button>
                 </div>
@@ -746,6 +793,7 @@ export default function AdminDashboard() {
                       <tr className="border-b border-white/10 text-neutral-400 text-sm">
                         <th className="pb-4 font-semibold">Username</th>
                         <th className="pb-4 font-semibold">Discord ID</th>
+                        <th className="pb-4 font-semibold">Role</th>
                         <th className="pb-4 font-semibold">Added Date</th>
                         <th className="pb-4 font-semibold text-right">Actions</th>
                       </tr>
@@ -757,9 +805,17 @@ export default function AdminDashboard() {
                             <span className="font-semibold text-white">{adminUser.username || 'Unknown'}</span>
                           </td>
                           <td className="py-4 text-neutral-300 font-mono text-sm">{adminUser.discord_id}</td>
+                          <td className="py-4">
+                            <span className={`px-2 py-1 rounded text-xs font-bold ${adminUser.role === 'Head Admin' ? 'bg-red-500/20 text-red-400' : adminUser.role === 'Developer' ? 'bg-blue-500/20 text-blue-400' : 'bg-neutral-500/20 text-neutral-400'}`}>
+                              {adminUser.role || 'Admin'}
+                            </span>
+                          </td>
                           <td className="py-4 text-neutral-400 text-sm">{new Date(adminUser.created_at).toLocaleDateString()}</td>
                           <td className="py-4">
                             <div className="flex items-center justify-end gap-3">
+                              <button onClick={() => handleEditAdminUser(adminUser.id)} className="p-2 text-blue-400 hover:text-white bg-blue-500/10 hover:bg-blue-500 rounded-lg transition-colors" title="Edit">
+                                <FaEdit />
+                              </button>
                               <button onClick={() => handleDeleteAdminUser(adminUser.id, adminUser.username || adminUser.discord_id)} className="p-2 text-red-500 hover:text-white bg-red-500/10 hover:bg-red-500 rounded-lg transition-colors" title="Delete">
                                 <FaTrash />
                               </button>
@@ -918,6 +974,68 @@ export default function AdminDashboard() {
                     <button type="submit" disabled={isSaving} className="px-6 py-3 bg-accent hover:bg-red-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-accent/20 flex items-center gap-2 disabled:opacity-50">
                       {isSaving && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
                       {isSaving ? 'Saving...' : 'Save Post'}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            {activeTab === 'whitelist-editor' && (
+              <div className="bg-white/[0.02] border border-white/5 p-8 rounded-2xl">
+                <div className="flex items-center justify-between mb-8">
+                  <button onClick={() => setActiveTab('whitelist')} className="text-neutral-400 hover:text-white transition-colors text-sm font-semibold">← Back to Whitelist</button>
+                  <h2 className="text-2xl font-bold text-white">{editingAdminUser.id ? 'Edit Whitelist User' : 'Add Whitelist User'}</h2>
+                </div>
+
+                <form onSubmit={handleSaveAdminUser} className="flex flex-col gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-semibold text-neutral-400">Username</label>
+                      <input 
+                        type="text" 
+                        required
+                        className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-accent transition-colors"
+                        value={editingAdminUser.username || ''}
+                        onChange={(e) => setEditingAdminUser({...editingAdminUser, username: e.target.value})}
+                        placeholder="Discord Username"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-semibold text-neutral-400">Discord ID</label>
+                      <input 
+                        type="text" 
+                        required
+                        className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-accent transition-colors font-mono"
+                        value={editingAdminUser.discord_id || ''}
+                        onChange={(e) => setEditingAdminUser({...editingAdminUser, discord_id: e.target.value})}
+                        placeholder="e.g. 494169184175915019"
+                        disabled={!!editingAdminUser.id}
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label className="text-sm font-semibold text-neutral-400">Role</label>
+                      <select
+                        className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-accent transition-colors"
+                        value={editingAdminUser.role || 'Admin'}
+                        onChange={(e) => setEditingAdminUser({...editingAdminUser, role: e.target.value})}>
+                        <option value="Head Admin" className="bg-[#0a0a0a]">Head Admin</option>
+                        {(!editingAdminUser.id || editingAdminUser.role !== 'Head Admin') && (
+                          <option value="Admin" className="bg-[#0a0a0a]">Admin</option>
+                        )}
+                        <option value="Developer" className="bg-[#0a0a0a]">Developer</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end gap-4 mt-4">
+                    <button type="button" onClick={() => setActiveTab('whitelist')} className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-colors">
+                      Cancel
+                    </button>
+                    <button type="submit" disabled={isSaving} className="px-6 py-3 bg-accent hover:bg-red-700 text-white font-bold rounded-xl transition-colors flex items-center gap-2">
+                      {isSaving && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
+                      {isSaving ? 'Saving...' : 'Save User'}
                     </button>
                   </div>
                 </form>
