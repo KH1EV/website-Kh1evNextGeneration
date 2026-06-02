@@ -47,7 +47,7 @@ export default function AboutCommunity() {
         <div className="text-center mb-16 mt-8">
           <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-8 hero-text leading-tight opacity-0">
             Welcome to <br />
-            <span className="text-accent">Kh1ev Community.</span>
+            <span className="bg-accent text-white px-3 md:px-6 inline-block mt-2">Kh1ev Community.</span>
           </h1>
           <p className="text-neutral-400 text-base md:text-lg max-w-2xl mx-auto hero-text leading-relaxed opacity-0">
             While Kh1ev Organization focuses on building top-tier IT projects, 

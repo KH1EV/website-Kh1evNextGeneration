@@ -27,7 +27,7 @@ export default function About() {
 
           <div className="text-center w-full flex flex-col items-center">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight text-white max-w-4xl hero-text opacity-0">
-              We are <span className="text-accent">Kh1ev.</span><br />
+              We are <span className="bg-accent text-white px-3 md:px-6 inline-block mt-2 md:mt-0">Kh1ev.</span><br />
             </h1>
             
             <p className="text-lg md:text-xl text-neutral-400 max-w-2xl leading-relaxed mt-6 hero-text opacity-0">

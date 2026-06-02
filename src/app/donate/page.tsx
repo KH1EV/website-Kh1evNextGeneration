@@ -35,7 +35,7 @@ export default function DonatePage() {
         <div className="text-center mb-16 mt-8">
           <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-6 hero-text leading-tight opacity-0">
             Help Keep The <br />
-            <span className="text-accent">Community Alive.</span>
+            <span className="bg-accent text-white px-3 md:px-6 inline-block mt-2">Community Alive.</span>
           </h1>
           <p className="text-neutral-400 text-lg max-w-2xl mx-auto hero-text opacity-0">
             Server hosting, bot maintenance, and community events require resources. 
