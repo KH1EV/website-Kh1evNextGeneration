@@ -9,16 +9,16 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.kh1ev.my.id"),
-  title: "KH1EV. - IT Development & Community Hub",
-  description: "Kh1ev Organization is a space focused on IT development and tech projects. Beyond work and code, we are a casual community hub to connect, hang out, and play together.",
+  title: "KH1EV - IT Development & Community Hub",
+  description: "KH1EV Organization is a professional IT development collective and community hub. We specialize in crafting innovative digital solutions while fostering a vibrant space for creators to connect, collaborate, and thrive.",
   icons: {
     icon: "/images/logo.png",
     shortcut: "/images/logo.png",
     apple: "/images/logo.png",
   },
   openGraph: {
-    title: "KH1EV. - IT Development & Community Hub",
-    description: "Kh1ev Organization is a space focused on IT development and tech projects.",
+    title: "KH1EV - IT Development & Community Hub",
+    description: "KH1EV Organization is a professional IT development collective and community hub. We specialize in crafting innovative digital solutions while fostering a vibrant space for creators to connect, collaborate, and thrive.",
     url: "https://www.kh1ev.my.id",
     siteName: "KH1EV",
     images: [
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "KH1EV. - IT Development & Community Hub",
-    description: "Kh1ev Organization is a space focused on IT development and tech projects.",
+    title: "KH1EV - IT Development & Community Hub",
+    description: "KH1EV Organization is a professional IT development collective and community hub. We specialize in crafting innovative digital solutions while fostering a vibrant space for creators to connect, collaborate, and thrive.",
     images: ["/images/banner.png"],
   },
 };
