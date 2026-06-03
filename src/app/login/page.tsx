@@ -74,15 +74,19 @@ export default function LoginPage() {
       || 'Unknown';
     const avatarUrl = user.user_metadata?.avatar_url || '';
 
-    await supabase.from('discord_users').upsert({
-      discord_id: discordId,
-      username,
-      avatar_url: avatarUrl,
-      last_login: new Date().toISOString(),
-      ...extraData,
-    }, { onConflict: 'discord_id' });
-
-    window.location.replace('/user');
+    try {
+      await supabase.from('discord_users').upsert({
+        discord_id: discordId,
+        username,
+        avatar_url: avatarUrl,
+        last_login: new Date().toISOString(),
+        ...extraData,
+      }, { onConflict: 'discord_id' });
+    } catch (err) {
+      console.error("Failed to update user profile in DB:", err);
+    } finally {
+      window.location.replace('/user');
+    }
   };
 
   const handleLogin = async () => {
