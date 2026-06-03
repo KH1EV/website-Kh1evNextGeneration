@@ -22,7 +22,7 @@ export default function Footer() {
             {[
               { name: 'Discord', icon: <FaDiscord className="w-6 h-6 md:w-5 md:h-5" />, href: 'https://discord.gg/MwNE7Vfb6t' },
               { name: 'GitHub', icon: <FaGithub className="w-6 h-6 md:w-5 md:h-5" />, href: 'https://github.com/KH1EV' },
-              { name: 'Instagram', icon: <FaInstagram className="w-6 h-6 md:w-5 md:h-5" />, href: 'https://instagram.com/kh1ev.community' },
+              { name: 'Instagram', icon: <FaInstagram className="w-6 h-6 md:w-5 md:h-5" />, href: 'https://instagram.com/kh1ev.organization' },
               { name: 'TikTok', icon: <FaTiktok className="w-6 h-6 md:w-5 md:h-5" />, href: 'https://tiktok.com/@kh1ev' }
             ].map((social) => (
               <a key={social.name} href={social.href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 w-12 h-12 md:w-auto md:h-auto md:px-5 md:py-2.5 rounded-full border border-white/10 bg-white/[0.02] text-neutral-400 text-sm md:text-base font-semibold hover:bg-accent hover:text-white hover:border-accent transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_5px_20px_rgba(229,9,20,0.3)]">
