@@ -131,7 +131,7 @@ export default function BlogPost({ params }: { params: Promise<{ slug: string }>
       <Navbar />
 
       <div className="flex-1 pt-32 px-4 md:px-8 w-full max-w-4xl mx-auto relative z-10 flex flex-col mb-32">
-        <Link href="/blog" className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors mb-8 w-fit article-element">
+        <Link href="/community/blog" className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors mb-8 w-fit article-element">
           <FaArrowLeft className="w-4 h-4" />
           <span>Back to Blog</span>
         </Link>

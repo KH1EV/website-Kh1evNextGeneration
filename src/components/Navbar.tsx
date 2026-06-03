@@ -18,9 +18,9 @@ const navSections = [
     label: "COMMUNITY",
     links: [
       { href: "/community/about", text: "About Community" },
-      { href: "/rules", text: "Rules & Guidelines" },
-      { href: "/blog", text: "Blog & Articles" },
-      { href: "/donate", text: "Support Us" },
+      { href: "/community/rules", text: "Rules & Guidelines" },
+      { href: "/community/blog", text: "Blog & Articles" },
+      { href: "/community/donate", text: "Support Us" },
     ],
   },
   {
@@ -189,9 +189,9 @@ export default function Navbar() {
               </button>
               <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 py-2 bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                 <Link href="/community/about" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">About Community</Link>
-                <Link href="/rules" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Rules & Guidelines</Link>
-                <Link href="/blog" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Blog & Articles</Link>
-                <Link href="/donate" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Support Us</Link>
+                <Link href="/community/rules" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Rules & Guidelines</Link>
+                <Link href="/community/blog" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Blog & Articles</Link>
+                <Link href="/community/donate" className="block px-4 py-2 text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors">Support Us</Link>
               </div>
             </div>
 

@@ -78,7 +78,7 @@ export default function BlogPage() {
         ) : blogs.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogs.map((blog) => (
-              <a href={`/blog/${blog.slug}`} key={blog.id} className="blog-card block group">
+              <a href={`/community/blog/${blog.slug}`} key={blog.id} className="blog-card block group">
                 <div className="bg-white/[0.02] border border-white/5 rounded-3xl overflow-hidden hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 h-full flex flex-col">
                   <div className="relative h-48 overflow-hidden bg-neutral-900">
                     <img 
