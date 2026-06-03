@@ -199,16 +199,16 @@ export default function About() {
               </div>
 
               <div className="flex gap-20 relative z-10">
-                <div className="block relative bg-gradient-to-br from-[#5865F2]/10 to-transparent border border-[#5865F2]/20 rounded-2xl p-6 md:p-8 w-[350px] text-center group hover:border-[#5865F2]/50 transition-all duration-300 hover:-translate-y-1">
-                  <div className="w-14 h-14 mx-auto bg-[#5865F2]/20 rounded-2xl flex items-center justify-center mb-5 text-[#5865F2] group-hover:scale-110 transition-transform duration-300">
+                <div className="block relative bg-gradient-to-br from-red-500/10 to-transparent border border-red-500/20 rounded-2xl p-6 md:p-8 w-[350px] text-center group hover:border-red-500/50 transition-all duration-300 hover:-translate-y-1">
+                  <div className="w-14 h-14 mx-auto bg-red-500/20 rounded-2xl flex items-center justify-center mb-5 text-red-500 group-hover:scale-110 transition-transform duration-300">
                     <FaDiscord className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3 relative z-10">Kh1ev Community</h3>
                   <p className="text-sm text-neutral-400 relative z-10">Our vibrant Discord server community. A space for networking, tech discussions, collaboration, and gaming.</p>
                 </div>
 
-                <div className="block relative bg-gradient-to-br from-pink-500/10 to-transparent border border-pink-500/20 rounded-2xl p-6 md:p-8 w-[350px] text-center group hover:border-pink-500/50 transition-all duration-300 hover:-translate-y-1">
-                  <div className="w-14 h-14 mx-auto bg-pink-500/20 rounded-2xl flex items-center justify-center mb-5 text-pink-500 group-hover:scale-110 transition-transform duration-300">
+                <div className="block relative bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-500/20 rounded-2xl p-6 md:p-8 w-[350px] text-center group hover:border-blue-500/50 transition-all duration-300 hover:-translate-y-1">
+                  <div className="w-14 h-14 mx-auto bg-blue-500/20 rounded-2xl flex items-center justify-center mb-5 text-blue-500 group-hover:scale-110 transition-transform duration-300">
                     <FaCode className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3 relative z-10">Kh1ev Studio</h3>
@@ -237,16 +237,16 @@ export default function About() {
               </div>
 
               <div className="flex flex-col gap-6 w-full max-w-[320px]">
-                <div className="block bg-gradient-to-br from-[#5865F2]/10 to-transparent border border-[#5865F2]/20 rounded-2xl p-6 w-full text-center relative z-10 transition-transform hover:-translate-y-1 hover:border-[#5865F2]/50">
-                  <div className="w-12 h-12 mx-auto bg-[#5865F2]/20 rounded-2xl flex items-center justify-center mb-4 text-[#5865F2]">
+                <div className="block bg-gradient-to-br from-red-500/10 to-transparent border border-red-500/20 rounded-2xl p-6 w-full text-center relative z-10 transition-transform hover:-translate-y-1 hover:border-red-500/50">
+                  <div className="w-12 h-12 mx-auto bg-red-500/20 rounded-2xl flex items-center justify-center mb-4 text-red-500">
                     <FaDiscord className="w-6 h-6" />
                   </div>
                   <h3 className="text-lg font-bold text-white mb-2">Kh1ev Community</h3>
                   <p className="text-xs text-neutral-400">Discord server community for networking, tech discussion, and gaming.</p>
                 </div>
 
-                <div className="block bg-gradient-to-br from-pink-500/10 to-transparent border border-pink-500/20 rounded-2xl p-6 w-full text-center relative z-10 transition-transform hover:-translate-y-1 hover:border-pink-500/50">
-                  <div className="w-12 h-12 mx-auto bg-pink-500/20 rounded-2xl flex items-center justify-center mb-4 text-pink-500">
+                <div className="block bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-500/20 rounded-2xl p-6 w-full text-center relative z-10 transition-transform hover:-translate-y-1 hover:border-blue-500/50">
+                  <div className="w-12 h-12 mx-auto bg-blue-500/20 rounded-2xl flex items-center justify-center mb-4 text-blue-500">
                     <FaCode className="w-6 h-6" />
                   </div>
                   <h3 className="text-lg font-bold text-white mb-2">Kh1ev Studio</h3>
