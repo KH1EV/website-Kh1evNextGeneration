@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Link from "next/link";
 
 gsap.registerPlugin(useGSAP);
 
@@ -20,12 +21,13 @@ interface DiscordWidget {
   members: DiscordMember[];
 }
 
-const techFields = [
-  "Web Development", "App Development", "Discord Bots", "IT Infrastructure",
-  "UI/UX Design", "Cloud Computing", "Cybersecurity", "Data Science","IOT Engineering",
-  "Artificial Intelligence", "Machine Learning", "Game Development",
-  "DevOps", "System Administration", "Blockchain", "Backend Architecture",
-  "Frontend Engineering", "Penetration Testing", "Game Design"
+const ecosystemTags = [
+  "Web Development", "Community Events", "UI/UX Design", "Game Nights",
+  "Discord Bots", "Open Source", "Cybersecurity", "Public Networking",
+  "Artificial Intelligence", "Esports Tournaments", "Cloud Computing",
+  "Creative Arts", "Game Development", "Tech Discussions",
+  "Data Science", "Collaborative Projects", "Backend Architecture",
+  "Hangout Lounge", "System Administration", "Mentorship"
 ];
 
 const dummyDiscordUsers: DiscordMember[] = Array.from({ length: 40 }).map((_, i) => ({
@@ -177,28 +179,34 @@ export default function Home() {
             <div className="flex flex-col gap-0 md:gap-2">
               <div className="overflow-hidden pb-1 -mb-1">
                 <h1 className="headline-line text-4xl sm:text-5xl md:text-[7vw] lg:text-[6rem] font-extrabold leading-[1.1] md:leading-[1] tracking-tight text-foreground m-0">
-                  IT Development
+                  One Unified
                 </h1>
               </div>
               <div className="overflow-hidden pb-1 -mb-1">
                 <h1 className="headline-line text-4xl sm:text-5xl md:text-[7vw] lg:text-[6rem] font-extrabold leading-[1.1] md:leading-[1] tracking-tight text-foreground m-0">
-                  <span className="bg-accent text-white px-3 md:px-6 inline-block italic">& Community Hub.</span>
+                  <span className="bg-accent text-white px-3 md:px-6 inline-block italic">Kh1ev Ecosystem.</span>
                 </h1>
               </div>
             </div>
             
-            <p className="description text-base md:text-lg lg:text-xl text-neutral-400 max-w-[650px] leading-relaxed mt-2">
-              Kh1ev Organization is a space focused on IT development and tech projects. Beyond work and code, we are a casual community hub to connect, hang out, and play together.
+            <p className="description text-base md:text-lg lg:text-xl text-neutral-400 max-w-[700px] leading-relaxed mt-2">
+              A unified network built for the future of tech. The Kh1ev ecosystem is divided into three core pillars. The governing <strong className="text-white">Organization</strong>, our massive <strong className="text-white">Community</strong>, and the development <strong className="text-white">Studio</strong>.
             </p>
 
-            <div className="cta-wrapper mt-4">
-              <div className="inline-flex items-center gap-3 px-8 py-3.5 bg-white/[0.03] border border-white/10 rounded-full text-sm font-semibold tracking-wider uppercase text-foreground hover:bg-white/[0.08] transition-colors cursor-default">
-                <div className="relative w-2 h-2 bg-accent rounded-full">
-                  <div className="absolute inset-0 w-full h-full bg-accent rounded-full animate-ping opacity-75"></div>
-                </div>
-                Coming Soon
+            {/* <div className="cta-wrapper mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full">
+              <div className="group flex items-center gap-4 px-6 py-3.5 bg-white/[0.02] border border-white/10 rounded-full hover:bg-white/[0.05] hover:border-white/30 transition-all w-full sm:w-auto cursor-default">
+                 <div className="w-2 h-2 rounded-full bg-white group-hover:scale-150 transition-transform"></div>
+                 <span className="text-white font-bold text-sm tracking-wide">Organization</span>
               </div>
-            </div>
+              <Link href="/community/about" className="group flex items-center gap-4 px-6 py-3.5 bg-white/[0.02] border border-white/10 rounded-full hover:bg-accent/10 hover:border-accent/50 transition-all w-full sm:w-auto">
+                 <div className="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
+                 <span className="text-white font-bold text-sm tracking-wide">Community</span>
+              </Link>
+              <Link href="/studio/about" className="group flex items-center gap-4 px-6 py-3.5 bg-white/[0.02] border border-white/10 rounded-full hover:bg-[#23a559]/10 hover:border-[#23a559]/50 transition-all w-full sm:w-auto">
+                 <div className="w-2 h-2 rounded-full bg-[#23a559]"></div>
+                 <span className="text-white font-bold text-sm tracking-wide">Studio</span>
+              </Link>
+            </div> */}
           </div>
 
         </div>
@@ -207,12 +215,12 @@ export default function Home() {
       <section className="py-8 overflow-hidden border-y border-white/5 bg-white/[0.01]" ref={marqueeRef}>
         <div className="flex w-max">
           <div className="marquee-content flex w-max justify-around items-center text-xl md:text-3xl font-extrabold text-white/10 tracking-widest uppercase whitespace-nowrap gap-8 px-4">
-            {techFields.map((field, idx) => [
+            {ecosystemTags.map((field, idx) => [
               <span key={`text-orig-${idx}`}>{field}</span>,
               <span key={`dot-orig-${idx}`} className="text-accent/50">•</span>
             ])}
 
-            {techFields.map((field, idx) => [
+            {ecosystemTags.map((field, idx) => [
               <span key={`text-dup-${idx}`}>{field}</span>,
               <span key={`dot-dup-${idx}`} className="text-accent/50">•</span>
             ])}

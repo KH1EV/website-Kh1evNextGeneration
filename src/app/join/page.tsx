@@ -74,11 +74,7 @@ export default function JoinUsPage() {
                 <h4 className="text-xs font-bold text-neutral-300 uppercase tracking-wider mb-2">Requirements</h4>
                 <div className="flex items-start gap-3">
                   <FaCheckCircle className="w-4 h-4 text-neutral-500 mt-0.5 shrink-0" />
-                  <span className="text-xs text-neutral-400 leading-relaxed">Proven leadership and strategic thinking.</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <FaCheckCircle className="w-4 h-4 text-neutral-500 mt-0.5 shrink-0" />
-                  <span className="text-xs text-neutral-400 leading-relaxed">Deep understanding of Kh1ev's vision.</span>
+                  <span className="text-xs text-neutral-400 leading-relaxed">unknown.</span>
                 </div>
               </div>
             </div>
