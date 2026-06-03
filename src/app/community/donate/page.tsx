@@ -95,11 +95,11 @@ export default function DonatePage() {
                 </li>
                 <li className="flex items-start gap-3 text-sm text-neutral-300">
                   <FaCheckCircle className="text-accent mt-0.5 shrink-0" />
-                  <span>Custom name color in Discord</span>
+                  <span>Access to secret VIP chat channels</span>
                 </li>
                 <li className="flex items-start gap-3 text-sm text-neutral-300">
                   <FaCheckCircle className="text-accent mt-0.5 shrink-0" />
-                  <span>Priority access to new bot features</span>
+                  <span>Custom name color in Discord</span>
                 </li>
               </ul>
               <a href="https://sociabuzz.com/phionne" target="_blank" rel="noopener noreferrer" className="w-full py-3 bg-accent hover:bg-red-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-accent/20 block text-center">
