@@ -179,12 +179,12 @@ export default function Home() {
             <div className="flex flex-col gap-0 md:gap-2">
               <div className="overflow-hidden pb-1 -mb-1">
                 <h1 className="headline-line text-4xl sm:text-5xl md:text-[7vw] lg:text-[6rem] font-extrabold leading-[1.1] md:leading-[1] tracking-tight text-foreground m-0">
-                  One Unified
+                  IT Development
                 </h1>
               </div>
               <div className="overflow-hidden pb-1 -mb-1">
                 <h1 className="headline-line text-4xl sm:text-5xl md:text-[7vw] lg:text-[6rem] font-extrabold leading-[1.1] md:leading-[1] tracking-tight text-foreground m-0">
-                  <span className="bg-accent text-white px-3 md:px-6 inline-block italic">Kh1ev Ecosystem.</span>
+                  <span className="bg-accent text-white px-3 md:px-6 inline-block italic">& Community Hub.</span>
                 </h1>
               </div>
             </div>
