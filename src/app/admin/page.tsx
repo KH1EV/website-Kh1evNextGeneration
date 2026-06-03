@@ -91,7 +91,7 @@ interface StudioProject {
   sort_order?: number;
 }
 
-const withTimeout = (promise: any, ms: number = 10000): Promise<any> => {
+const withTimeout = (promise: any, ms: number = 30000): Promise<any> => {
   let timeoutId: NodeJS.Timeout;
   const timeoutPromise = new Promise<never>((_, reject) => {
     timeoutId = setTimeout(() => reject(new Error("Request timeout: Please check your connection.")), ms);
@@ -131,7 +131,7 @@ export default function AdminDashboard() {
 
   const fetchTeamMembers = async () => {
     try {
-      const { data } = await withTimeout(supabase.from('team_members').select('*'), 10000);
+      const { data } = await withTimeout(supabase.from('team_members').select('*'), 30000);
       if (data) {
         const sortedData = [...data].sort((a, b) => {
           if (a.sort_order !== b.sort_order) return (a.sort_order || 0) - (b.sort_order || 0);
@@ -148,7 +148,7 @@ export default function AdminDashboard() {
 
   const fetchBlogs = async () => {
     try {
-      const { data } = await withTimeout(supabase.from('blogs').select('id, title, slug, published, created_at, sort_order').order('sort_order', { ascending: true }), 10000);
+      const { data } = await withTimeout(supabase.from('blogs').select('id, title, slug, published, created_at, sort_order').order('sort_order', { ascending: true }), 30000);
       if (data) setBlogs(data);
     } catch (err) {
       console.error(err);
@@ -157,7 +157,7 @@ export default function AdminDashboard() {
 
   const fetchAdminUsers = async () => {
     try {
-      const { data } = await withTimeout(supabase.from('admin_users').select('*').order('sort_order', { ascending: true }), 10000);
+      const { data } = await withTimeout(supabase.from('admin_users').select('*').order('sort_order', { ascending: true }), 30000);
       if (data) setAdminUsers(data);
     } catch (err) {
       console.error(err);
@@ -166,7 +166,7 @@ export default function AdminDashboard() {
 
   const fetchApiKeys = async () => {
     try {
-      const { data } = await withTimeout(supabase.from('api_keys').select('*').order('sort_order', { ascending: true }), 10000);
+      const { data } = await withTimeout(supabase.from('api_keys').select('*').order('sort_order', { ascending: true }), 30000);
       if (data) setApiKeys(data);
     } catch (err) {
       console.error(err);
@@ -175,7 +175,7 @@ export default function AdminDashboard() {
 
   const fetchProjects = async () => {
     try {
-      const { data } = await withTimeout(supabase.from('studio_projects').select('*').order('sort_order', { ascending: true }), 10000);
+      const { data } = await withTimeout(supabase.from('studio_projects').select('*').order('sort_order', { ascending: true }), 30000);
       if (data) setProjects(data);
     } catch (err) {
       console.error(err);
@@ -184,7 +184,7 @@ export default function AdminDashboard() {
 
   const fetchDiscordUsers = async () => {
     try {
-      const { data } = await withTimeout(supabase.from('discord_users').select('*').order('last_login', { ascending: false }), 10000);
+      const { data } = await withTimeout(supabase.from('discord_users').select('*').order('last_login', { ascending: false }), 30000);
       if (data) setDiscordUsers(data);
     } catch (err) {
       console.error(err);
@@ -194,7 +194,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const checkUser = async () => {
       try {
-        const sessionResult = await withTimeout(supabase.auth.getSession(), 10000);
+        const sessionResult = await withTimeout(supabase.auth.getSession(), 30000);
 
         const session = sessionResult?.data?.session;
 
@@ -223,7 +223,7 @@ export default function AdminDashboard() {
               try {
                 const { data, error } = await withTimeout(
                   supabase.from('admin_users').select('*').eq('discord_id', discordId).single(),
-                  10000
+                  30000
                 );
 
                 if (data && !error) {
@@ -303,7 +303,7 @@ export default function AdminDashboard() {
           } else if (error) {
             console.error("AuthListener DB error:", error);
             setAuthError(`AuthListener Error: ${error.message}`);
-            setIsAuthorized(false);
+            // Don't set isAuthorized to false (which means access denied), leave it as null to show error
           }
         }
       } else if (event === 'SIGNED_OUT') {

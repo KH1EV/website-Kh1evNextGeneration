@@ -153,7 +153,6 @@ export default function UserDashboard() {
   const displayName = discordProfile?.global_name || user.user_metadata?.full_name || user.user_metadata?.custom_claims?.global_name || user.user_metadata?.name || 'User';
   const username = discordProfile?.username || user.user_metadata?.preferred_username || user.user_metadata?.name || '';
   const discordId = discordProfile?.id || user.user_metadata?.provider_id || user.identities?.[0]?.id || '';
-  // avatarUrl: prefer Supabase OAuth metadata (always reliable), discordProfile.avatar only if it has a hash
   const avatarUrl = user.user_metadata?.avatar_url
     || (discordProfile?.avatar ? getAvatarUrl(discordProfile) : null);
   const bannerUrl = discordProfile ? getBannerUrl(discordProfile) : null;
