@@ -213,12 +213,25 @@ export default function RolesPage() {
 
               <div className="w-full md:w-2/3 border-t border-white/10 pt-8">
                 <div className="flex flex-col">
-                  {cat.roles.map((role, rIndex) => (
+                  {cat.roles.map((role, rIndex) => {
+                    const bgMap: Record<string, string> = {
+                      "text-red-500": "bg-red-500",
+                      "text-blue-500": "bg-blue-500",
+                      "text-amber-500": "bg-amber-500",
+                      "text-purple-500": "bg-purple-500",
+                      "text-emerald-500": "bg-emerald-500",
+                      "text-orange-500": "bg-orange-500",
+                      "text-indigo-500": "bg-indigo-500",
+                      "text-pink-500": "bg-pink-500"
+                    };
+                    const dotBgClass = bgMap[cat.accent] || "bg-white";
+
+                    return (
                     <div 
                       key={rIndex}
                       className="group flex flex-col sm:flex-row sm:items-center justify-between py-6 border-b border-white/5 hover:border-white/20 transition-colors duration-300">
                       <div className="flex items-center gap-4 mb-2 sm:mb-0">
-                        <div className={`w-2 h-2 rounded-full ${cat.accent.replace('text-', 'bg-')} shadow-[0_0_10px_currentColor] opacity-50 group-hover:opacity-100 transition-opacity`}></div>
+                        <div className={`w-2 h-2 rounded-full ${dotBgClass} shadow-[0_0_10px_currentColor] opacity-50 group-hover:opacity-100 transition-opacity`}></div>
                         <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:pl-2 transition-all duration-300">
                           {role.name}
                         </h3>
@@ -227,7 +240,7 @@ export default function RolesPage() {
                         {role.desc}
                       </p>
                     </div>
-                  ))}
+                  )})}
                 </div>
               </div>
             </div>
