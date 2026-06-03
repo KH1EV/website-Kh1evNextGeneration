@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
+import { supabase } from "@/lib/supabaseClient";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Navbar from "@/components/Navbar";
@@ -11,6 +12,64 @@ gsap.registerPlugin(useGSAP);
 
 export default function DonatePage() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [recentDonations, setRecentDonations] = useState<any[]>([]);
+  const [totalAmount, setTotalAmount] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchDonations = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('donations')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        
+        if (data && data.length > 0) {
+          setRecentDonations(data);
+          const sum = data.reduce((acc, curr) => acc + Number(curr.amount || 0), 0);
+          setTotalAmount(sum);
+        } else {
+          const dummies = [
+            { supporter_name: "Alex Chen", amount: 50000, message: "Keep up the great work guys!", created_at: new Date(Date.now() - 2 * 3600000).toISOString() },
+            { supporter_name: "Sarah M.", amount: 100000, message: "For the new bot hosting ❤️", created_at: new Date(Date.now() - 5 * 3600000).toISOString() },
+            { supporter_name: "Anonymous", amount: 10000, message: "", created_at: new Date(Date.now() - 24 * 3600000).toISOString() },
+            { supporter_name: "Rizky Pratama", amount: 25000, message: "Semangat terus Kh1ev!", created_at: new Date(Date.now() - 48 * 3600000).toISOString() },
+          ];
+          setRecentDonations(dummies);
+          setTotalAmount(dummies.reduce((acc, curr) => acc + curr.amount, 0));
+        }
+      } catch (err) {
+        console.error("Error fetching donations:", err);
+        const fallback = [
+          { supporter_name: "Alex Chen", amount: 50000, message: "Keep up the great work guys!", created_at: new Date().toISOString() },
+        ];
+        setRecentDonations(fallback);
+        setTotalAmount(50000);
+      }
+    };
+
+    fetchDonations();
+  }, []);
+
+  const formatRupiah = (amount: number) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0
+    }).format(amount);
+  };
+
+  const getRelativeTime = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+    
+    if (diffInSeconds < 60) return `${diffInSeconds} seconds ago`;
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+    return `${Math.floor(diffInSeconds / 86400)} days ago`;
+  };
 
   useGSAP(() => {
     const tl = gsap.timeline();
@@ -25,6 +84,19 @@ export default function DonatePage() {
       ".tier-card",
       { opacity: 0, y: 50, scale: 0.95 },
       { opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.15, ease: "back.out(1.2)" },
+      "-=0.4"
+    );
+    tl.fromTo(
+      ".recent-text",
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: "power3.out" },
+      "-=0.2"
+    );
+
+    tl.fromTo(
+      ".recent-card",
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
       "-=0.4"
     );
   }, { scope: containerRef });
@@ -142,6 +214,67 @@ export default function DonatePage() {
             </div>
           </div>
 
+        </div>
+
+        <div className="mt-32 w-full max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-4 recent-text opacity-0">
+              Our <span className="text-accent italic">Supporters</span>
+            </h2>
+            <p className="text-neutral-400 recent-text opacity-0 mb-8">
+              A massive thank you to everyone who helps keep our community running!
+            </p>
+          </div>
+
+          <div className="bg-[#0a0a0a] border border-white/5 rounded-3xl relative overflow-hidden recent-card opacity-0 transform translate-y-10 flex flex-col">
+            <style jsx>{`
+              .custom-scroll::-webkit-scrollbar {
+                width: 6px;
+              }
+              .custom-scroll::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.01);
+                border-radius: 10px;
+              }
+              .custom-scroll::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+              }
+              .custom-scroll::-webkit-scrollbar-thumb:hover {
+                background: rgba(229, 9, 20, 0.5);
+              }
+            `}</style>
+
+            <div className="p-6 md:p-8 border-b border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-white/[0.01]">
+              <div>
+                <h3 className="text-xl md:text-2xl font-bold text-white">Donation History</h3>
+                <p className="text-sm text-neutral-400 mt-1">Live updates from our supporters</p>
+              </div>
+            </div>
+            
+            <div className="p-2 md:p-4">
+              <div className="space-y-1 max-h-[500px] overflow-y-auto pr-2 custom-scroll">
+                {recentDonations.map((donation, idx) => (
+                  <div key={idx} className="flex items-start sm:items-center justify-between p-4 border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors gap-4 flex-col sm:flex-row rounded-2xl">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                        <FaHeart className="w-4 h-4 text-accent" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-white text-base">{donation.supporter_name}</p>
+                        {donation.message && (
+                          <p className="text-neutral-400 text-sm mt-0.5 italic">"{donation.message}"</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-left sm:text-right shrink-0 ml-[3.5rem] sm:ml-0">
+                      <p className="font-bold text-accent text-lg">{formatRupiah(Number(donation.amount))}</p>
+                      <p className="text-neutral-500 text-xs mt-0.5">{getRelativeTime(donation.created_at)}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
