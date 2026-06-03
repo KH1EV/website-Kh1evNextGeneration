@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import { FaBars, FaTimes, FaShieldAlt, FaSignOutAlt, FaDiscord } from "react-icons/fa";
+import { FaBars, FaTimes, FaShieldAlt, FaSignOutAlt, FaDiscord, FaUser } from "react-icons/fa";
 import { supabase } from "@/lib/supabaseClient";
 import { User } from "@supabase/supabase-js";
 
@@ -43,6 +43,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [showSignOutModal, setShowSignOutModal] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
@@ -51,12 +52,33 @@ export default function Navbar() {
   useEffect(() => {
     setMounted(true);
 
+    const checkAdmin = async (discordId: string) => {
+      const { data } = await supabase
+        .from('admin_users')
+        .select('id')
+        .eq('discord_id', discordId)
+        .single();
+      setIsAdmin(!!data);
+    };
+
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
+      const u = session?.user ?? null;
+      setUser(u);
+      if (u) {
+        const discordId = u.user_metadata?.provider_id || u.identities?.[0]?.id;
+        if (discordId) checkAdmin(discordId);
+      }
     });
 
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+      const u = session?.user ?? null;
+      setUser(u);
+      if (u) {
+        const discordId = u.user_metadata?.provider_id || u.identities?.[0]?.id;
+        if (discordId) checkAdmin(discordId);
+      } else {
+        setIsAdmin(false);
+      }
     });
 
     return () => listener.subscription.unsubscribe();
@@ -265,24 +287,35 @@ export default function Navbar() {
                             <span className="truncate">@{discordTag}</span>
                           </p>
                         )}
-                        {!discordTag && userEmail && (
-                          <p className="text-neutral-500 text-xs truncate mt-0.5">{userEmail}</p>
-                        )}
                       </div>
                     </div>
                   </div>
 
-                  <div className="p-2">
+                  <div className="p-2 flex flex-col gap-1">
+                    {isAdmin && (
+                      <Link
+                        href="/admin"
+                        onClick={() => setIsUserDropdownOpen(false)}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors group">
+                        <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                          <FaShieldAlt className="w-3.5 h-3.5 text-accent" />
+                        </div>
+                        <div>
+                          <p className="font-semibold">Admin Dashboard</p>
+                          <p className="text-xs text-neutral-500">Manage content & settings</p>
+                        </div>
+                      </Link>
+                    )}
                     <Link
-                      href="/admin"
+                      href="/user"
                       onClick={() => setIsUserDropdownOpen(false)}
                       className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-neutral-300 hover:text-white hover:bg-white/5 transition-colors group">
-                      <div className="w-7 h-7 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                        <FaShieldAlt className="w-3.5 h-3.5 text-accent" />
+                      <div className="w-7 h-7 rounded-lg bg-[#5865F2]/10 flex items-center justify-center group-hover:bg-[#5865F2]/20 transition-colors">
+                        <FaUser className="w-3.5 h-3.5 text-[#5865F2]" />
                       </div>
                       <div>
-                        <p className="font-semibold">Admin Dashboard</p>
-                        <p className="text-xs text-neutral-500">Manage content & settings</p>
+                        <p className="font-semibold">My Profile</p>
+                        <p className="text-xs text-neutral-500">View your Discord profile</p>
                       </div>
                     </Link>
                   </div>
@@ -394,12 +427,21 @@ export default function Navbar() {
                   </div>
                 </div>
                 <div style={{ marginTop: "14px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                  {isAdmin && (
+                    <Link
+                      href="/admin"
+                      onClick={closeMenu}
+                      style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 14px", background: "rgba(229,9,20,0.08)", border: "1px solid rgba(229,9,20,0.15)", borderRadius: "12px", color: "#e50914", textDecoration: "none", fontWeight: 600, fontSize: "0.875rem" }}>
+                      <FaShieldAlt style={{ width: "14px", height: "14px" }} />
+                      Admin Dashboard
+                    </Link>
+                  )}
                   <Link
-                    href="/admin"
+                    href="/user"
                     onClick={closeMenu}
-                    style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 14px", background: "rgba(229,9,20,0.08)", border: "1px solid rgba(229,9,20,0.15)", borderRadius: "12px", color: "#e50914", textDecoration: "none", fontWeight: 600, fontSize: "0.875rem" }}>
-                    <FaShieldAlt style={{ width: "14px", height: "14px" }} />
-                    Admin Dashboard
+                    style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 14px", background: "rgba(88,101,242,0.08)", border: "1px solid rgba(88,101,242,0.2)", borderRadius: "12px", color: "#5865F2", textDecoration: "none", fontWeight: 600, fontSize: "0.875rem" }}>
+                    <FaUser style={{ width: "14px", height: "14px" }} />
+                    My Profile
                   </Link>
                   <button
                     onClick={() => { handleSignOut(); closeMenu(); }}

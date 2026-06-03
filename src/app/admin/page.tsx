@@ -63,6 +63,14 @@ interface AdminUser {
   sort_order?: number;
 }
 
+interface DiscordUser {
+  id?: string;
+  discord_id: string;
+  username: string;
+  avatar_url: string;
+  last_login: string;
+}
+
 interface ApiKey {
   id: string;
   name: string;
@@ -102,7 +110,8 @@ export default function AdminDashboard() {
   const [adminUsers, setAdminUsers] = useState<AdminUser[]>([]);
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([]);
   const [projects, setProjects] = useState<StudioProject[]>([]);
-  const [activeTab, setActiveTab] = useState<'team' | 'blogs' | 'projects' | 'settings' | 'whitelist' | 'keys' | 'blog-editor' | 'project-editor' | 'team-editor' | 'whitelist-editor'>('team');
+  const [discordUsers, setDiscordUsers] = useState<DiscordUser[]>([]);
+  const [activeTab, setActiveTab] = useState<'team' | 'blogs' | 'projects' | 'settings' | 'whitelist' | 'keys' | 'blog-editor' | 'project-editor' | 'team-editor' | 'whitelist-editor' | 'discord-users'>('team');
   const [currentUserRole, setCurrentUserRole] = useState<string>('Admin');
   const [editingAdminUser, setEditingAdminUser] = useState<Partial<AdminUser>>({});
   const [editingBlog, setEditingBlog] = useState<Partial<Blog> & { excerpt?: string; content?: string; image_url?: string }>({});
@@ -173,6 +182,15 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchDiscordUsers = async () => {
+    try {
+      const { data } = await withTimeout(supabase.from('discord_users').select('*').order('last_login', { ascending: false }), 10000);
+      if (data) setDiscordUsers(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     const checkUser = async () => {
       try {
@@ -185,31 +203,50 @@ export default function AdminDashboard() {
           const discordId = session.user.user_metadata?.provider_id || session.user.identities?.[0]?.id;
 
           if (discordId) {
+            try {
+              const username = session.user.user_metadata?.full_name || session.user.user_metadata?.custom_claims?.global_name || session.user.user_metadata?.name || 'Unknown';
+              const avatarUrl = session.user.user_metadata?.avatar_url || '';
+              await supabase.from('discord_users').upsert({
+                discord_id: discordId,
+                username,
+                avatar_url: avatarUrl,
+                last_login: new Date().toISOString()
+              }, { onConflict: 'discord_id' });
+            } catch (e) {
+              console.error('Failed to record discord user login:', e);
+            }
+
             let retryCount = 0;
             let success = false;
             
             while (retryCount < 3 && !success) {
-              const { data, error } = await withTimeout(
-                supabase.from('admin_users').select('*').eq('discord_id', discordId).single(),
-                10000
-              );
+              try {
+                const { data, error } = await withTimeout(
+                  supabase.from('admin_users').select('*').eq('discord_id', discordId).single(),
+                  10000
+                );
 
-              if (data && !error) {
-                success = true;
-                setIsAuthorized(true);
-                setCurrentUserRole(data.role || 'Admin');
-                Promise.all([fetchTeamMembers(), fetchBlogs(), fetchAdminUsers(), fetchApiKeys(), fetchProjects()]);
-                return;
-              } else if (error && error.code === 'PGRST116') {
-                // Definitely unauthorized
-                success = true; // Break loop
-                setIsAuthorized(false);
-              } else {
+                if (data && !error) {
+                  success = true;
+                  setIsAuthorized(true);
+                  setCurrentUserRole(data.role || 'Admin');
+                  Promise.all([fetchTeamMembers(), fetchBlogs(), fetchAdminUsers(), fetchApiKeys(), fetchProjects(), fetchDiscordUsers()]);
+                  return;
+                } else if (error && error.code === 'PGRST116') {
+                  // Definitely unauthorized (0 rows returned)
+                  success = true; // Break loop
+                  window.location.replace('/user');
+                  return;
+                } else {
+                  // Any other error from supabase (e.g. timeout inside supabase itself)
+                  throw new Error(error?.message || 'Database error');
+                }
+              } catch (err: any) {
                 retryCount++;
                 if (retryCount >= 3) {
-                  console.error("Supabase checkUser error after 3 retries:", error);
-                  setAuthError(`CheckUser DB Error: ${error?.message || 'Timeout'}`);
-                  setIsAuthorized(false);
+                  console.error("Supabase checkUser error after 3 retries:", err);
+                  setAuthError(`Connection Error: ${err?.message || 'Timeout'}`);
+                  // Note: we leave isAuthorized as null so it doesn't show "Access Denied"
                 } else {
                   // Wait 1 second before retrying
                   await new Promise(res => setTimeout(res, 1000));
@@ -223,7 +260,6 @@ export default function AdminDashboard() {
       } catch (err: any) {
         console.error("Auth check failed or timed out:", err);
         setAuthError(`Auth Check Failed: ${err.message}`);
-        setIsAuthorized(false);
       } finally {
         setLoading(false);
       }
@@ -232,10 +268,24 @@ export default function AdminDashboard() {
     checkUser();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session?.user) {
+      // Only react to SIGNED_IN (OAuth callback) to avoid fighting with checkUser
+      if (event === 'SIGNED_IN' && session?.user) {
         setUser(session.user as User);
         const discordId = session.user.user_metadata?.provider_id || session.user.identities?.[0]?.id;
         if (discordId) {
+          try {
+            const username = session.user.user_metadata?.full_name || session.user.user_metadata?.custom_claims?.global_name || session.user.user_metadata?.name || 'Unknown';
+            const avatarUrl = session.user.user_metadata?.avatar_url || '';
+            await supabase.from('discord_users').upsert({
+              discord_id: discordId,
+              username,
+              avatar_url: avatarUrl,
+              last_login: new Date().toISOString()
+            }, { onConflict: 'discord_id' });
+          } catch (e) {
+            console.error('Failed to record discord user login:', e);
+          }
+
           const { data, error } = await supabase
             .from('admin_users')
             .select('*')
@@ -245,17 +295,18 @@ export default function AdminDashboard() {
           if (data && !error) {
             setIsAuthorized(true);
             setCurrentUserRole(data.role || 'Admin');
-            Promise.all([fetchTeamMembers(), fetchBlogs(), fetchAdminUsers(), fetchApiKeys(), fetchProjects()]);
+            Promise.all([fetchTeamMembers(), fetchBlogs(), fetchAdminUsers(), fetchApiKeys(), fetchProjects(), fetchDiscordUsers()]);
           } else if (error && error.code === 'PGRST116') {
-            // PGRST116 means zero rows found, so definitely unauthorized
-            setIsAuthorized(false);
+            // Not in whitelist — send to user dashboard
+            window.location.replace('/user');
+            return;
           } else if (error) {
             console.error("AuthListener DB error:", error);
             setAuthError(`AuthListener Error: ${error.message}`);
             setIsAuthorized(false);
           }
         }
-      } else {
+      } else if (event === 'SIGNED_OUT') {
         setUser(null);
         setIsAuthorized(false);
       }
@@ -270,7 +321,7 @@ export default function AdminDashboard() {
     await supabase.auth.signInWithOAuth({
       provider: 'discord',
       options: {
-        redirectTo: `${window.location.origin}/admin`
+        redirectTo: `${window.location.origin}/login`
       }
     });
   };
@@ -610,32 +661,47 @@ export default function AdminDashboard() {
   }
 
   if (!user) {
+    if (typeof window !== 'undefined') window.location.replace('/login');
     return (
-      <main className="min-h-screen bg-background relative overflow-x-hidden selection:bg-accent selection:text-white flex flex-col items-center justify-center p-4">
-        <Navbar />
-        <div className="max-w-md w-full bg-white/[0.02] border border-white/10 rounded-3xl p-8 text-center relative z-10">
-          <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
-            <FaDiscord className="w-8 h-8 text-[#5865F2]" />
-          </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Admin Access</h1>
-          <p className="text-neutral-400 mb-8">Sign in with your Discord account to access the Kh1ev dashboard.</p>
-          <button 
-            onClick={handleLogin}
-            className="w-full py-3 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
-            <FaDiscord className="w-5 h-5" />
-            Login with Discord
-          </button>
-        </div>
-      </main>
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+        <div className="w-10 h-10 border-2 border-white/10 border-t-accent rounded-full animate-spin" />
+      </div>
     );
   }
 
-  if (loading || isAuthorized === null) {
+  if (loading || (isAuthorized === null && !authError)) {
     return (
       <div className="min-h-screen bg-[#050505] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-white/10 border-t-accent rounded-full animate-spin"></div>
           <p className="text-white/50 font-mono text-sm animate-pulse">Verifying Access...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isAuthorized === null && authError) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-[#0a0a0a] border border-orange-500/20 rounded-2xl p-8 text-center relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-orange-500/50"></div>
+          <div className="w-16 h-16 bg-orange-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg className="w-8 h-8 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-2">Connection Timeout</h2>
+          <p className="text-neutral-400 mb-6">The database took too long to respond. It might be waking up from sleep mode.</p>
+          
+          <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-4 mb-6 text-left">
+            <p className="text-xs text-orange-400 font-mono break-words">{authError}</p>
+          </div>
+          
+          <button 
+            onClick={() => window.location.reload()}
+            className="w-full py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-colors">
+            Retry Connection
+          </button>
         </div>
       </div>
     );
@@ -835,6 +901,12 @@ export default function AdminDashboard() {
               className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-left transition-colors ${activeTab === 'projects' ? 'bg-accent/10 text-accent' : 'bg-white/[0.02] text-neutral-400 hover:text-white hover:bg-white/[0.05]'}`}>
               <FaBriefcase className="w-5 h-5" />
               Projects
+            </button>
+            <button 
+              onClick={() => setActiveTab('discord-users')}
+              className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-left transition-colors ${activeTab === 'discord-users' ? 'bg-accent/10 text-accent' : 'bg-white/[0.02] text-neutral-400 hover:text-white hover:bg-white/[0.05]'}`}>
+              <FaDiscord className="w-5 h-5" />
+              Login Records
             </button>
             {currentUserRole !== 'Admin' && (
               <button 
@@ -1055,6 +1127,53 @@ export default function AdminDashboard() {
                       {projects.length === 0 && (
                         <tr>
                           <td colSpan={4} className="py-8 text-center text-neutral-500">No projects found.</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </>
+            )}
+
+            {activeTab === 'discord-users' && (
+              <>
+                <div className="flex items-center justify-between mb-8">
+                  <h2 className="text-2xl font-bold text-white">Discord Login Records</h2>
+                  <button onClick={fetchDiscordUsers} className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg transition-colors text-sm font-semibold">
+                    Refresh Data
+                  </button>
+                </div>
+                
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-white/10 text-neutral-400 text-sm">
+                        <th className="pb-4 font-semibold">User</th>
+                        <th className="pb-4 font-semibold">Discord ID</th>
+                        <th className="pb-4 font-semibold">Last Login</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {discordUsers.map((dUser) => (
+                        <tr key={dUser.discord_id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                          <td className="py-4">
+                            <div className="flex items-center gap-3">
+                              <img src={dUser.avatar_url || `https://ui-avatars.com/api/?name=${dUser.username}`} alt={dUser.username} className="w-10 h-10 rounded-full object-cover bg-neutral-800 border border-white/10" />
+                              <span className="font-semibold text-white">{dUser.username}</span>
+                            </div>
+                          </td>
+                          <td className="py-4 text-neutral-300 font-mono text-sm">{dUser.discord_id}</td>
+                          <td className="py-4 text-neutral-400 text-sm">
+                            {new Date(dUser.last_login).toLocaleString('id-ID', {
+                              day: 'numeric', month: 'short', year: 'numeric',
+                              hour: '2-digit', minute: '2-digit'
+                            })}
+                          </td>
+                        </tr>
+                      ))}
+                      {discordUsers.length === 0 && (
+                        <tr>
+                          <td colSpan={3} className="py-8 text-center text-neutral-500">No login records found.</td>
                         </tr>
                       )}
                     </tbody>
