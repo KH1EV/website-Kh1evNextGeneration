@@ -31,7 +31,7 @@ export default function AboutCommunity() {
     );
 
     gsap.fromTo(
-      ".feature-card",
+      ".feature-item",
       { opacity: 0, y: 50 },
       {
         opacity: 1,
@@ -99,65 +99,69 @@ export default function AboutCommunity() {
           </div>
         </div>
 
-        <div className="features-section mb-32">
-          <div className="flex flex-col items-center mb-12 text-center">
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">What We Do.</h2>
-            <p className="text-neutral-400 max-w-2xl">More than just a chatroom. We host events, collaborate on mini-projects, and build lasting friendships.</p>
+        <div className="features-section mb-32 max-w-6xl mx-auto w-full">
+          <div className="flex flex-col mb-16 md:mb-24">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tight mb-6">What We Do.</h2>
+            <div className="w-24 h-2 bg-accent mb-8"></div>
+            <p className="text-neutral-400 max-w-3xl text-lg md:text-2xl leading-relaxed font-light">
+              More than just a chatroom. We host events, collaborate on mini-projects, and build lasting friendships.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="col-span-1 md:col-span-2 feature-card opacity-0 bg-gradient-to-br from-[#5865F2]/10 to-transparent border border-[#5865F2]/20 p-8 md:p-10 rounded-[2rem] hover:border-[#5865F2]/40 transition-all duration-500 relative overflow-hidden group">
-              <div className="absolute -right-10 -bottom-10 text-[#5865F2] opacity-5 group-hover:scale-110 transition-transform duration-700 pointer-events-none">
-                <FaDiscord className="w-64 h-64" />
+          <div className="flex flex-col gap-16 md:gap-32 border-t border-white/10 pt-16 md:pt-24">
+            {[
+              {
+                title: "Active Chat & Voice",
+                desc: "Our main hub for daily conversations. Whether you want to talk about the latest tech news, anime episodes, or just vent about your day, there's always someone online to listen and chat with.",
+                icon: FaComments,
+                color: "text-[#5865F2]"
+              },
+              {
+                title: "Gaming Nights",
+                desc: "Regular community game nights. Valorant, Minecraft, Roblox, etc. It's all about having fun, strategizing together, and building unforgettable moments in-game.",
+                icon: FaGamepad,
+                color: "text-red-500"
+              },
+              {
+                title: "Music & Chill",
+                desc: "Hop into our Lo-Fi lounges. Share your Spotify playlists or use our bots to blast tunes while coding. A dedicated space to relax and discover new music with friends.",
+                icon: FaMusic,
+                color: "text-green-500"
+              },
+              {
+                title: "Code Collabs",
+                desc: "Find partners for your side projects, ask for debugging help, or join our monthly hackathons. A collaborative environment designed to elevate your programming skills.",
+                icon: FaCode,
+                color: "text-purple-500"
+              },
+              {
+                title: "Safe Space",
+                desc: "A heavily moderated, toxic-free environment. We respect everyone regardless of background. Your peace of mind and comfort are our top priorities in the community.",
+                icon: FaHeart,
+                color: "text-pink-500"
+              }
+            ].map((feature, index) => (
+              <div key={index} className="feature-item opacity-0 flex flex-col md:flex-row gap-8 md:gap-16 items-start group">
+                <div className="w-full md:w-1/3 md:sticky md:top-32 flex flex-col">
+                  <div className="flex items-center gap-6 mb-6">
+                    <div className="text-6xl md:text-8xl font-black text-white/5 transition-colors duration-500 group-hover:text-white/10">
+                      0{index + 1}
+                    </div>
+                    <div className={`w-16 h-16 md:w-20 md:h-20 rounded-[2rem] bg-white/5 flex items-center justify-center ${feature.color} border border-white/5 group-hover:border-white/20 transition-all duration-500`}>
+                      <feature.icon className="w-8 h-8 md:w-10 md:h-10" />
+                    </div>
+                  </div>
+                  <h3 className="text-3xl md:text-4xl font-black text-white tracking-tight uppercase leading-tight">
+                    {feature.title}
+                  </h3>
+                </div>
+                <div className="w-full md:w-2/3 md:pt-4">
+                  <p className="text-neutral-400 text-xl md:text-3xl font-light leading-relaxed md:leading-snug group-hover:text-neutral-200 transition-colors duration-500">
+                    {feature.desc}
+                  </p>
+                </div>
               </div>
-              <div className="w-14 h-14 bg-[#5865F2]/20 rounded-2xl flex items-center justify-center mb-6 text-[#5865F2] relative z-10">
-                <FaComments className="w-6 h-6" />
-              </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 relative z-10">Active Chat & Voice</h3>
-              <p className="text-neutral-300 text-base md:text-lg leading-relaxed relative z-10 max-w-xl">
-                Our main hub for daily conversations. Whether you want to talk about the latest tech news, anime episodes, or just vent about your day, there's always someone online to listen and chat with.
-              </p>
-            </div>
-
-            <div className="col-span-1 feature-card opacity-0 bg-gradient-to-br from-red-500/10 to-transparent border border-red-500/20 p-8 md:p-10 rounded-[2rem] hover:border-red-500/40 transition-all duration-500 group">
-              <div className="w-14 h-14 bg-red-500/20 rounded-2xl flex items-center justify-center mb-6 text-red-500">
-                <FaGamepad className="w-6 h-6" />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4">Gaming Nights</h3>
-              <p className="text-neutral-400 leading-relaxed">
-                Regular community game nights. Valorant, Minecraft, Roblox, etc. It's all about having fun.
-              </p>
-            </div>
-
-            <div className="col-span-1 feature-card opacity-0 bg-gradient-to-br from-green-500/10 to-transparent border border-green-500/20 p-8 md:p-10 rounded-[2rem] hover:border-green-500/40 transition-all duration-500 group">
-              <div className="w-14 h-14 bg-green-500/20 rounded-2xl flex items-center justify-center mb-6 text-green-500">
-                <FaMusic className="w-6 h-6" />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4">Music & Chill</h3>
-              <p className="text-neutral-400 leading-relaxed">
-                Hop into our Lo-Fi lounges. Share your Spotify playlists or use our bots to blast tunes while coding.
-              </p>
-            </div>
-
-            <div className="col-span-1 feature-card opacity-0 bg-gradient-to-br from-purple-500/10 to-transparent border border-purple-500/20 p-8 md:p-10 rounded-[2rem] hover:border-purple-500/40 transition-all duration-500 group">
-              <div className="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center mb-6 text-purple-500">
-                <FaCode className="w-6 h-6" />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4">Code Collabs</h3>
-              <p className="text-neutral-400 leading-relaxed">
-                Find partners for your side projects, ask for debugging help, or join our monthly hackathons.
-              </p>
-            </div>
-
-            <div className="col-span-1 feature-card opacity-0 bg-gradient-to-br from-pink-500/10 to-transparent border border-pink-500/20 p-8 md:p-10 rounded-[2rem] hover:border-pink-500/40 transition-all duration-500 group">
-              <div className="w-14 h-14 bg-pink-500/20 rounded-2xl flex items-center justify-center mb-6 text-pink-500">
-                <FaHeart className="w-6 h-6" />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-4">Safe Space</h3>
-              <p className="text-neutral-400 leading-relaxed">
-                A heavily moderated, toxic-free environment. We respect everyone regardless of background.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
 
