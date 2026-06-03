@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Navbar from "@/components/Navbar";
-import { FaDiscord, FaShieldAlt } from "react-icons/fa";
+import { FaDiscord, FaShieldAlt, FaUserCircle } from "react-icons/fa";
+import Link from "next/link";
 
-type Stage = 'idle' | 'loading' | 'redirecting';
+type Stage = 'idle' | 'loading' | 'redirecting' | 'authenticated';
 
 export default function LoginPage() {
   const [stage, setStage] = useState<Stage>('loading');
@@ -23,8 +24,7 @@ export default function LoginPage() {
 
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
-        setStage('redirecting');
-        await routeUser(session.user, null); 
+        setStage('authenticated');
         return;
       }
 
@@ -116,6 +116,35 @@ export default function LoginPage() {
     );
   }
 
+  if (stage === 'authenticated') {
+    return (
+      <main className="min-h-screen bg-[#050505] relative overflow-hidden flex flex-col items-center justify-center p-4">
+        <Navbar />
+        <div className="max-w-md w-full bg-[#0a0a0c] border border-white/[0.06] rounded-[2rem] p-8 md:p-10 text-center shadow-2xl relative mt-20">
+          <div className="w-16 h-16 bg-green-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-green-500/20">
+            <FaUserCircle className="w-8 h-8 text-green-500" />
+          </div>
+          <h2 className="text-3xl font-black text-white tracking-tight mb-2">Already Signed In</h2>
+          <p className="text-neutral-500 text-sm leading-relaxed mb-8">
+            You are already authenticated with your Discord account.
+          </p>
+          <div className="flex flex-col gap-3">
+            <Link 
+              href="/user" 
+              className="w-full py-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold rounded-xl transition-all shadow-lg shadow-[#5865F2]/20 text-[15px]">
+              Go to Profile
+            </Link>
+            <Link 
+              href="/" 
+              className="w-full py-4 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-all text-[15px]">
+              Return to Home
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-[#050505] relative overflow-hidden selection:bg-[#5865F2]/30 selection:text-white flex flex-col">
       <Navbar />
@@ -141,7 +170,7 @@ export default function LoginPage() {
             ) : (
               <FaDiscord className="w-5 h-5" />
             )}
-            {isLoggingIn ? 'Establishing Connection...' : 'Continue with Discord'}
+            {isLoggingIn ? 'Connecting...' : 'Continue with Discord'}
           </button>
 
           <div className="mt-8 pt-8 border-t border-white/[0.06] flex flex-col items-center text-center">
