@@ -177,20 +177,20 @@ export default function StudioAbout() {
         </div>
 
         <div className="services-section mb-40">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-12 mb-24 relative z-10">
-            <div className="md:w-1/2">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 mb-24 relative z-10">
+            <div className="md:w-1/2 w-full">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/20 rounded-full text-accent font-bold text-xs tracking-[0.2em] uppercase mb-6">
                 <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
                 The Kh1ev Studio Mission
               </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight leading-[1.1]">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1]">
                 Not Just Learning.<br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-neutral-600">Building Real Portfolios.</span>
               </h2>
             </div>
             <div className="md:w-1/2 md:pl-12 md:border-l border-white/10">
               <p className="text-neutral-400 text-lg md:text-xl leading-relaxed mb-8">
-                Kh1ev Studio is an open laboratory for tech enthusiasts. We believe the absolute best way to master IT is by getting our hands dirty. We gather passionate individuals to brainstorm, execute, and build massive IT projects that become powerful additions to our collective portfolios.
+                Kh1ev Studio is an open laboratory for tech enthusiasts. We learn by doing uniting passionate individuals to build massive projects for our collective portfolios.
               </p>
               <div className="flex items-center gap-4">
                 <Link href="/join" className="px-8 py-4 bg-accent text-white font-extrabold rounded-full shadow-[0_0_20px_rgba(229,9,20,0.3)] hover:scale-105 active:scale-95 transition-all duration-300">

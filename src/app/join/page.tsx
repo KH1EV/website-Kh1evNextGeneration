@@ -54,7 +54,7 @@ export default function JoinUsPage() {
             Join the <span className="bg-accent text-white px-4 md:px-6 py-1 md:py-2 inline-block mt-2 md:mt-4 italic">Kh1ev Ecosystem.</span>
           </h1>
           <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed hero-text opacity-0 translate-y-10">
-            We are a collective of driven individuals. We frequently open our doors for passionate people to join our organization, community divisions, or studio.
+            We are a collective of driven individuals, always welcoming passionate people to join our organization, community divisions, or studio.
           </p>
         </div>
 

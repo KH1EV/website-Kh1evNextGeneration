@@ -225,7 +225,7 @@ export default function Home() {
           <div className="flex flex-wrap items-center gap-3 md:gap-4 shrink-0 z-10 bg-background px-4 md:px-0 md:pl-[5%] md:pr-10 relative w-full md:w-auto">
             <div className="flex items-center gap-2 md:gap-3">
               <span className="text-red-500 font-bold tracking-widest text-sm">LIVE</span>
-              <div className="w-2 h-2 rounded-full bg-[#23a559] animate-pulse"></div>
+              <div className="w-2 h-2 rounded-full bg-[#23a559]"></div>
               <span className="text-white font-bold text-base md:text-lg">{totalMembers.toLocaleString('id-ID')} <span className="text-neutral-500 font-normal">anggota</span></span>
             </div>
             
