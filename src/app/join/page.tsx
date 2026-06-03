@@ -86,17 +86,25 @@ export default function JoinUsPage() {
             </div>
           </div>
 
-          <div className="division-card translate-y-10 opacity-0 bg-[#0a0a0a] border border-white/5 rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden group hover:border-white/10 transition-all duration-500 flex flex-col">
-            <div className="w-14 h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-8 relative z-10 group-hover:scale-110 transition-transform duration-500">
-              <FaUsers className="w-5 h-5 text-neutral-500" />
+          <div className="division-card translate-y-10 opacity-0 bg-[#0a0a0a] border-2 border-accent/60 shadow-[0_0_40px_rgba(229,9,20,0.15)] rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden group hover:border-accent hover:shadow-[0_0_50px_rgba(229,9,20,0.3)] transition-all duration-500 flex flex-col relative z-20">
+            <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            
+            <div className="flex items-start justify-between mb-8 relative z-10">
+              <div className="w-14 h-14 bg-accent/10 border border-accent/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                <FaUsers className="w-5 h-5 text-accent" />
+              </div>
+              <div className="bg-accent/10 border border-accent/20 text-accent text-xs font-black px-3 py-1.5 rounded-full uppercase tracking-widest flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
+                OPEN
+              </div>
             </div>
             
             <div className="relative z-10 mb-8 flex-grow">
               <h2 className="text-2xl font-black text-white mb-4">Kh1ev Community</h2>
-              <p className="text-neutral-400 leading-relaxed mb-6 text-sm">
-                Our massive public hub. We recruit for various divisions (Mod, Host, EO) periodically.
+              <p className="text-neutral-300 leading-relaxed mb-6 text-sm">
+                Our massive public hub. We recruit for various divisions (Mod, Host, EO, etc) periodically.
               </p>
-              <div className="space-y-3 mt-auto bg-white/5 p-4 rounded-2xl border border-white/5">
+              <div className="space-y-3 mt-auto bg-white/5 p-4 rounded-2xl border border-white/5 relative">
                 <h4 className="text-xs font-bold text-neutral-300 uppercase tracking-wider mb-2">Requirements</h4>
                 <div className="flex items-start gap-3">
                   <FaCheckCircle className="w-4 h-4 text-neutral-500 mt-0.5 shrink-0" />
@@ -110,9 +118,9 @@ export default function JoinUsPage() {
             </div>
             
             <div className="relative z-10 pt-6 border-t border-white/5 mt-auto">
-              <button disabled className="w-full py-3 bg-neutral-900/50 text-neutral-600 font-bold rounded-xl cursor-not-allowed text-sm">
-                Recruitment Closed
-              </button>
+              <a href="/recruitment/community" className="w-full py-3 bg-accent hover:bg-red-700 text-white font-bold rounded-xl text-sm transition-colors shadow-lg shadow-accent/20 block text-center">
+                Apply Now
+              </a>
             </div>
           </div>
 

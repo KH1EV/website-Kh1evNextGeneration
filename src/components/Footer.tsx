@@ -33,9 +33,13 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="w-full relative flex justify-center items-center pointer-events-none select-none mt-8 md:mt-0">
-        <h1 className="text-[25vw] md:text-[20vw] leading-[0.75] font-extrabold text-white tracking-tighter m-0 w-full text-center">
-          KH1EV
+      <div className="w-full relative flex justify-center items-center select-none mt-8 md:mt-0">
+        <h1 className="text-[25vw] md:text-[20vw] leading-[0.75] font-extrabold text-white tracking-tighter m-0 w-full text-center cursor-default">
+          {"KH1EV".split("").map((char, index) => (
+            <span key={index} className="transition-colors duration-300 hover:text-accent">
+              {char}
+            </span>
+          ))}
         </h1>
       </div>
       <div className="w-full text-center text-xs md:text-sm text-neutral-500 font-medium z-10 px-4 mt-8 md:mt-12">
