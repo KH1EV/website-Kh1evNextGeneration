@@ -91,10 +91,10 @@ interface StudioProject {
   sort_order?: number;
 }
 
-const withTimeout = (promise: any, ms: number = 60000): Promise<any> => {
+const withTimeout = (promise: any, ms: number = 10000): Promise<any> => {
   let timeoutId: NodeJS.Timeout;
   const timeoutPromise = new Promise<never>((_, reject) => {
-    timeoutId = setTimeout(() => reject(new Error(`Request timeout (${ms/1000}s): Please check your connection or wait for database to wake up.`)), ms);
+    timeoutId = setTimeout(() => reject(new Error(`Timeout! (Browser idle bug). Silakan klik tombol sekali lagi.`)), ms);
   });
   const executePromise = async () => await promise;
   return Promise.race([executePromise(), timeoutPromise]).finally(() => clearTimeout(timeoutId));
@@ -198,7 +198,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const checkUser = async () => {
       try {
-        const sessionResult = await supabase.auth.getSession();
+        const sessionResult = await withTimeout(supabase.auth.getSession(), 15000);
 
         const session = sessionResult?.data?.session;
 
@@ -210,12 +210,12 @@ export default function AdminDashboard() {
             try {
               const username = session.user.user_metadata?.full_name || session.user.user_metadata?.custom_claims?.global_name || session.user.user_metadata?.name || 'Unknown';
               const avatarUrl = session.user.user_metadata?.avatar_url || '';
-              await supabase.from('discord_users').upsert({
+              await withTimeout(supabase.from('discord_users').upsert({
                 discord_id: discordId,
                 username,
                 avatar_url: avatarUrl,
                 last_login: new Date().toISOString()
-              }, { onConflict: 'discord_id' });
+              }, { onConflict: 'discord_id' }), 15000);
             } catch (e) {
               console.error('Failed to record discord user login:', e);
             }
@@ -225,7 +225,7 @@ export default function AdminDashboard() {
             
             while (retryCount < 3 && !success) {
               try {
-                const { data, error } = await supabase.from('admin_users').select('*').eq('discord_id', discordId).single();
+                const { data, error } = await withTimeout(supabase.from('admin_users').select('*').eq('discord_id', discordId).single(), 15000);
 
                 if (data && !error) {
                   success = true;
@@ -277,21 +277,21 @@ export default function AdminDashboard() {
           try {
             const username = session.user.user_metadata?.full_name || session.user.user_metadata?.custom_claims?.global_name || session.user.user_metadata?.name || 'Unknown';
             const avatarUrl = session.user.user_metadata?.avatar_url || '';
-            await supabase.from('discord_users').upsert({
+            await withTimeout(supabase.from('discord_users').upsert({
               discord_id: discordId,
               username,
               avatar_url: avatarUrl,
               last_login: new Date().toISOString()
-            }, { onConflict: 'discord_id' });
+            }, { onConflict: 'discord_id' }), 15000);
           } catch (e) {
             console.error('Failed to record discord user login:', e);
           }
 
-          const { data, error } = await supabase
+          const { data, error } = await withTimeout(supabase
             .from('admin_users')
             .select('*')
             .eq('discord_id', discordId)
-            .single();
+            .single(), 15000);
             
           if (data && !error) {
             setIsAuthorized(true);

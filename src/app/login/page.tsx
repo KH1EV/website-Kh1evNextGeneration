@@ -79,8 +79,7 @@ export default function LoginPage() {
         discord_id: discordId,
         username,
         avatar_url: avatarUrl,
-        last_login: new Date().toISOString(),
-        ...extraData,
+        last_login: new Date().toISOString()
       }, { onConflict: 'discord_id' });
     } catch (err) {
       console.error("Failed to update user profile in DB:", err);
