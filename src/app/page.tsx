@@ -109,6 +109,26 @@ export default function Home() {
       { y: 0, opacity: 1, duration: 1, ease: "power4.out" },
       "-=0.4"
     )
+    .fromTo(".accent-line",
+      { scaleX: 0, opacity: 0 },
+      { 
+        scaleX: 1, 
+        opacity: 1, 
+        duration: 0.8, 
+        ease: "power4.out",
+        onComplete: () => {
+          gsap.to(".accent-line", {
+            scaleX: 1.2,
+            opacity: 0.8,
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+          });
+        }
+      },
+      "-=0.6"
+    )
     .fromTo(".headline-line", 
       { y: 100, opacity: 0 }, 
       { y: 0, opacity: 1, duration: 1.2, ease: "power4.out", stagger: 0.15 },
@@ -124,15 +144,6 @@ export default function Home() {
       { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
       "-=0.6"
     );
-
-    gsap.to(".accent-line", {
-      scaleX: 1.2,
-      opacity: 0.8,
-      duration: 2,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut"
-    });
     if (marqueeRef.current) {
       gsap.to(".marquee-content", {
         xPercent: -50,

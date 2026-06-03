@@ -11,7 +11,7 @@ import {
   FaLaptopCode, FaMobileAlt, FaDatabase, FaReact, FaNodeJs, FaFigma, FaServer, FaCogs, FaRocket, FaPalette, FaCodeBranch, FaBug, FaVuejs, FaPython, FaDocker, FaAws, FaGithub, FaGitAlt, FaLinux, FaSass, FaJava, FaPhp, FaAngular, FaTerminal, FaShieldAlt, FaHtml5, FaCss3Alt, FaJsSquare, FaSwift, FaUbuntu, FaWindows, FaApple, FaCloud, FaLock, FaCode, FaNetworkWired, FaMicrochip, FaBrain, FaRobot, FaGlobe 
 } from "react-icons/fa";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const iconsOrbit1 = [
   { icon: FaReact, color: "text-[#61DAFB]" },
@@ -127,6 +127,22 @@ export default function StudioAbout() {
     );
 
     gsap.fromTo(
+      ".mission-text",
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".services-section",
+          start: "top 85%",
+        },
+      }
+    );
+
+    gsap.fromTo(
       ".service-card",
       { opacity: 0, y: 50 },
       {
@@ -137,23 +153,7 @@ export default function StudioAbout() {
         ease: "back.out(1.5)",
         scrollTrigger: {
           trigger: ".services-section",
-          start: "top 80%",
-        },
-      }
-    );
-
-    gsap.fromTo(
-      ".step-item",
-      { opacity: 0, x: -30 },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.6,
-        stagger: 0.2,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".process-section",
-          start: "top 80%",
+          start: "top 70%",
         },
       }
     );
@@ -179,20 +179,20 @@ export default function StudioAbout() {
         <div className="services-section mb-40">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 mb-24 relative z-10">
             <div className="md:w-1/2 w-full">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/20 rounded-full text-accent font-bold text-xs tracking-[0.2em] uppercase mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/20 rounded-full text-accent font-bold text-xs tracking-[0.2em] uppercase mb-6 mission-text opacity-0">
                 <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
                 The Kh1ev Studio Mission
               </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1]">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] mission-text opacity-0">
                 Not Just Learning.<br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-neutral-600">Building Real Portfolios.</span>
               </h2>
             </div>
             <div className="md:w-1/2 md:pl-12 md:border-l border-white/10">
-              <p className="text-neutral-400 text-lg md:text-xl leading-relaxed mb-8">
+              <p className="text-neutral-400 text-lg md:text-xl leading-relaxed mb-8 mission-text opacity-0">
                 Kh1ev Studio is an open laboratory for tech enthusiasts. We learn by doing uniting passionate individuals to build massive projects for our collective portfolios.
               </p>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 mission-text opacity-0">
                 <Link href="/join" className="px-8 py-4 bg-accent text-white font-extrabold rounded-full shadow-[0_0_20px_rgba(229,9,20,0.3)] hover:scale-105 active:scale-95 transition-all duration-300">
                   Join our Studio
                 </Link>
@@ -239,16 +239,14 @@ export default function StudioAbout() {
              `}} />
 
              <div className="relative w-full flex flex-col gap-4">
-                {/* Fade masks */}
                 <div className="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#050505] to-transparent z-20 pointer-events-none"></div>
                 <div className="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#050505] to-transparent z-20 pointer-events-none"></div>
 
-                {/* Track 1: Left */}
                 <div className="flex w-max animate-marquee-left">
                   {[
                     "Web Development", "Mobile Applications", "Data Science", "Artificial Intelligence", 
                     "Cloud Computing", "Game Development", "UI/UX Design", "DevOps Engineering",
-                    // Duplicated for infinite effect
+
                     "Web Development", "Mobile Applications", "Data Science", "Artificial Intelligence", 
                     "Cloud Computing", "Game Development", "UI/UX Design", "DevOps Engineering"
                   ].map((domain, i) => (
@@ -258,12 +256,10 @@ export default function StudioAbout() {
                   ))}
                 </div>
 
-                {/* Track 2: Right */}
                 <div className="flex w-max animate-marquee-right -ml-[25%]">
                   {[
                     "Internet of Things", "Machine Learning", "System Architecture", "Open Source",
                     "Cyber Security", "Blockchain", "Augmented Reality", "Quantum Computing",
-                    // Duplicated for infinite effect
                     "Internet of Things", "Machine Learning", "System Architecture", "Open Source",
                     "Cyber Security", "Blockchain", "Augmented Reality", "Quantum Computing"
                   ].map((domain, i) => (

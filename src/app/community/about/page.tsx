@@ -9,7 +9,7 @@ import Footer from "@/components/Footer";
 import { FaGamepad, FaComments, FaMusic, FaHeart, FaDiscord, FaTrophy, FaRobot, FaCode, FaMicrophoneAlt, FaUsers } from "react-icons/fa";
 import Link from "next/link";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export default function AboutCommunity() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -41,22 +41,6 @@ export default function AboutCommunity() {
         ease: "back.out(1.5)",
         scrollTrigger: {
           trigger: ".features-section",
-          start: "top 80%",
-        },
-      }
-    );
-
-    gsap.fromTo(
-      ".role-badge",
-      { opacity: 0, x: -30 },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.5,
-        stagger: 0.1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".roles-section",
           start: "top 80%",
         },
       }

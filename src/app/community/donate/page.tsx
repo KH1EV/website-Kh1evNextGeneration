@@ -7,6 +7,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { FaDiscord, FaCheckCircle, FaStar, FaCrown, FaHeart } from "react-icons/fa";
 
+gsap.registerPlugin(useGSAP);
+
 export default function DonatePage() {
   const containerRef = useRef<HTMLDivElement>(null);
 
