@@ -27,8 +27,8 @@ const ROLE_HIERARCHY: Record<string, number> = {
   'Founder': 1,
   'Chief': 2,
   'Manager': 3,
-  'Head Staff': 4,
-  'Staff': 5,
+  'Head Division': 4,
+  'Staff Division': 5,
   'Trainee': 6
 };
 
@@ -36,8 +36,8 @@ const ROLE_COLORS: Record<string, string> = {
   'Founder': 'bg-pink-500',
   'Chief': 'bg-red-500',
   'Manager': 'bg-purple-500',
-  'Head Staff': 'bg-yellow-500',
-  'Staff': 'bg-orange-500',
+  'Head Division': 'bg-yellow-500',
+  'Staff Division': 'bg-orange-500',
   'Trainee': 'bg-teal-400'
 };
 
@@ -248,7 +248,7 @@ export default function Team() {
                       Object.entries(ROLE_HIERARCHY)
                         .sort(([, rankA], [, rankB]) => rankA - rankB)
                         .map(([roleName]) => {
-                          const membersInRole = orgMembers.filter(m => (m.system_role || 'Staff') === roleName);
+                          const membersInRole = orgMembers.filter(m => (m.system_role || 'Staff Division') === roleName);
                           
                           if (membersInRole.length === 0) return null;
 

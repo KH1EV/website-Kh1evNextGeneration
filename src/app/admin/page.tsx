@@ -40,8 +40,8 @@ const ROLE_HIERARCHY: Record<string, number> = {
   'Founder': 1,
   'Chief': 2,
   'Manager': 3,
-  'Head Staff': 4,
-  'Staff': 5,
+  'Head Division': 4,
+  'Staff Division': 5,
   'Trainee': 6
 };
 
@@ -354,7 +354,7 @@ export default function AdminDashboard() {
       name: editingTeamMember.name,
       organization: editingTeamMember.organization || 'Kh1ev Community',
       role: editingTeamMember.role,
-      system_role: editingTeamMember.system_role || 'Staff',
+      system_role: editingTeamMember.system_role || 'Staff Division',
       image_url: editingTeamMember.image_url,
       bio: editingTeamMember.bio,
       github_url: editingTeamMember.github_url,
@@ -853,7 +853,7 @@ export default function AdminDashboard() {
                   <h2 className="text-2xl font-bold text-white">Manage Team</h2>
                   <button 
                     className="px-4 py-2 bg-accent text-white font-bold rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 text-sm" 
-                    onClick={() => { setEditingTeamMember({ name: '', role: '', system_role: 'Staff', image_url: '', bio: '', github_url: '', instagram_url: '', linkedin_url: '', tiktok_url: '' }); setActiveTab('team-editor'); }}>
+                    onClick={() => { setEditingTeamMember({ name: '', role: '', system_role: 'Staff Division', image_url: '', bio: '', github_url: '', instagram_url: '', linkedin_url: '', tiktok_url: '' }); setActiveTab('team-editor'); }}>
                     <FaPlus /> Add Member
                   </button>
                 </div>
@@ -887,7 +887,7 @@ export default function AdminDashboard() {
                                   <td className="py-4 text-neutral-400">
                                     {orgName === 'Kh1ev Community' ? (
                                       <span className="px-2 py-1 bg-white/5 rounded-full text-xs font-bold text-neutral-300">
-                                        {member.system_role || 'Staff'}
+                                        {member.system_role || 'Staff Division'}
                                       </span>
                                     ) : (
                                       <span className="text-xs text-neutral-400 line-clamp-1 max-w-[200px]" title={member.tags}>{member.tags || '-'}</span>
@@ -1505,13 +1505,13 @@ export default function AdminDashboard() {
                         <label className="text-sm font-semibold text-neutral-400">System Role (Hierarchy)</label>
                         <select
                           className="px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white outline-none focus:border-accent transition-colors"
-                          value={editingTeamMember.system_role || 'Staff'}
+                          value={editingTeamMember.system_role || 'Staff Division'}
                           onChange={(e) => setEditingTeamMember({...editingTeamMember, system_role: e.target.value})}>
                           <option value="Founder" className="bg-[#0a0a0a]">Founder</option>
                           <option value="Chief" className="bg-[#0a0a0a]">Chief</option>
                           <option value="Manager" className="bg-[#0a0a0a]">Manager</option>
-                          <option value="Head Staff" className="bg-[#0a0a0a]">Head Staff</option>
-                          <option value="Staff" className="bg-[#0a0a0a]">Staff</option>
+                          <option value="Head Division" className="bg-[#0a0a0a]">Head Division</option>
+                          <option value="Staff Division" className="bg-[#0a0a0a]">Staff Division</option>
                           <option value="Trainee" className="bg-[#0a0a0a]">Trainee</option>
                         </select>
                       </div>
