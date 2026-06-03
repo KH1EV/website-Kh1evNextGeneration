@@ -177,9 +177,9 @@ export default function UserDashboard() {
                   style={{
                     background: bannerColor
                       ? `linear-gradient(135deg, ${bannerColor}cc 0%, ${bannerColor}44 60%, #0d0d10 100%)`
-                      : 'linear-gradient(135deg, #5865F2bb 0%, #3b3fd866 50%, #0d0d10 100%)'
+                      : 'linear-gradient(135deg, #1f1f23 0%, #131317 50%, #09090b 100%)'
                   }}>
-                  <div className="absolute inset-0 opacity-[0.07]"
+                  <div className="absolute inset-0 opacity-[0.03]"
                     style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
                 </div>
               )}
