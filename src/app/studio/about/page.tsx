@@ -181,7 +181,7 @@ export default function StudioAbout() {
             <div className="md:w-1/2 w-full">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 border border-accent/20 rounded-full text-accent font-bold text-xs tracking-[0.2em] uppercase mb-6 mission-text opacity-0">
                 <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-                The Kh1ev Studio Mission
+                Kh1ev Studio Mission
               </div>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] mission-text opacity-0">
                 Not Just Learning.<br/>
