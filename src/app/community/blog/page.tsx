@@ -64,7 +64,7 @@ export default function BlogPage() {
       <div className="flex-1 pt-32 px-4 md:px-8 w-full max-w-6xl mx-auto relative z-10 flex flex-col mb-32">
         <div className="text-center mb-16 mt-8">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-6 hero-text opacity-0">
-            Kh1ev <span className="bg-accent text-white px-3 md:px-6 inline-block mt-2 md:mt-0 italic">Blog</span>
+            Kh1ev <span className="bg-accent text-white px-3 md:px-6 inline-block mt-2 md:mt-0 italic">Blog.</span>
           </h1>
           <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed hero-text opacity-0">
             Latest updates, patch notes, announcements, and tech insights from the Kh1ev team.
