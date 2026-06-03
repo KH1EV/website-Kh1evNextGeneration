@@ -91,10 +91,10 @@ interface StudioProject {
   sort_order?: number;
 }
 
-const withTimeout = (promise: any, ms: number = 30000): Promise<any> => {
+const withTimeout = (promise: any, ms: number = 60000): Promise<any> => {
   let timeoutId: NodeJS.Timeout;
   const timeoutPromise = new Promise<never>((_, reject) => {
-    timeoutId = setTimeout(() => reject(new Error("Request timeout: Please check your connection.")), ms);
+    timeoutId = setTimeout(() => reject(new Error(`Request timeout (${ms/1000}s): Please check your connection or wait for database to wake up.`)), ms);
   });
   const executePromise = async () => await promise;
   return Promise.race([executePromise(), timeoutPromise]).finally(() => clearTimeout(timeoutId));
@@ -123,6 +123,7 @@ export default function AdminDashboard() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [showSignOutModal, setShowSignOutModal] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const showNotify = (message: string, type: 'success' | 'error') => {
     setNotify({ message, type });
@@ -183,18 +184,21 @@ export default function AdminDashboard() {
   };
 
   const fetchDiscordUsers = async () => {
+    setIsRefreshing(true);
     try {
-      const { data } = await withTimeout(supabase.from('discord_users').select('*').order('last_login', { ascending: false }), 30000);
+      const { data } = await withTimeout(supabase.from('discord_users').select('*').order('last_login', { ascending: false }), 60000);
       if (data) setDiscordUsers(data);
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsRefreshing(false);
     }
   };
 
   useEffect(() => {
     const checkUser = async () => {
       try {
-        const sessionResult = await withTimeout(supabase.auth.getSession(), 30000);
+        const sessionResult = await supabase.auth.getSession();
 
         const session = sessionResult?.data?.session;
 
@@ -221,10 +225,7 @@ export default function AdminDashboard() {
             
             while (retryCount < 3 && !success) {
               try {
-                const { data, error } = await withTimeout(
-                  supabase.from('admin_users').select('*').eq('discord_id', discordId).single(),
-                  30000
-                );
+                const { data, error } = await supabase.from('admin_users').select('*').eq('discord_id', discordId).single();
 
                 if (data && !error) {
                   success = true;
@@ -1139,8 +1140,9 @@ export default function AdminDashboard() {
               <>
                 <div className="flex items-center justify-between mb-8">
                   <h2 className="text-2xl font-bold text-white">Discord Login Records</h2>
-                  <button onClick={fetchDiscordUsers} className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg transition-colors text-sm font-semibold">
-                    Refresh Data
+                  <button onClick={fetchDiscordUsers} disabled={isRefreshing} className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white rounded-lg transition-colors text-sm font-semibold flex items-center gap-2 disabled:opacity-50">
+                    {isRefreshing && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
+                    {isRefreshing ? 'Refreshing...' : 'Refresh Data'}
                   </button>
                 </div>
                 
