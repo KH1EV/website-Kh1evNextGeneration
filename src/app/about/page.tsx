@@ -233,7 +233,7 @@ export default function About() {
               <div className="flex justify-between w-[900px] relative z-10 -mt-2">
                 <div className="bg-[#0a0a0a] border border-white/10 rounded-[2rem] p-10 w-[420px] text-center group transition-all duration-700 shadow-2xl overflow-hidden relative cursor-default hover:border-white/20">
                   <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] mix-blend-overlay"></div>
-                  <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-6 text-red-500 border border-red-500/20 bg-red-500/5 group-hover:scale-110 group-hover:bg-red-500/10 transition-all duration-500 shadow-[0_0_20px_rgba(239,68,68,0.15)] group-hover:shadow-[0_0_40px_rgba(239,68,68,0.5)] relative z-10">
+                  <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-6 text-red-500 border border-red-500/20 bg-red-500/5 group-hover:bg-red-500/10 transition-all duration-500 shadow-[0_0_20px_rgba(239,68,68,0.15)] group-hover:shadow-[0_0_40px_rgba(239,68,68,0.5)] relative z-10">
                     <FaDiscord className="w-8 h-8" />
                   </div>
                   <h3 className="text-3xl font-black text-white mb-4 relative z-10 tracking-tight uppercase">Kh1ev Community</h3>
@@ -242,7 +242,7 @@ export default function About() {
 
                 <div className="bg-[#0a0a0a] border border-white/10 rounded-[2rem] p-10 w-[420px] text-center group transition-all duration-700 shadow-2xl overflow-hidden relative cursor-default hover:border-white/20">
                   <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] mix-blend-overlay"></div>
-                  <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-6 text-blue-500 border border-blue-500/20 bg-blue-500/5 group-hover:scale-110 group-hover:bg-blue-500/10 transition-all duration-500 shadow-[0_0_20px_rgba(59,130,246,0.15)] group-hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] relative z-10">
+                  <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-6 text-blue-500 border border-blue-500/20 bg-blue-500/5 group-hover:bg-blue-500/10 transition-all duration-500 shadow-[0_0_20px_rgba(59,130,246,0.15)] group-hover:shadow-[0_0_40px_rgba(59,130,246,0.5)] relative z-10">
                     <FaCode className="w-8 h-8" />
                   </div>
                   <h3 className="text-3xl font-black text-white mb-4 relative z-10 tracking-tight uppercase">Kh1ev Studio</h3>
