@@ -6,7 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { FaGamepad, FaComments, FaMusic, FaHeart, FaDiscord, FaTrophy, FaRobot, FaCode, FaMicrophoneAlt, FaUsers } from "react-icons/fa";
+import { FaGamepad, FaComments, FaMusic, FaHeart, FaDiscord, FaTrophy, FaRobot, FaCode, FaMicrophoneAlt, FaUsers, FaBookOpen } from "react-icons/fa";
 import Link from "next/link";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -111,8 +111,8 @@ export default function AboutCommunity() {
           <div className="flex flex-col gap-16 md:gap-32 border-t border-white/10 pt-16 md:pt-24">
             {[
               {
-                title: "Active Chat & Voice",
-                desc: "Our main hub for daily conversations. Whether you want to talk about the latest tech news, anime episodes, or just vent about your day, there's always someone online to listen and chat with.",
+                title: "Active Members",
+                desc: "Our main hub for daily conversations. Whether you want to talk about game, anime episodes, or just vent about your day, there's always someone online to listen and chat with.",
                 icon: FaComments,
                 color: "text-[#5865F2]"
               },
@@ -130,9 +130,15 @@ export default function AboutCommunity() {
               },
               {
                 title: "Code Collabs",
-                desc: "Find partners for your side projects, ask for debugging help, or join our monthly hackathons. A collaborative environment designed to elevate your programming skills.",
+                desc: "Find partners for your side projects or ask for debugging help. A collaborative environment designed to elevate your programming skills.",
                 icon: FaCode,
                 color: "text-purple-500"
+              },
+              {
+                title: "Study Together",
+                desc: "We don't just code. Need advice for school or college, or looking for study partners? Hop into a voice channel, share your screen, and tackle homework or assignments together in a supportive environment.",
+                icon: FaBookOpen,
+                color: "text-yellow-500"
               },
               {
                 title: "Safe Space",
