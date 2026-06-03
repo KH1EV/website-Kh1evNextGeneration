@@ -292,8 +292,8 @@ export default function About() {
                 <a href="https://discord.gg/MwNE7Vfb6t" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-white text-black font-bold rounded-full shadow-[0_0_20px_rgba(255,255,255,0.1)] w-full sm:w-auto">
                   Join Discord Server
                 </a>
-                <a href="/team" className="px-8 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-full transition-colors hover:bg-white/10 w-full sm:w-auto">
-                  Meet The Team
+                <a href="/join" className="px-8 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-full transition-colors hover:bg-white/10 w-full sm:w-auto">
+                  Join Us
                 </a>
               </div>
             </div>
