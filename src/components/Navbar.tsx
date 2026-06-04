@@ -45,6 +45,7 @@ export default function Navbar() {
   const [user, setUser] = useState<User | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const [isDropdownHovered, setIsDropdownHovered] = useState(false);
   const [showSignOutModal, setShowSignOutModal] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -180,6 +181,12 @@ export default function Navbar() {
       )}
 
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-32 bg-accent/20 blur-[100px] pointer-events-none z-[90] rounded-full opacity-60" />
+      
+      <div
+        className={`fixed inset-0 z-[95] bg-black/60 backdrop-blur-sm transition-opacity duration-300 pointer-events-none ${
+          isDropdownHovered || isUserDropdownOpen ? "opacity-100" : "opacity-0"
+        }`}
+      />
 
       <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] w-full max-w-5xl px-4 pointer-events-none">
         <nav className="nav-element flex items-center justify-between bg-[#0a0a0a] border border-white/10 rounded-full px-8 py-3 shadow-2xl pointer-events-auto">
@@ -190,7 +197,10 @@ export default function Navbar() {
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
-            <div className="relative group">
+            <div 
+              className="relative group"
+              onMouseEnter={() => setIsDropdownHovered(true)}
+              onMouseLeave={() => setIsDropdownHovered(false)}>
               <button className="text-white text-sm font-semibold hover:text-accent transition-colors flex items-center gap-1 py-2">
                 Organization
                 <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -203,7 +213,10 @@ export default function Navbar() {
               </div>
             </div>
 
-            <div className="relative group">
+            <div 
+              className="relative group"
+              onMouseEnter={() => setIsDropdownHovered(true)}
+              onMouseLeave={() => setIsDropdownHovered(false)}>
               <button className="text-white text-sm font-semibold hover:text-accent transition-colors flex items-center gap-1 py-2">
                 Community
                 <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -219,7 +232,10 @@ export default function Navbar() {
               </div>
             </div>
 
-            <div className="relative group">
+            <div 
+              className="relative group"
+              onMouseEnter={() => setIsDropdownHovered(true)}
+              onMouseLeave={() => setIsDropdownHovered(false)}>
               <button className="text-white text-sm font-semibold hover:text-accent transition-colors flex items-center gap-1 py-2">
                 Studio
                 <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">

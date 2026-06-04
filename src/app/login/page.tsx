@@ -150,11 +150,10 @@ export default function LoginPage() {
 
       <div className="flex-1 flex flex-col items-center justify-center px-4 pt-20 relative">
         <div className="text-center relative z-10 mb-12">
-          <h1 className="text-5xl lg:text-7xl font-black text-white tracking-tighter leading-[1.1] mb-6">
-            Connect to <br />
-            <span className="bg-[#e50914] text-white px-4 py-1 italic inline-block mt-3 tracking-tight">Kh1ev.</span>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-[7rem] font-black text-white tracking-tighter leading-[1.1] mb-6">
+            Connect to <span className="bg-[#e50914] text-white px-4 py-1 italic inline-block mt-3 tracking-tight md:whitespace-nowrap">Kh1ev.</span>
           </h1>
-          <p className="text-neutral-400 text-lg leading-relaxed max-w-md mx-auto">
+          <p className="text-neutral-400 text-lg md:text-xl lg:text-2xl leading-relaxed max-w-4xl mx-auto">
             Securely connect your Discord account to access community features, manage your profile, and explore the organization dashboard.
           </p>
         </div>
@@ -171,6 +170,12 @@ export default function LoginPage() {
             )}
             {isLoggingIn ? 'Connecting...' : 'Continue with Discord'}
           </button>
+
+          <div className="mt-6 text-center">
+            <p className="text-neutral-500 text-[12.5px] sm:text-[13px] sm:whitespace-nowrap">
+              By continuing, you agree to our <Link href="/terms" className="underline hover:text-white transition-colors">Terms of Service</Link> and <Link href="/privacy" className="underline hover:text-white transition-colors">Privacy Policy</Link>.
+            </p>
+          </div>
 
           <div className="mt-8 pt-8 border-t border-white/[0.06] flex flex-col items-center text-center">
             <p className="text-white text-xs font-bold tracking-wide uppercase mb-1">Privacy Assured</p>

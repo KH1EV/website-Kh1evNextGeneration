@@ -6,7 +6,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { FaDiscord, FaCheckCircle, FaStar, FaCrown, FaHeart } from "react-icons/fa";
+import { FaDiscord, FaCheckCircle, FaStar, FaCrown, FaHeart, FaArrowRight } from "react-icons/fa";
+import Link from "next/link";
 
 gsap.registerPlugin(useGSAP);
 
@@ -81,11 +82,12 @@ export default function DonatePage() {
     );
 
     tl.fromTo(
-      ".tier-card",
-      { opacity: 0, y: 50, scale: 0.95 },
-      { opacity: 1, y: 0, scale: 1, duration: 0.8, stagger: 0.15, ease: "back.out(1.2)" },
+      ".tier-row",
+      { opacity: 0, x: -30 },
+      { opacity: 1, x: 0, duration: 0.8, stagger: 0.15, ease: "power3.out" },
       "-=0.4"
     );
+    
     tl.fromTo(
       ".recent-text",
       { opacity: 0, y: 20 },
@@ -106,134 +108,144 @@ export default function DonatePage() {
       <Navbar />
 
       <div className="flex-1 pt-32 px-4 md:px-8 w-full max-w-7xl mx-auto relative z-10 flex flex-col mb-32">
-        <div className="text-center mb-16 mt-8">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-6 hero-text opacity-0">
+        <div className="text-center mb-24 mt-8">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-[7rem] font-black tracking-tighter text-white tracking-tight leading-[1.1] mb-6 hero-text opacity-0">
             Help Keep The <br />
-            <span className="bg-accent text-white px-3 md:px-6 inline-block mt-2 italic">Community Alive.</span>
+            <span className="bg-accent text-white px-4 md:px-6 py-1 md:py-2 inline-block mt-2 italic md:whitespace-nowrap">Community Alive.</span>
           </h1>
-          <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed hero-text opacity-0">
+          <p className="text-lg md:text-xl lg:text-2xl text-neutral-400 max-w-4xl mx-auto leading-relaxed hero-text opacity-0">
             Server hosting, bot maintenance, and community events require resources. 
-            Choose a tier below to support our infrastructure and get exclusive perks in return!
+            Choose a tier below to support our infrastructure and get exclusive perks in return.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto w-full">
-          <div className="tier-card bg-white/[0.02] border border-white/5 rounded-3xl p-8 flex flex-col hover:border-accent/30 transition-colors duration-300 relative group">
-            <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"></div>
-            <div className="relative z-10 flex-1 flex flex-col">
-              <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center mb-6 text-white">
-                <FaStar className="w-6 h-6" />
+
+        <div className="flex flex-col gap-12 max-w-6xl mx-auto w-full mb-32">
+          
+          {/* Donatur Tier */}
+          <div className="tier-row opacity-0 flex flex-col lg:flex-row bg-[#0a0a0a] border border-white/5 rounded-[2rem] md:rounded-[3rem] overflow-hidden group hover:border-white/10 transition-colors">
+            <div className="lg:w-2/5 p-10 md:p-16 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-white/5 bg-white/[0.02]">
+              <div className="flex items-center gap-4 mb-6">
+                <FaStar className="w-8 h-8 text-neutral-400" />
+                <h3 className="text-3xl font-bold text-white uppercase tracking-tight">Donatur</h3>
               </div>
-              <h3 className="text-2xl font-bold text-white mb-2">Donatur</h3>
-              <div className="flex items-baseline gap-1 mb-6">
-                <span className="text-3xl font-extrabold text-white">Rp 10.000</span>
-                <span className="text-neutral-500 text-sm">/one-time</span>
+              <div className="flex items-baseline gap-2 mb-4">
+                <span className="text-5xl md:text-6xl font-black text-white tracking-tighter">10K</span>
+                <span className="text-neutral-500 font-bold uppercase tracking-widest text-sm">IDR</span>
               </div>
-              <p className="text-neutral-400 text-sm mb-8 flex-1">
+              <p className="text-neutral-500 text-sm">One-time payment</p>
+            </div>
+            <div className="lg:w-3/5 p-10 md:p-16 flex flex-col justify-between">
+              <p className="text-xl md:text-2xl text-neutral-300 font-light leading-relaxed mb-10">
                 A simple token of appreciation to buy the devs a coffee. Every bit helps us keep the servers running.
               </p>
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-start gap-3 text-sm text-neutral-300">
-                  <FaCheckCircle className="text-accent mt-0.5 shrink-0" />
-                  <span>Exclusive <strong>Donatur Role</strong> on Discord</span>
-                </li>
-                <li className="flex items-start gap-3 text-sm text-neutral-300">
-                  <FaCheckCircle className="text-accent mt-0.5 shrink-0" />
-                  <span>Access to secret VIP chat channels</span>
-                </li>
-              </ul>
-              <a href="https://sociabuzz.com/phionne" target="_blank" rel="noopener noreferrer" className="w-full py-3 bg-white/5 hover:bg-white/10 text-white font-bold rounded-xl transition-colors block text-center">
-                Donate Now
-              </a>
+              <div className="flex flex-col sm:flex-row gap-8 items-start sm:items-end justify-between">
+                <ul className="space-y-4">
+                  <li className="flex items-center gap-4 text-neutral-300">
+                    <FaCheckCircle className="text-neutral-500 w-5 h-5 shrink-0" />
+                    <span className="text-lg">Exclusive <strong>Donatur Role</strong></span>
+                  </li>
+                  <li className="flex items-center gap-4 text-neutral-300">
+                    <FaCheckCircle className="text-neutral-500 w-5 h-5 shrink-0" />
+                    <span className="text-lg">VIP Chat Access</span>
+                  </li>
+                </ul>
+                <a href="https://sociabuzz.com/phionne" target="_blank" rel="noopener noreferrer" className="group/btn inline-flex items-center gap-3 bg-white/10 hover:bg-white text-white hover:text-black font-black uppercase tracking-widest px-8 py-4 rounded-full transition-all duration-300 text-sm whitespace-nowrap">
+                  Donate <FaArrowRight className="group-hover/btn:translate-x-1 transition-transform" />
+                </a>
+              </div>
             </div>
           </div>
-          <div className="tier-card bg-accent/5 border border-accent/20 rounded-3xl p-8 flex flex-col relative transform md:-translate-y-4 shadow-[0_0_40px_rgba(229,9,20,0.1)]">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-accent text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-widest">
-              Most Popular
+
+          {/* Contributor Tier - Highlighted */}
+          <div className="tier-row opacity-0 flex flex-col lg:flex-row bg-accent/5 border border-accent/20 rounded-[2rem] md:rounded-[3rem] overflow-hidden group relative shadow-[0_0_50px_rgba(229,9,20,0.1)]">
+            <div className="absolute top-0 right-10 bg-accent text-white font-black text-xs px-6 py-2 rounded-b-xl uppercase tracking-widest">Most Popular</div>
+            
+            <div className="lg:w-2/5 p-10 md:p-16 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-accent/10 bg-accent/[0.03]">
+              <div className="flex items-center gap-4 mb-6">
+                <FaCrown className="w-8 h-8 text-accent" />
+                <h3 className="text-3xl font-bold text-white uppercase tracking-tight">Contributor</h3>
+              </div>
+              <div className="flex items-baseline gap-2 mb-4">
+                <span className="text-5xl md:text-6xl font-black text-accent tracking-tighter">50K</span>
+                <span className="text-accent/50 font-bold uppercase tracking-widest text-sm">IDR</span>
+              </div>
+              <p className="text-neutral-500 text-sm">One-time payment</p>
             </div>
-            <div className="relative z-10 flex-1 flex flex-col">
-              <div className="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center mb-6 text-accent">
-                <FaCrown className="w-6 h-6" />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-2">Contributor</h3>
-              <div className="flex items-baseline gap-1 mb-6">
-                <span className="text-3xl font-extrabold text-white">Rp 50.000</span>
-                <span className="text-neutral-500 text-sm">/one-time</span>
-              </div>
-              <p className="text-neutral-400 text-sm mb-8 flex-1">
+            <div className="lg:w-3/5 p-10 md:p-16 flex flex-col justify-between">
+              <p className="text-xl md:text-2xl text-white font-light leading-relaxed mb-10">
                 For those who want to significantly support our large-scale infrastructure and get premium perks.
               </p>
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-start gap-3 text-sm text-neutral-300">
-                  <FaCheckCircle className="text-accent mt-0.5 shrink-0" />
-                  <span>Exclusive <strong>Contributor Role</strong></span>
-                </li>
-                <li className="flex items-start gap-3 text-sm text-neutral-300">
-                  <FaCheckCircle className="text-accent mt-0.5 shrink-0" />
-                  <span>Access to secret VIP chat channels</span>
-                </li>
-                <li className="flex items-start gap-3 text-sm text-neutral-300">
-                  <FaCheckCircle className="text-accent mt-0.5 shrink-0" />
-                  <span>Custom name color in Discord</span>
-                </li>
-              </ul>
-              <a href="https://sociabuzz.com/phionne" target="_blank" rel="noopener noreferrer" className="w-full py-3 bg-accent hover:bg-red-700 text-white font-bold rounded-xl transition-colors shadow-lg shadow-accent/20 block text-center">
-                Become Contributor
-              </a>
+              <div className="flex flex-col sm:flex-row gap-8 items-start sm:items-end justify-between">
+                <ul className="space-y-4">
+                  <li className="flex items-center gap-4 text-neutral-200">
+                    <FaCheckCircle className="text-accent w-5 h-5 shrink-0" />
+                    <span className="text-lg">Exclusive <strong>Contributor Role</strong></span>
+                  </li>
+                  <li className="flex items-center gap-4 text-neutral-200">
+                    <FaCheckCircle className="text-accent w-5 h-5 shrink-0" />
+                    <span className="text-lg">Custom name color in Discord</span>
+                  </li>
+                </ul>
+                <a href="https://sociabuzz.com/phionne" target="_blank" rel="noopener noreferrer" className="group/btn inline-flex items-center gap-3 bg-accent hover:bg-white text-white hover:text-black font-black uppercase tracking-widest px-8 py-4 rounded-full transition-all duration-300 shadow-lg shadow-accent/20 text-sm whitespace-nowrap">
+                  Contribute <FaArrowRight className="group-hover/btn:translate-x-1 transition-transform" />
+                </a>
+              </div>
             </div>
           </div>
-          <div className="tier-card bg-[#5865F2]/5 border border-[#5865F2]/20 rounded-3xl p-8 flex flex-col hover:border-[#5865F2]/40 transition-colors duration-300 relative group">
-            <div className="absolute inset-0 bg-gradient-to-b from-[#5865F2]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl"></div>
-            <div className="relative z-10 flex-1 flex flex-col">
-              <div className="w-12 h-12 bg-[#5865F2]/20 rounded-xl flex items-center justify-center mb-6 text-[#5865F2]">
-                <FaDiscord className="w-8 h-8" />
+
+          {/* Booster Tier */}
+          <div className="tier-row opacity-0 flex flex-col lg:flex-row bg-[#5865F2]/5 border border-[#5865F2]/20 rounded-[2rem] md:rounded-[3rem] overflow-hidden group hover:border-[#5865F2]/40 transition-colors">
+            <div className="lg:w-2/5 p-10 md:p-16 flex flex-col justify-center border-b lg:border-b-0 lg:border-r border-[#5865F2]/10 bg-[#5865F2]/[0.02]">
+              <div className="flex items-center gap-4 mb-6">
+                <FaDiscord className="w-9 h-9 text-[#5865F2]" />
+                <h3 className="text-3xl font-bold text-white uppercase tracking-tight">Nitro Boost</h3>
               </div>
-              <h3 className="text-2xl font-bold text-white mb-2">Server Booster</h3>
-              <div className="flex items-baseline gap-1 mb-6">
-                <span className="text-3xl font-extrabold text-[#5865F2]">Boost Us</span>
+              <div className="flex items-baseline gap-2 mb-4">
+                <span className="text-5xl md:text-6xl font-black text-[#5865F2] tracking-tighter">Boost</span>
               </div>
-              <p className="text-neutral-400 text-sm mb-8 flex-1">
+              <p className="text-neutral-500 text-sm">Free with Discord Nitro</p>
+            </div>
+            <div className="lg:w-3/5 p-10 md:p-16 flex flex-col justify-between">
+              <p className="text-xl md:text-2xl text-neutral-300 font-light leading-relaxed mb-10">
                 Have Discord Nitro? Use your free server boost on Kh1ev to unlock high-quality voice and more emote slots!
               </p>
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-start gap-3 text-sm text-neutral-300">
-                  <FaCheckCircle className="text-[#5865F2] mt-0.5 shrink-0" />
-                  <span>Pink <strong>Server Booster Role</strong></span>
-                </li>
-                <li className="flex items-start gap-3 text-sm text-neutral-300">
-                  <FaCheckCircle className="text-[#5865F2] mt-0.5 shrink-0" />
-                  <span>Stream in 1080p 60FPS</span>
-                </li>
-                <li className="flex items-start gap-3 text-sm text-neutral-300">
-                  <FaCheckCircle className="text-[#5865F2] mt-0.5 shrink-0" />
-                  <span>Custom role icon & badge</span>
-                </li>
-              </ul>
-              <a href="https://discord.gg/MwNE7Vfb6t" target="_blank" rel="noopener noreferrer" className="w-full py-3 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2">
-                <FaDiscord className="w-5 h-5" /> Boost Server
-              </a>
+              <div className="flex flex-col sm:flex-row gap-8 items-start sm:items-end justify-between">
+                <ul className="space-y-4">
+                  <li className="flex items-center gap-4 text-neutral-300">
+                    <FaCheckCircle className="text-[#5865F2] w-5 h-5 shrink-0" />
+                    <span className="text-lg">Pink <strong>Booster Role</strong></span>
+                  </li>
+                  <li className="flex items-center gap-4 text-neutral-300">
+                    <FaCheckCircle className="text-[#5865F2] w-5 h-5 shrink-0" />
+                    <span className="text-lg">Stream in 1080p 60FPS</span>
+                  </li>
+                </ul>
+                <a href="https://discord.gg/MwNE7Vfb6t" target="_blank" rel="noopener noreferrer" className="group/btn inline-flex items-center gap-3 bg-[#5865F2] hover:bg-[#4752C4] text-white font-black uppercase tracking-widest px-8 py-4 rounded-full transition-all duration-300 text-sm whitespace-nowrap">
+                  Boost Now <FaDiscord className="w-5 h-5 ml-1" />
+                </a>
+              </div>
             </div>
           </div>
 
         </div>
 
-        <div className="mt-32 w-full max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-4 recent-text opacity-0">
+        <div className="w-full max-w-5xl mx-auto pt-16 border-t border-white/5">
+          <div className="text-center mb-12 flex flex-col items-center">
+            <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tight mb-4 recent-text opacity-0">
               Our <span className="text-accent italic">Supporters</span>
             </h2>
-            <p className="text-neutral-400 recent-text opacity-0 mb-8">
+            <p className="text-xl text-neutral-400 recent-text opacity-0 mb-8 max-w-2xl font-light">
               A massive thank you to everyone who helps keep our community running!
             </p>
           </div>
 
-          <div className="bg-[#0a0a0a] border border-white/5 rounded-3xl relative overflow-hidden recent-card opacity-0 transform translate-y-10 flex flex-col">
+          <div className="bg-[#0a0a0a] border border-white/5 rounded-[2rem] relative overflow-hidden recent-card opacity-0 transform translate-y-10 flex flex-col shadow-2xl">
             <style jsx>{`
               .custom-scroll::-webkit-scrollbar {
                 width: 6px;
               }
               .custom-scroll::-webkit-scrollbar-track {
                 background: rgba(255, 255, 255, 0.01);
-                border-radius: 10px;
               }
               .custom-scroll::-webkit-scrollbar-thumb {
                 background: rgba(255, 255, 255, 0.1);
@@ -244,31 +256,29 @@ export default function DonatePage() {
               }
             `}</style>
 
-            <div className="p-6 md:p-8 border-b border-white/5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-white/[0.01]">
-              <div>
-                <h3 className="text-xl md:text-2xl font-bold text-white">Donation History</h3>
-                <p className="text-sm text-neutral-400 mt-1">Live updates from our supporters</p>
-              </div>
+            <div className="p-8 md:p-10 border-b border-white/5 bg-white/[0.01]">
+              <h3 className="text-2xl font-black text-white uppercase tracking-tight">Recent Donations</h3>
+              <p className="text-neutral-400 mt-2 font-light">Live updates from our generous supporters.</p>
             </div>
             
-            <div className="p-2 md:p-4">
-              <div className="space-y-1 max-h-[500px] overflow-y-auto pr-2 custom-scroll">
+            <div className="p-4 md:p-6 bg-white/[0.005]">
+              <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scroll">
                 {recentDonations.map((donation, idx) => (
-                  <div key={idx} className="flex items-start sm:items-center justify-between p-4 border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors gap-4 flex-col sm:flex-row rounded-2xl">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-                        <FaHeart className="w-4 h-4 text-accent" />
+                  <div key={idx} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-white/[0.04] hover:border-white/10 transition-all gap-4">
+                    <div className="flex items-center gap-5">
+                      <div className="w-12 h-12 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(229,9,20,0.2)]">
+                        <FaHeart className="w-5 h-5 text-accent" />
                       </div>
                       <div>
-                        <p className="font-bold text-white text-base">{donation.supporter_name}</p>
+                        <p className="font-bold text-white text-lg">{donation.supporter_name}</p>
                         {donation.message && (
-                          <p className="text-neutral-400 text-sm mt-0.5 italic">"{donation.message}"</p>
+                          <p className="text-neutral-400 text-sm mt-1 italic font-light">"{donation.message}"</p>
                         )}
                       </div>
                     </div>
-                    <div className="text-left sm:text-right shrink-0 ml-[3.5rem] sm:ml-0">
-                      <p className="font-bold text-accent text-lg">{formatRupiah(Number(donation.amount))}</p>
-                      <p className="text-neutral-500 text-xs mt-0.5">{getRelativeTime(donation.created_at)}</p>
+                    <div className="text-left sm:text-right shrink-0 sm:ml-0 mt-2 sm:mt-0 bg-black/40 px-5 py-3 rounded-xl border border-white/5">
+                      <p className="font-black text-accent text-xl">{formatRupiah(Number(donation.amount))}</p>
+                      <p className="text-neutral-500 text-xs mt-1 font-medium tracking-wide uppercase">{getRelativeTime(donation.created_at)}</p>
                     </div>
                   </div>
                 ))}

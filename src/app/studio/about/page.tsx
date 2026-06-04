@@ -166,12 +166,12 @@ export default function StudioAbout() {
 
       <div className="flex-1 pt-40 px-4 md:px-8 w-full max-w-6xl mx-auto relative z-10 flex flex-col">
         <div className="text-center mb-24 md:mb-32">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight mb-8 hero-text leading-[1.1] opacity-0">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-[7rem] font-black tracking-tighter text-white tracking-tight mb-8 hero-text leading-[1.1] opacity-0">
             Welcome to <br />
-            <span className="bg-accent text-white px-4 md:px-6 py-1 md:py-2 inline-block mt-2 md:mt-4 italic">Kh1ev Studio.</span>
+            <span className="bg-accent text-white px-4 md:px-6 py-1 md:py-2 inline-block mt-2 md:mt-4 italic md:whitespace-nowrap">Kh1ev Studio.</span>
           </h1>
           
-          <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto leading-relaxed hero-text opacity-0">
+          <p className="text-lg md:text-xl lg:text-2xl text-neutral-400 max-w-4xl mx-auto leading-relaxed hero-text opacity-0">
             The digital development wing of Kh1ev Organization. We engineer robust web applications, immersive digital experiences, and innovative IT solutions.
           </p>
         </div>
@@ -275,7 +275,7 @@ export default function StudioAbout() {
           <div className="absolute z-20 w-40 h-40 md:w-56 md:h-56 rounded-full bg-[#111] border border-white/10 flex flex-col items-center justify-center text-center p-4 md:p-6">
             <h2 className="text-lg md:text-2xl font-black text-white leading-tight">
               Powered by<br/>
-              <span className="bg-accent text-white px-2 py-1 md:px-3 md:py-1 inline-block mt-2 italic">Modern Tech</span>
+              <span className="bg-accent text-white px-2 py-1 md:px-3 md:py-1 inline-block mt-2 italic md:whitespace-nowrap">Modern Tech</span>
             </h2>
           </div>
 
@@ -299,7 +299,7 @@ export default function StudioAbout() {
             <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 relative z-10">See Our Work in Action</h2>
-            <p className="text-neutral-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 relative z-10">
+            <p className="text-neutral-400 text-lg md:text-xl max-w-4xl mx-auto mb-10 relative z-10">
               Explore the projects we've built, ranging from community portals to high-performance web applications and backend architectures.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">

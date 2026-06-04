@@ -27,11 +27,11 @@ export default function About() {
         <div className="max-w-[1440px] w-full mx-auto flex flex-col items-center gap-6 md:gap-8 relative z-10">
 
           <div className="text-center w-full flex flex-col items-center">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight text-white max-w-4xl hero-text opacity-0">
-              We are <span className="bg-accent text-white px-3 md:px-6 inline-block mt-2 md:mt-0 italic">Kh1ev.</span><br />
+            <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-[7rem] font-black tracking-tighter leading-[1.1] tracking-tight text-white max-w-7xl hero-text opacity-0">
+              We are <span className="bg-accent text-white px-3 md:px-6 inline-block mt-2 md:mt-0 italic md:whitespace-nowrap">Kh1ev.</span><br />
             </h1>
             
-            <p className="text-lg md:text-xl text-neutral-400 max-w-2xl leading-relaxed mt-6 hero-text opacity-0">
+            <p className="text-lg md:text-xl lg:text-2xl text-neutral-400 max-w-4xl leading-relaxed mt-6 hero-text opacity-0">
               <span className="text-white font-semibold">Kh1ev Organization</span> is a dynamic organization operating in the digital technology sector.
             </p>
           </div>
@@ -39,7 +39,7 @@ export default function About() {
           <div className="w-full mt-16 md:mt-24 relative z-10 hero-text opacity-0">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">The Journey</h2>
-              <p className="text-neutral-400 max-w-2xl mx-auto">From a small group of enthusiasts to a robust digital organization.</p>
+              <p className="text-neutral-400 max-w-4xl mx-auto">From a small group of enthusiasts to a robust digital organization.</p>
             </div>
             
             <div className="max-w-4xl mx-auto relative px-4 md:px-0">
@@ -156,7 +156,7 @@ export default function About() {
           <div className="w-full mt-24 md:mt-40 relative z-10 hero-text opacity-0">
             <div className="text-center mb-16 md:mb-24">
               <h2 className="text-4xl md:text-6xl font-black text-white mb-6 uppercase tracking-tighter">Core Values</h2>
-              <p className="text-neutral-400 text-lg md:text-xl font-light max-w-2xl mx-auto">The principles that guide our development and community.</p>
+              <p className="text-neutral-400 text-lg md:text-xl font-light max-w-4xl mx-auto">The principles that guide our development and community.</p>
             </div>
             
             <div className="max-w-6xl mx-auto px-4 md:px-0">
@@ -167,7 +167,7 @@ export default function About() {
                   <div className="relative z-10 text-5xl md:text-7xl font-black text-white/10 group-hover:text-purple-500 transition-colors duration-500 md:w-32">01</div>
                   <div className="relative z-10 flex-1">
                     <h3 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight group-hover:translate-x-4 transition-transform duration-500">Innovation</h3>
-                    <p className="text-lg md:text-xl text-neutral-400 font-light group-hover:translate-x-4 transition-transform duration-500 delay-75 max-w-2xl">
+                    <p className="text-lg md:text-xl lg:text-2xl text-neutral-400 font-light group-hover:translate-x-4 transition-transform duration-500 delay-75 max-w-4xl">
                       We refuse to settle for the ordinary. By constantly exploring cutting-edge technologies and pushing creative boundaries, we engineer digital experiences that redefine industry standards and drive meaningful progress.
                     </p>
                   </div>
@@ -181,7 +181,7 @@ export default function About() {
                   <div className="relative z-10 text-5xl md:text-7xl font-black text-white/10 group-hover:text-red-500 transition-colors duration-500 md:w-32">02</div>
                   <div className="relative z-10 flex-1">
                     <h3 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight group-hover:translate-x-4 transition-transform duration-500">Collaboration</h3>
-                    <p className="text-lg md:text-xl text-neutral-400 font-light group-hover:translate-x-4 transition-transform duration-500 delay-75 max-w-2xl">
+                    <p className="text-lg md:text-xl lg:text-2xl text-neutral-400 font-light group-hover:translate-x-4 transition-transform duration-500 delay-75 max-w-4xl">
                       Greatness is never achieved alone. We cultivate a unified ecosystem where diverse talents converge. By valuing every member's unique perspective, we build stronger teams and deliver far superior results.
                     </p>
                   </div>
@@ -195,7 +195,7 @@ export default function About() {
                   <div className="relative z-10 text-5xl md:text-7xl font-black text-white/10 group-hover:text-blue-500 transition-colors duration-500 md:w-32">03</div>
                   <div className="relative z-10 flex-1">
                     <h3 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight group-hover:translate-x-4 transition-transform duration-500">Excellence</h3>
-                    <p className="text-lg md:text-xl text-neutral-400 font-light group-hover:translate-x-4 transition-transform duration-500 delay-75 max-w-2xl">
+                    <p className="text-lg md:text-xl lg:text-2xl text-neutral-400 font-light group-hover:translate-x-4 transition-transform duration-500 delay-75 max-w-4xl">
                       Compromise is not in our vocabulary. We are committed to delivering high-quality, robust, and infinitely scalable digital solutions that not only meet today's demands but are engineered to stand the test of time.
                     </p>
                   </div>
@@ -211,7 +211,7 @@ export default function About() {
           <div className="w-full mt-24 md:mt-40 relative z-10 hero-text opacity-0">
             <div className="text-center mb-16 md:mb-24">
               <h2 className="text-4xl md:text-6xl font-black text-white mb-6 uppercase tracking-tighter">Organization Structure</h2>
-              <p className="text-neutral-400 text-xl font-light max-w-2xl mx-auto">The core divisions that power the Kh1ev ecosystem.</p>
+              <p className="text-neutral-400 text-xl font-light max-w-4xl mx-auto">The core divisions that power the Kh1ev ecosystem.</p>
             </div>
 
             <div className="hidden md:flex flex-col items-center w-full max-w-5xl mx-auto">
@@ -285,7 +285,7 @@ export default function About() {
             <div className="bg-gradient-to-br from-[#111] to-[#1a1a1a] border border-white/10 rounded-[3rem] p-10 md:p-16 text-center max-w-5xl mx-auto relative overflow-hidden group">
               <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 relative z-10">Be Part of the Future.</h2>
-              <p className="text-neutral-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 relative z-10">
+              <p className="text-neutral-400 text-lg md:text-xl max-w-4xl mx-auto mb-10 relative z-10">
                 Whether you're looking to collaborate on open-source projects, need digital solutions, or just want to hang out with tech enthusiasts.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">

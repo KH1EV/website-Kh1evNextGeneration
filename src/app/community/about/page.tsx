@@ -67,11 +67,11 @@ export default function AboutCommunity() {
       <Navbar />
       <div className="flex-1 pt-40 px-4 md:px-8 w-full max-w-6xl mx-auto relative z-10 flex flex-col">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight mb-8 hero-text leading-[1.1] opacity-0">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-[7rem] font-black tracking-tighter text-white tracking-tight mb-8 hero-text leading-[1.1] opacity-0">
             Welcome to <br />
-            <span className="bg-accent text-white px-4 md:px-6 py-1 md:py-2 inline-block mt-2 md:mt-4 italic">Kh1ev Community.</span>
+            <span className="bg-accent text-white px-4 md:px-6 py-1 md:py-2 inline-block mt-2 md:mt-4 italic md:whitespace-nowrap">Kh1ev Community.</span>
           </h1>
-          <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto hero-text leading-relaxed opacity-0">
+          <p className="text-lg md:text-xl lg:text-2xl text-neutral-400 max-w-4xl mx-auto hero-text leading-relaxed opacity-0">
             While Kh1ev Organization focuses on building top-tier IT projects, 
             <strong className="text-white"> Kh1ev Community</strong> is our living room. 
             A vibrant, casual hub where developers, gamers, and friends hang out without the stress of deadlines.
@@ -103,7 +103,7 @@ export default function AboutCommunity() {
           <div className="flex flex-col mb-16 md:mb-24">
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase tracking-tight mb-6">What We Do.</h2>
             <div className="w-24 h-2 bg-accent mb-8"></div>
-            <p className="text-neutral-400 max-w-3xl text-lg md:text-2xl leading-relaxed font-light">
+            <p className="text-neutral-400 max-w-4xl text-lg md:text-2xl leading-relaxed font-light">
               More than just a chatroom. We host events, collaborate on mini-projects, and build lasting friendships.
             </p>
           </div>

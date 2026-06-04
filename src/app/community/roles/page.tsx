@@ -181,10 +181,10 @@ export default function RolesPage() {
         
         <div className="max-w-[1440px] w-full mx-auto flex flex-col items-center gap-6 md:gap-8 relative z-10">
           <div className="text-center w-full flex flex-col items-center mb-8 md:mb-16">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight text-white max-w-4xl hero-text opacity-0">
-              Community <span className="bg-accent text-white px-3 md:px-6 inline-block mt-2 md:mt-0 italic">Roles.</span><br />
+            <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-[7rem] font-black tracking-tighter leading-[1.1] tracking-tight text-white max-w-7xl hero-text opacity-0">
+              Community <span className="bg-accent text-white px-3 md:px-6 inline-block mt-2 md:mt-0 italic md:whitespace-nowrap">Roles.</span><br />
             </h1>
-            <p className="text-lg md:text-xl text-neutral-400 max-w-2xl leading-relaxed mt-6 hero-text opacity-0">
+            <p className="text-lg md:text-xl lg:text-2xl text-neutral-400 max-w-4xl leading-relaxed mt-6 hero-text opacity-0">
               Explore the hierarchy, special divisions, and exclusive recognitions that make up the <span className="text-white font-semibold">Kh1ev</span> ecosystem.
             </p>
           </div>

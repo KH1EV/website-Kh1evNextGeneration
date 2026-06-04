@@ -189,18 +189,18 @@ export default function Home() {
           <div className="flex flex-col items-center gap-8">
             <div className="flex flex-col gap-0 md:gap-2">
               <div className="overflow-hidden pb-1 -mb-1">
-                <h1 className="headline-line text-4xl sm:text-5xl md:text-[7vw] lg:text-[6rem] font-extrabold leading-[1.1] md:leading-[1] tracking-tight text-foreground m-0">
+                <h1 className="headline-line text-5xl sm:text-6xl md:text-[8vw] lg:text-[8rem] font-black tracking-tighter leading-[1.1] md:leading-[1] tracking-tight text-foreground m-0">
                   IT Development
                 </h1>
               </div>
               <div className="overflow-hidden pb-1 -mb-1">
-                <h1 className="headline-line text-4xl sm:text-5xl md:text-[7vw] lg:text-[6rem] font-extrabold leading-[1.1] md:leading-[1] tracking-tight text-foreground m-0">
-                  <span className="bg-accent text-white px-3 md:px-6 inline-block italic">& Community Hub.</span>
+                <h1 className="headline-line text-5xl sm:text-6xl md:text-[8vw] lg:text-[8rem] font-black tracking-tighter leading-[1.1] md:leading-[1] tracking-tight text-foreground m-0">
+                  <span className="bg-accent text-white px-3 md:px-6 inline-block italic md:whitespace-nowrap">& Community Hub.</span>
                 </h1>
               </div>
             </div>
             
-            <p className="description text-base md:text-lg lg:text-xl text-neutral-400 max-w-[700px] leading-relaxed mt-2">
+            <p className="description text-lg md:text-xl lg:text-2xl text-neutral-400 max-w-4xl leading-relaxed mt-2">
               A unified network built for the future of tech. The Kh1ev ecosystem is divided into three core pillars. The governing <strong className="text-white">Organization</strong>, our massive <strong className="text-white">Community</strong>, and the development <strong className="text-white">Studio</strong>.
             </p>
 
@@ -293,7 +293,7 @@ export default function Home() {
           
           <div className="flex flex-col gap-6 text-center items-center">
             <h2 className="text-2xl md:text-4xl font-extrabold text-white tracking-tight">Everything you need.</h2>
-            <p className="text-neutral-400 max-w-2xl text-base md:text-lg">From building high-performance digital systems to just chilling in our community lounge, Kh1ev is built for modern creators.</p>
+            <p className="text-neutral-400 max-w-4xl text-base md:text-lg">From building high-performance digital systems to just chilling in our community lounge, Kh1ev is built for modern creators.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -305,7 +305,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h3 className="text-xl md:text-2xl font-bold text-white mb-4 group-hover:text-accent transition-colors duration-300">Software Engineering</h3>
-                  <p className="text-neutral-400 text-base leading-relaxed max-w-md">End-to-end development of scalable web applications, powerful mobile apps, and robust enterprise systems.</p>
+                  <p className="text-neutral-400 text-base leading-relaxed max-w-4xl">End-to-end development of scalable web applications, powerful mobile apps, and robust enterprise systems.</p>
                 </div>
               </div>
             </div>
@@ -370,7 +370,7 @@ export default function Home() {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-4 group-hover:text-accent transition-colors duration-300">Kh1ev Community</h3>
-                  <p className="text-neutral-400 text-lg leading-relaxed max-w-3xl">Beyond the code, we are a thriving ecosystem. Join our community to network with tech enthusiasts, collaborate on open-source projects, or just chill and play games together.</p>
+                  <p className="text-neutral-400 text-lg leading-relaxed max-w-4xl">Beyond the code, we are a thriving ecosystem. Join our community to network with tech enthusiasts, collaborate on open-source projects, or just chill and play games together.</p>
                 </div>
                 <div className="hidden lg:flex shrink-0 pl-8">
                   <a href="https://discord.gg/MwNE7Vfb6t" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-white text-black font-bold rounded-full transition-transform hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(229,9,20,0.6)]">
