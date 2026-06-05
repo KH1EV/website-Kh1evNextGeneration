@@ -185,7 +185,7 @@ export default function AboutCommunity() {
               <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
                 Become a part of the fastest-growing community of developers, gamers, and creatives. Click the button below to join our Discord server.
               </p>
-              <Link href="https://discord.gg/kh1ev" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-white text-[#5865F2] font-extrabold text-lg rounded-xl hover:bg-gray-100 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all duration-300 flex items-center gap-3">
+              <Link href="https://discord.gg/MwNE7Vfb6t" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-white text-[#5865F2] font-extrabold text-lg rounded-xl hover:bg-gray-100 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all duration-300 flex items-center gap-3">
                 Join Discord Server
               </Link>
             </div>
